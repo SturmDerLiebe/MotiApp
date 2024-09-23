@@ -1,8 +1,23 @@
 import { Colors } from "@/constants/Colors";
+import {
+  Inter_400Regular,
+  Inter_500Medium,
+  Inter_700Bold,
+  useFonts,
+} from "@expo-google-fonts/inter";
+import { SpaceMono_400Regular } from "@expo-google-fonts/space-mono";
 import { Stack } from "expo-router";
+import { Text } from "react-native";
 
 export default function RootLayout() {
-  return (
+  let [isLoaded, error] = useFonts({
+    Inter_400Regular,
+    Inter_500Medium,
+    Inter_700Bold,
+    SpaceMono_400Regular,
+  });
+
+  return isLoaded ? (
     <Stack
       screenOptions={{
         headerShadowVisible: false,
@@ -15,7 +30,11 @@ export default function RootLayout() {
     >
       <Stack.Screen name="index" />
       <Stack.Screen name="register" />
+      <Stack.Screen name="verify" />
       <Stack.Screen name="(tabs)" />
     </Stack>
+  ) : (
+    // TODO: Use SplashScreen here
+    <Text>{error?.name + " " + error?.message}</Text>
   );
 }

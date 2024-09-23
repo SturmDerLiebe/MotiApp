@@ -15,7 +15,9 @@
     "preset": "jest-expo"
   },
   "dependencies": {
-    "@expo/vector-icons": "^14.0.2",
+    "@expo-google-fonts/inter": "^0.2.3",
+    "@expo-google-fonts/space-mono": "^0.2.3",
+    "@expo/vector-icons": "^14.0.3",
     "@react-native-community/hooks": "^3.0.0",
     "@react-navigation/native": "^6.0.2",
     "@shopify/flash-list": "1.6.4",

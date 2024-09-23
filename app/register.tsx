@@ -9,16 +9,21 @@ import {
 import { RegistrationDetails } from "@/data/repository/UserRepository";
 import useAndroidBackButtonInputHandling from "@/hooks/useAndroidBackButtonInputHandling";
 import useRegistrationState, {
-  NetworkFailure,
   RegistrationFailure,
-  RegistrationLoading,
 } from "@/hooks/useRegistrationState";
 import useRegistrationValidityState from "@/hooks/useRegistrationValidityState";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Text, View } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
 import { Fonts } from "@/constants/Fonts";
 import { Colors } from "@/constants/Colors";
+import {
+  NetworkError,
+  RequestLoading,
+  RequestStatus,
+  RequestSuccess,
+} from "@/utils/RegistrationStatus";
+import { router } from "expo-router";
 
 export default function RegistrationScreen() {
   useAndroidBackButtonInputHandling();
@@ -34,6 +39,8 @@ export default function RegistrationScreen() {
   const EMAIL_REF = useRef<TextInput>(null);
   const PASSWORD_REF = useRef<TextInput>(null);
   const REPEAT_PASSWORD_REF = useRef<TextInput>(null);
+
+  useOnSuccessEffect(registrationState);
 
   return (
     <View
@@ -118,13 +125,13 @@ export default function RegistrationScreen() {
       <View style={{ paddingTop: 162 }}>
         <PrimaryButton
           title={
-            registrationState instanceof RegistrationLoading
+            registrationState instanceof RequestLoading
               ? "Loading..."
               : "Create Account"
           }
           disabled={
             inputValidity.areAnyInputsInvalid() ||
-            registrationState instanceof RegistrationLoading ||
+            registrationState instanceof RequestLoading ||
             isBeingEdited
           }
           onPress={onSubmit}
@@ -144,7 +151,7 @@ export default function RegistrationScreen() {
       </View>
 
       {registrationState instanceof RegistrationFailure ||
-      registrationState instanceof NetworkFailure ? (
+      registrationState instanceof NetworkError ? (
         <Text>{registrationState.message}</Text>
       ) : null}
     </View>
@@ -153,4 +160,12 @@ export default function RegistrationScreen() {
   function onSubmit() {
     startRegistration(new RegistrationDetails(username, email, password));
   }
+}
+
+function useOnSuccessEffect(registrationState: RequestStatus | null) {
+  useEffect(() => {
+    if (registrationState instanceof RequestSuccess) {
+      router.navigate("/verify");
+    }
+  }, [registrationState]);
 }
