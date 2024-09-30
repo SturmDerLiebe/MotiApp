@@ -10,6 +10,8 @@ export class RequestError implements RequestStatus {
     switch (statusCode) {
       case 400:
         return GeneralErrorMessage.BAD_REQUEST;
+      case 401:
+        return GeneralErrorMessage.UNATUHORIZED;
       case 500:
         return GeneralErrorMessage.INTERNAL_SERVER_ERROR;
       default:
@@ -26,6 +28,7 @@ export enum GeneralErrorMessage {
   BAD_REQUEST = "Some of your Input seems to be having an issue",
   UNKOWN_ERROR = "Something went wrong :(",
   INTERNAL_SERVER_ERROR = "Our Server seems to have some Issues. Please try again later!",
+  UNATUHORIZED = "You seem to have been logged out. Please log back in again!",
 }
 
 export class NetworkError implements RequestStatus {

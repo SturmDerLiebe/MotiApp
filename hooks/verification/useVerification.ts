@@ -1,5 +1,5 @@
 import UserRepository, {
-  type DigitString,
+  type SafeDigits,
 } from "@/data/repository/UserRepository";
 import {
   GeneralErrorMessage,
@@ -15,13 +15,13 @@ const TAG = "USE_VERIFICATION >>>";
 
 export default function useVerification(): [
   RequestStatus | null,
-  (verificationCode: DigitString) => void,
+  (verificationCode: SafeDigits) => void,
 ] {
   let [verification, setState] = useState<RequestStatus | null>(null);
 
   return [verification, setVerification];
 
-  async function setVerification(verificationCode: DigitString) {
+  async function setVerification(verificationCode: SafeDigits) {
     if (verificationCode.length < 4) {
       setState(null);
       return;
@@ -36,7 +36,7 @@ export default function useVerification(): [
     }
   }
 
-  async function handleResponse(verificationCode: DigitString) {
+  async function handleResponse(verificationCode: SafeDigits) {
     const RESPONSE = await UserRepository.verifyUser(verificationCode);
     if (RESPONSE.ok) {
       setState(new RequestSuccess());

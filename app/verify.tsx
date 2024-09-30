@@ -14,6 +14,7 @@ import {
   RequestSuccess,
 } from "@/utils/RegistrationStatus";
 import { useEffect, useRef, useState } from "react";
+import useNavigateOnSuccessEffect from "@/hooks/navigation/useNavigationOnSuccessEffect";
 
 const styles = StyleSheet.create({
   topText: {
@@ -40,6 +41,9 @@ export default function VerificationScreen() {
   useEffect(() => clearCountdown, []);
 
   const [secondsLeft, setSecondsLeft] = useState<number | null>(null);
+
+  //TODO: This should happoen after Button Press
+  useNavigateOnSuccessEffect(verification, "/initial-personal-goal");
 
   //TODO: Add Validation, only Numbers
 

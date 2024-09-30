@@ -12,18 +12,13 @@ import useRegistrationState, {
   RegistrationFailure,
 } from "@/hooks/useRegistrationState";
 import useRegistrationValidityState from "@/hooks/useRegistrationValidityState";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { Text, View } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
 import { Fonts } from "@/constants/Fonts";
 import { Colors } from "@/constants/Colors";
-import {
-  NetworkError,
-  RequestLoading,
-  RequestStatus,
-  RequestSuccess,
-} from "@/utils/RegistrationStatus";
-import { router } from "expo-router";
+import { NetworkError, RequestLoading } from "@/utils/RegistrationStatus";
+import useNavigateOnSuccessEffect from "@/hooks/navigation/useNavigationOnSuccessEffect";
 
 export default function RegistrationScreen() {
   useAndroidBackButtonInputHandling();
@@ -40,7 +35,7 @@ export default function RegistrationScreen() {
   const PASSWORD_REF = useRef<TextInput>(null);
   const REPEAT_PASSWORD_REF = useRef<TextInput>(null);
 
-  useOnSuccessEffect(registrationState);
+  useNavigateOnSuccessEffect(registrationState, "/verify");
 
   return (
     <View
@@ -160,12 +155,4 @@ export default function RegistrationScreen() {
   function onSubmit() {
     startRegistration(new RegistrationDetails(username, email, password));
   }
-}
-
-function useOnSuccessEffect(registrationState: RequestStatus | null) {
-  useEffect(() => {
-    if (registrationState instanceof RequestSuccess) {
-      router.navigate("/verify");
-    }
-  }, [registrationState]);
 }

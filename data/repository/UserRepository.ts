@@ -1,4 +1,5 @@
 import { typeCheckEnvVariable } from "@/utils/TypeHelpers";
+import { SafeDigits } from "@/utils/UtilityClasses";
 
 /**
  * A Data Transfer Object containing details about a new user to be registered
@@ -11,39 +12,17 @@ export class RegistrationDetails {
   ) {}
 }
 
-export type DigitString = string;
+type apiPaths = "registration" | "activation" | "personal-goal";
 
-type apiPaths = "registration" | "activation";
+const API_BASE_ROUTE = "https://my.api.mockaroo.com";
 
 class UserRepository {
-  private static API_BASE_ROUTE = "https://my.api.mockaroo.com";
-
-  private static bulildRequest(
-    route: apiPaths,
-    queryParam: string,
-    body: RegistrationDetails | DigitString,
-  ) {
-    return new Request(
-      `${UserRepository.API_BASE_ROUTE}/${route}?${queryParam}`,
-      {
-        method: "POST",
-        headers: {
-          "X-API-Key": typeCheckEnvVariable(
-            process.env.EXPO_PUBLIC_MOCKAROO_KEY,
-            "EXPO_PUBLIC_MOCKAROO_KEY",
-          ),
-        },
-        body: JSON.stringify(body),
-      },
-    );
-  }
-
   /**
    * @throws any `fetch()` related error
    */
   registerUser(body: RegistrationDetails) {
     return fetch(
-      UserRepository.bulildRequest(
+      bulildRequest(
         "registration",
         `randomInt=${Math.ceil(Math.random() * 4)}`,
         body,
@@ -54,15 +33,44 @@ class UserRepository {
   /**
    * @throws any `fetch()` related error
    */
-  verifyUser(verificationCode: DigitString) {
+  verifyUser(verificationCode: SafeDigits) {
     return fetch(
-      UserRepository.bulildRequest(
-        "activation",
-        `code=${verificationCode}`,
-        verificationCode,
-      ),
+      bulildRequest("activation", `code=${verificationCode}`, verificationCode),
     );
   }
+
+  updatePersonalGoal(goalPerWeek: SafeDigits) {
+    return fetch(
+      bulildRequest("personal-goal", `goal=${goalPerWeek}`, goalPerWeek, "PUT"),
+    );
+  }
+}
+
+/**
+ * # Important
+ *
+ * **Only `import` in Tests!**
+ *
+ * # Summary
+ *
+ * Builds a Request
+ */
+export function bulildRequest(
+  route: apiPaths,
+  queryParamPair: string,
+  body: RegistrationDetails | SafeDigits,
+  method: "POST" | "PUT" = "POST",
+) {
+  return new Request(`${API_BASE_ROUTE}/${route}?${queryParamPair}`, {
+    method: method,
+    headers: {
+      "X-API-Key": typeCheckEnvVariable(
+        process.env.EXPO_PUBLIC_MOCKAROO_KEY,
+        "EXPO_PUBLIC_MOCKAROO_KEY",
+      ),
+    },
+    body: JSON.stringify(body),
+  });
 }
 
 /**

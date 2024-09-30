@@ -4,6 +4,12 @@ const INTER_REGULAR = "Inter_400Regular";
 const INTER_MEDIUM = "Inter_500Medium";
 const INTER_BOLD = "Inter_700Bold";
 const SPACE_MONO_REGULAR = "SpaceMono_400Regular";
+const SPACE_MONO_BOLD = "SpaceMono_700Bold";
+
+const extra: StyleProp<TextStyle> = {
+  fontSize: 100,
+  fontFamily: SPACE_MONO_BOLD,
+};
 
 const big: StyleProp<TextStyle> = {
   fontSize: 48,
@@ -53,7 +59,7 @@ const p9: StyleProp<TextStyle> = {
 };
 
 export const Fonts = {
-  digits: { big },
+  digits: { extra, big },
   title: {
     h5,
     h2,
