@@ -4,17 +4,13 @@ import { Fonts } from "@/constants/Fonts";
 import { Colors } from "@/constants/Colors";
 import useAndroidBackButtonInputHandling from "@/hooks/useAndroidBackButtonInputHandling";
 import { View, Text, TextInput, StyleSheet, Pressable } from "react-native";
-import { Image } from "expo-image";
 import useVerification, {
   VerificationError,
 } from "@/hooks/verification/useVerification";
-import {
-  NetworkError,
-  RequestStatus,
-  RequestSuccess,
-} from "@/utils/RegistrationStatus";
+import { NetworkError, RequestSuccess } from "@/utils/RegistrationStatus";
 import { useEffect, useRef, useState } from "react";
 import useNavigateOnSuccessEffect from "@/hooks/navigation/useNavigationOnSuccessEffect";
+import { SlotInputBackground } from "@/components/input/slot/SlotInputBackground";
 
 const styles = StyleSheet.create({
   topText: {
@@ -74,33 +70,19 @@ export default function VerificationScreen() {
         style={{
           alignSelf: "center",
           width: "90%",
-          height: "14%",
+          height: "13.5%",
           justifyContent: "space-between",
         }}
       >
         <Text style={styles.middleText}>Enter a 4 Digit Code</Text>
         <View style={{ justifyContent: "center", alignItems: "center" }}>
-          <Image
-            source={(function determineBorder(
-              verification: RequestStatus | null,
-            ) {
-              if (verification instanceof RequestSuccess) {
-                return require("@/assets/images/VerificationCode/CutOutInputFieldGreen.svg");
-              } else if (
-                verification instanceof VerificationError ||
-                verification instanceof NetworkError
-              ) {
-                return require("@/assets/images/VerificationCode/CutOutInputFieldRed.svg");
-              } else {
-                return require("@/assets/images/VerificationCode/CutOutInputFieldGrey.svg");
-              }
-            })(verification)}
-            style={{
-              width: "100%",
-              aspectRatio: 4.5,
-              zIndex: -1,
-              position: "absolute",
-            }}
+          <SlotInputBackground
+            slotAmount={4}
+            successPredicate={() => verification instanceof RequestSuccess}
+            failurePredicate={() =>
+              verification instanceof VerificationError ||
+              verification instanceof NetworkError
+            }
           />
           <TextInput
             selectionColor="#80808000"
@@ -114,7 +96,7 @@ export default function VerificationScreen() {
                 width: "105%",
                 color: Colors.blue.grey,
                 ...Fonts.digits.big,
-                letterSpacing: 52,
+                letterSpacing: 53,
               },
             ]}
           />

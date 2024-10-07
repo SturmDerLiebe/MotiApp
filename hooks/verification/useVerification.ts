@@ -1,6 +1,4 @@
-import UserRepository, {
-  type SafeDigits,
-} from "@/data/repository/UserRepository";
+import UserRepository from "@/data/repository/UserRepository";
 import {
   GeneralErrorMessage,
   NetworkError,
@@ -9,6 +7,7 @@ import {
   RequestStatus,
   RequestSuccess,
 } from "@/utils/RegistrationStatus";
+import { SafeDigits } from "@/utils/UtilityClasses";
 import { useState } from "react";
 
 const TAG = "USE_VERIFICATION >>>";
