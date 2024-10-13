@@ -158,12 +158,15 @@ interface BaseInputComponentProps extends InputComponentProps {
   placeholder?: string;
 }
 
+const LINE_PADDING_VERTICAL = 10;
+
 export const InputComponent = forwardRef(
   //TODO: USE ...props
   function InputComponent(
     props: BaseInputComponentProps,
     ref?: ForwardedRef<TextInput>,
   ) {
+    //TODO: InputComponent Should have its own validity state and only forward that to parent if needed
     const {
       labelText,
       isValid,
@@ -173,7 +176,6 @@ export const InputComponent = forwardRef(
       onEndEditing,
       isSecureText = false,
     } = props;
-    const LINE_PADDING_VERTICAL = 10;
 
     let [isEmpty, setIsEmpty] = useState(true);
     let [isPasswordShown, setIsPasswordShown] = useState(false);

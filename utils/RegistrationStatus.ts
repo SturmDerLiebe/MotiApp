@@ -1,8 +1,20 @@
-export interface RequestStatus {
-  message?: string;
-}
+import { GroupCreationResponse } from "@/hooks/group/useGroupCreationState";
+
+export interface RequestStatus {}
+//TODO: interface RequestErrorStatus
+
 export class RequestSuccess implements RequestStatus {}
+export class GroupCreationSuccess extends RequestSuccess {
+  joinCode: string;
+
+  constructor(body: GroupCreationResponse) {
+    super();
+    this.joinCode = body.joinCode;
+  }
+}
+
 export class RequestLoading implements RequestStatus {}
+
 export class RequestError implements RequestStatus {
   constructor(public message: GeneralErrorMessage) {}
 
@@ -34,4 +46,8 @@ export enum GeneralErrorMessage {
 export class NetworkError implements RequestStatus {
   public message =
     "There seems to be an issue with your connection. Please try again!";
+}
+
+export function isFailedRequest(status: RequestStatus | null): boolean {
+  return status instanceof RequestError || status instanceof NetworkError;
 }

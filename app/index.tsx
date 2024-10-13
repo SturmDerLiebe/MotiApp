@@ -1,7 +1,7 @@
 import { View } from "react-native";
 import { Image } from "expo-image";
 import { router } from "expo-router";
-import { PrimaryButton } from "@/components/Buttons";
+import { PrimaryButton, SecondaryButton } from "@/components/Buttons";
 
 const LOGO_SVG = require("@/assets/images/Logo/LogoWithName.svg");
 
@@ -25,16 +25,16 @@ export default function ChooseRegistrationOrLoginScreen() {
         style={{ width: "95%", aspectRatio: 1, alignSelf: "center" }}
       />
 
-      <View style={{ justifyContent: "space-between", height: "15%" }}>
+      <View style={{ justifyContent: "space-between", height: "16%" }}>
         <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-          <PrimaryButton
+          <SecondaryButton
             title="Register"
             onPress={() => router.push("/register")}
             style={{ width: BUTTON_WIDTH }}
           />
           <PrimaryButton
             title="Login"
-            onPress={() => router.push("/initial-personal-goal")}
+            onPress={() => router.push("/initial-group")}
             style={{ width: BUTTON_WIDTH }}
           />
         </View>

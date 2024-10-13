@@ -7,9 +7,10 @@ export function SlotInputBackground(props: {
   slotAmount: number;
   successPredicate: () => boolean;
   failurePredicate: () => boolean;
+  columnGap?: number;
   zIndex?: number;
 }) {
-  const { zIndex = -1 } = props;
+  const { zIndex = -1, columnGap = 12 } = props;
   return (
     <View
       accessible={false}
@@ -17,7 +18,7 @@ export function SlotInputBackground(props: {
         {
           flexDirection: "row",
           justifyContent: "space-between",
-          columnGap: 12,
+          columnGap,
           position: "absolute",
           zIndex,
         },
@@ -43,16 +44,13 @@ export function SlotInputBackground(props: {
             aspectRatio: 1,
             borderRadius: 8,
           },
-          determineBorderStylesByRequestStatus(
-            successPredicate,
-            failurePredicate,
-          ),
+          determineBorderStyles(successPredicate, failurePredicate),
         ]}
         {...props}
       />
     );
 
-    function determineBorderStylesByRequestStatus(
+    function determineBorderStyles(
       successPredicate: () => boolean,
       failurePredicate: () => boolean,
     ): ViewStyle {
