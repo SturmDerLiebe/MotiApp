@@ -1,4 +1,5 @@
 import { GroupCreationResponse } from "@/hooks/group/useGroupCreationState";
+import { UserInfoResponse } from "@/hooks/profile/useUserInfoState";
 
 export interface RequestStatus {}
 //TODO: interface RequestErrorStatus
@@ -10,6 +11,20 @@ export class GroupCreationSuccess extends RequestSuccess {
   constructor(body: GroupCreationResponse) {
     super();
     this.joinCode = body.joinCode;
+  }
+}
+export class UserInfoSuccess extends RequestSuccess {
+  username: string;
+  personalGoal: number;
+  personalProgress: number;
+  progress: number;
+
+  constructor(body: UserInfoResponse) {
+    super();
+    this.username = body.username;
+    this.personalGoal = body.personalGoal;
+    this.personalProgress = body.personalProgress;
+    this.progress = body.personalProgress / body.personalGoal;
   }
 }
 

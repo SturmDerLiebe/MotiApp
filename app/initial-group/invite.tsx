@@ -3,7 +3,7 @@ import { Heading5 } from "@/components/Headings";
 import { Fonts } from "@/constants/Fonts";
 import { Colors } from "@/constants/Colors";
 import { View, Text, StyleSheet, TextInput, Pressable } from "react-native";
-import { useLocalSearchParams } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import { Image } from "expo-image";
 import { setStringAsync } from "expo-clipboard";
 
@@ -67,7 +67,12 @@ export default function InviteScreen() {
 
         <View style={{ height: "50%" }} />
 
-        <PrimaryButton title={"Start your Journey"} onPress={() => {}} />
+        <PrimaryButton
+          title={"Start your Journey"}
+          onPress={() => {
+            router.navigate("/(tabs)");
+          }}
+        />
       </View>
 
       <Image

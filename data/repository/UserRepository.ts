@@ -18,7 +18,7 @@ class UserRepository {
    */
   registerUser(body: RegistrationDetails) {
     return fetch(
-      bulildRequest("registration", `randomInt=${body.username}`, body),
+      bulildRequest("registration", "POST", `randomInt=${body.username}`, body),
     );
   }
 
@@ -27,7 +27,12 @@ class UserRepository {
    */
   verifyUser(verificationCode: SafeDigits) {
     return fetch(
-      bulildRequest("activation", `code=${verificationCode}`, verificationCode),
+      bulildRequest(
+        "activation",
+        "POST",
+        `code=${verificationCode}`,
+        verificationCode,
+      ),
     );
   }
 
@@ -36,8 +41,12 @@ class UserRepository {
    */
   updatePersonalGoal(goalPerWeek: SafeDigits) {
     return fetch(
-      bulildRequest("personal-goal", `goal=${goalPerWeek}`, goalPerWeek, "PUT"),
+      bulildRequest("personal-goal", "PUT", `goal=${goalPerWeek}`, goalPerWeek),
     );
+  }
+
+  getUserInfo(sessionID: string) {
+    return fetch(bulildRequest("user-info", "GET", `sessionID=${sessionID}`));
   }
 }
 

@@ -1,47 +1,63 @@
+import { SingleCircularProgress } from "@/components/progress/circular/SingleCircularProgress";
+import { Colors } from "@/constants/Colors";
+import { Fonts } from "@/constants/Fonts";
+import { BODY_STYLES } from "@/constants/styles/Body";
+import useUserInfoState from "@/hooks/profile/useUserInfoState";
+import { UserInfoSuccess } from "@/utils/RegistrationStatus";
+import { useEffect } from "react";
 import { Text, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function IndexScreen() {
-  let username,
-    progressBasedMotivation,
-    groupProgress,
-    groupGoal,
-    personalProgress,
-    personalGoal,
-    timeBasedCalltoAction,
-    timeLeftHHMM;
+  const [USER_INFO_STATE, START_USER_INFO_REQUEST] = useUserInfoState();
+  useEffect(() => {
+    START_USER_INFO_REQUEST();
+  }, [START_USER_INFO_REQUEST]);
 
-  return (
-    <View
-      style={[
-        {
-          flex: 1,
-          justifyContent: "center",
-          alignItems: "center",
-        },
-        TestStyles,
-      ]}
-    >
-      <Text style={TestStyles}>{`Hi, ${username ?? "You"}`}</Text>
+  return USER_INFO_STATE instanceof UserInfoSuccess ? (
+    <SafeAreaView style={[BODY_STYLES.dashboard]}>
+      <View style={{ height: "1%" }} />
 
-      <View style={TestStyles}>
-        <Text>Your progress so far</Text>
-        <Text>{progressBasedMotivation ?? "You are doing great!"}</Text>
-
-        <Text>Group's Goal</Text>
-        <Text>{`${groupProgress ?? 0}/${groupGoal ?? 0}`}</Text>
-        <Text>Your Goal</Text>
-        <Text>{`${personalProgress ?? 0}/${personalGoal ?? 0}`}</Text>
-
-        {/* Image */}
+      <Text
+        style={[{ color: Colors.blue.grey }, Fonts.title.h6]}
+      >{`Hi, ${USER_INFO_STATE.username ?? "You"}!`}</Text>
+      <View>
+        <Text style={[Fonts.paragraph.p2, { color: Colors.blue.grey }]}>
+          Your progress so far
+        </Text>
+        <Text style={[Fonts.paragraph.p10, { color: Colors.grey.dark3 }]}>
+          Keep going! You are doing really amazing!
+        </Text>
       </View>
 
-      <View style={TestStyles}>
-        <Text>Time Remaining</Text>
-        <Text>{timeBasedCalltoAction ?? "Keep Going!"}</Text>
-        <Text>{timeLeftHHMM}</Text>
+      <View
+        style={[
+          { justifyContent: "center", alignItems: "center", aspectRatio: 1 },
+        ]}
+      >
+        <SingleCircularProgress
+          progress={USER_INFO_STATE.progress}
+          width={"100%"}
+        />
+
+        <View
+          style={{
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <Text style={[{ color: Colors.orange.dark }, Fonts.title.h5]}>
+            Your Goal
+          </Text>
+          <Text
+            style={[{ color: Colors.orange.dark }, Fonts.title.h5]}
+          >{`${USER_INFO_STATE.personalProgress ?? 0}/${USER_INFO_STATE.personalGoal ?? 0}`}</Text>
+        </View>
       </View>
-    </View>
+
+      <View style={{ height: "18%" }} />
+    </SafeAreaView>
+  ) : (
+    <Text>Loading</Text>
   );
 }
-
-export const TestStyles = { borderColor: "black", borderWidth: 1 };

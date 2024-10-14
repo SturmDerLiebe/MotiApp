@@ -5,11 +5,13 @@ class GroupRepository {
    * @throws any `fetch()` related error
    */
   create(groupName: string) {
-    return fetch(bulildRequest("group", `name=${groupName}`, groupName));
+    return fetch(
+      bulildRequest("group", "POST", `name=${groupName}`, groupName),
+    );
   }
 
   join(joinCode: string) {
-    return fetch(bulildRequest("group", `code=${joinCode}`, joinCode, "PATCH"));
+    return fetch(bulildRequest("group", "PATCH", `code=${joinCode}`, joinCode));
   }
 }
 

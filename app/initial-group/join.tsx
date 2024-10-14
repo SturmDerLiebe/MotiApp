@@ -8,21 +8,13 @@ import { RequestSuccess, isFailedRequest } from "@/utils/RegistrationStatus";
 import { SlotInputBackground } from "@/components/input/slot/SlotInputBackground";
 import { SlotInputField } from "@/components/input/slot/SlotInputField";
 import useGroupJoinState from "@/hooks/group/useGroupJoinState";
+import { BODY_STYLES } from "@/constants/styles/Body";
+import { router } from "expo-router";
 
 const styles = StyleSheet.create({
   middleText: {
     color: Colors.grey.dark3,
     ...Fonts.paragraph.p6,
-  },
-});
-
-const BODY_STYLES = StyleSheet.create({
-  nonScrollable: {
-    alignSelf: "center",
-    justifyContent: "space-between",
-    alignItems: "stretch",
-    width: "85%",
-    height: "90%",
   },
 });
 
@@ -80,7 +72,9 @@ export default function InviteScreen() {
       <PrimaryButton
         title={"Start Your Journey"}
         disabled={!successPredicate()}
-        onPress={() => {}}
+        onPress={() => {
+          router.navigate("/(tabs)");
+        }}
       />
     </View>
   );

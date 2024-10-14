@@ -2,7 +2,12 @@ import { RegistrationDetails } from "@/data/repository/UserRepository";
 import { typeCheckEnvVariable } from "./TypeHelpers";
 import { SafeDigits } from "./UtilityClasses";
 
-type apiPaths = "registration" | "activation" | "personal-goal" | "group";
+type apiPaths =
+  | "registration"
+  | "activation"
+  | "personal-goal"
+  | "group"
+  | "user-info";
 
 const API_BASE_ROUTE = "https://my.api.mockaroo.com";
 
@@ -11,9 +16,9 @@ const API_BASE_ROUTE = "https://my.api.mockaroo.com";
  */
 export function bulildRequest(
   route: apiPaths,
+  method: "GET" | "POST" | "PUT" | "PATCH",
   queryParamPair: string,
-  body: RegistrationDetails | SafeDigits | string,
-  method: "POST" | "PUT" | "PATCH" = "POST",
+  body?: RegistrationDetails | SafeDigits | string,
 ) {
   return new Request(`${API_BASE_ROUTE}/${route}?${queryParamPair}`, {
     method: method,
@@ -23,6 +28,9 @@ export function bulildRequest(
         "EXPO_PUBLIC_MOCKAROO_KEY",
       ),
     },
-    body: JSON.stringify(body),
+    body:
+      method === "GET"
+        ? undefined
+        : JSON.stringify(body as NonNullable<typeof body>),
   });
 }
