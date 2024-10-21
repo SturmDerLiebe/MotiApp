@@ -6,7 +6,10 @@ import * as NavigationBar from "expo-navigation-bar";
 import { Pressable, Text, View, ViewStyle } from "react-native";
 import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
 import { Image } from "expo-image";
+import { BurgerMenuButton } from "@/components/navigation/BurgerMenuButton";
 
+const HEADER_TINT_COLOR = Colors.white;
+const HEADER_BORDER_RADIUS = 20;
 const TAB_BAR_BACKGROUND_COLOR = Colors.grey.light1;
 
 export default function TabLayout() {
@@ -38,13 +41,23 @@ export default function TabLayout() {
       />
 
       <Tabs.Screen
-        name="[group]"
+        name="group"
         options={{
           href: {
-            pathname: "/(tabs)/[user]",
+            pathname: "/(tabs)/[group]",
             params: { group: USER_DATA.groupName },
           },
           headerShown: true,
+          headerStyle: { backgroundColor: Colors.eggplant.dark },
+          headerBackgroundContainerStyle: {
+            borderEndStartRadius: HEADER_BORDER_RADIUS,
+            borderEndEndRadius: HEADER_BORDER_RADIUS,
+          },
+          headerTintColor: HEADER_TINT_COLOR,
+          headerTitleAlign: "left",
+          headerRight: ({ tintColor = HEADER_TINT_COLOR }) => (
+            <BurgerMenuButton tintColor={tintColor} />
+          ),
           tabBarLabel: "My Group",
         }}
       />
@@ -63,6 +76,8 @@ type TabName = "index" | "group" | "profile";
 
 /**
  * Mostly copied from [React Native Navigation Docs](https://reactnavigation.org/docs/bottom-tab-navigator/#tabbar)
+ *
+ * **Important**: Make sure to that `tabBarLabel` is of type `string`
  */
 function MainTabBar(
   props: BottomTabBarProps & {
@@ -221,14 +236,7 @@ function MainTabBar(
               >
                 {LABEL}
               </Text>
-            ) : showCurvedTabBar() ? null : (
-              (function () {
-                console.warn(
-                  "Your prop 'tabBarLabel' was not a string and is ignored. Please pass a string instead. It will be hidden on focus automatically",
-                );
-                return null;
-              })()
-            )}
+            ) : null}
           </Pressable>
         );
       })}
