@@ -14,6 +14,7 @@ const TAB_BAR_BACKGROUND_COLOR = Colors.grey.light1;
 
 export default function TabLayout() {
   const USER_DATA = { groupName: "Avengers" };
+
   NavigationBar.setBackgroundColorAsync(TAB_BAR_BACKGROUND_COLOR);
 
   return (
@@ -41,7 +42,7 @@ export default function TabLayout() {
       />
 
       <Tabs.Screen
-        name="group"
+        name="[group]"
         options={{
           href: {
             pathname: "/(tabs)/[group]",
@@ -54,6 +55,7 @@ export default function TabLayout() {
             borderEndEndRadius: HEADER_BORDER_RADIUS,
           },
           headerTintColor: HEADER_TINT_COLOR,
+          headerTitle:
           headerTitleAlign: "left",
           headerRight: ({ tintColor = HEADER_TINT_COLOR }) => (
             <BurgerMenuButton tintColor={tintColor} />
@@ -72,7 +74,7 @@ export default function TabLayout() {
   );
 }
 
-type TabName = "index" | "group" | "profile";
+type TabName = "index" | "[group]" | "profile";
 
 /**
  * Mostly copied from [React Native Navigation Docs](https://reactnavigation.org/docs/bottom-tab-navigator/#tabbar)
@@ -97,7 +99,7 @@ function MainTabBar(
 
   function indexOfGroup() {
     return state.routes.findIndex(
-      (route) => (route.name as TabName) === "group",
+      (route) => (route.name as TabName) === "[group]",
     );
   }
 
@@ -143,7 +145,7 @@ function MainTabBar(
           switch (route.name as TabName) {
             case "index":
               return "Dashboard";
-            case "group":
+            case "[group]":
               return IS_FOCUSED ? "Camera" : "Chat";
             case "profile":
               return "Profile";
