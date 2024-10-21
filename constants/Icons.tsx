@@ -25,5 +25,5 @@ export const Icons = {
   Chat: require("@/assets/images/optimized_svg/ChatIcon.svg"),
   Profile: require("@/assets/images/optimized_svg/ProfileIcon.svg"),
   Camera: require("@/assets/images/optimized_svg/CameraIcon.svg"),
-  HamburgerMenu: require("@/assets/images/optimized_svg/BurgerMenu.svg"),
+  BurgerMenu: require("@/assets/images/optimized_svg/BurgerMenu.svg"),
 };
