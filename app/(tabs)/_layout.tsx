@@ -10,6 +10,7 @@ import { Image } from "expo-image";
 const TAB_BAR_BACKGROUND_COLOR = Colors.grey.light1;
 
 export default function TabLayout() {
+  const USER_DATA = { groupName: "Avengers" };
   NavigationBar.setBackgroundColorAsync(TAB_BAR_BACKGROUND_COLOR);
 
   return (
@@ -35,12 +36,19 @@ export default function TabLayout() {
           tabBarLabel: "Dashboard",
         }}
       />
+
       <Tabs.Screen
-        name="group"
+        name="[group]"
         options={{
+          href: {
+            pathname: "/(tabs)/[user]",
+            params: { group: USER_DATA.groupName },
+          },
+          headerShown: true,
           tabBarLabel: "My Group",
         }}
       />
+
       <Tabs.Screen
         name="profile"
         options={{
