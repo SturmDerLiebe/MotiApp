@@ -36,7 +36,7 @@ export function SlotInputField(props: {
     <TextInput
       {...props}
       defaultValue={INPUT}
-      selectionColor="#80808000"
+      selectionColor="#80808000" //TODO: Use Colors.transparent
       placeholder={"0".repeat(slotAmount)}
       maxLength={slotAmount}
       style={[

@@ -10,6 +10,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function IndexScreen() {
   const [USER_INFO_STATE, START_USER_INFO_REQUEST] = useUserInfoState();
+  //TODO: Use useFocusEffect() instead
   useEffect(() => {
     START_USER_INFO_REQUEST();
   }, [START_USER_INFO_REQUEST]);
