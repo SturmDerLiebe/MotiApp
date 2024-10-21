@@ -1,8 +1,5 @@
 export const Colors = {
   grey: {
-    /**
-     * ISSUE: This color seems to not render dark enough on Android
-     */
     light1: "#F3F4F5",
     light2: "#F0F1F3",
     light3: "#E5E7E9",
