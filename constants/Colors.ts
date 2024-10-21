@@ -15,6 +15,10 @@ export const Colors = {
   transparent: "#FFFFFF00",
   red: "#D12E34",
   green: "#317D35",
+  eggplant: {
+    light: "#DAC8D3",
+    dark: "#795069",
+  },
   orange: {
     light: "#F9E0C9",
     dark: "#EA974C",
