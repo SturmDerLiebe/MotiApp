@@ -14,7 +14,6 @@ const TAB_BAR_BACKGROUND_COLOR = Colors.grey.light1;
 
 export default function TabLayout() {
   const USER_DATA = { groupName: "Avengers" };
-
   NavigationBar.setBackgroundColorAsync(TAB_BAR_BACKGROUND_COLOR);
 
   return (
@@ -42,24 +41,38 @@ export default function TabLayout() {
       />
 
       <Tabs.Screen
-        name="[group]"
+        name="group"
         options={{
           href: {
-            pathname: "/(tabs)/[group]",
+            pathname: "/(tabs)/group",
             params: { group: USER_DATA.groupName },
           },
+
           headerShown: true,
-          headerStyle: { backgroundColor: Colors.eggplant.dark },
+          headerStyle: {
+            backgroundColor: Colors.eggplant.dark,
+          },
           headerBackgroundContainerStyle: {
             borderEndStartRadius: HEADER_BORDER_RADIUS,
             borderEndEndRadius: HEADER_BORDER_RADIUS,
           },
+
           headerTintColor: HEADER_TINT_COLOR,
-          headerTitle:
+
+          // headerTitle: "Test",
+          // headerTitle: ({ tintColor }) => <Text>Test</Text>,
+          headerTitle: ({ tintColor }) => (
+            <Text style={[{ color: tintColor }, Fonts.title.h6]}>
+              {USER_DATA.groupName}
+            </Text>
+            // <GroupHeaderTitle tintColor={tintColor ?? Colors.white} />
+          ),
           headerTitleAlign: "left",
+
           headerRight: ({ tintColor = HEADER_TINT_COLOR }) => (
             <BurgerMenuButton tintColor={tintColor} />
           ),
+
           tabBarLabel: "My Group",
         }}
       />
@@ -74,8 +87,9 @@ export default function TabLayout() {
   );
 }
 
-type TabName = "index" | "[group]" | "profile";
+type TabName = "index" | "group" | "profile";
 
+//TODO: This can be simplified by taking options argument route
 /**
  * Mostly copied from [React Native Navigation Docs](https://reactnavigation.org/docs/bottom-tab-navigator/#tabbar)
  *
@@ -99,7 +113,7 @@ function MainTabBar(
 
   function indexOfGroup() {
     return state.routes.findIndex(
-      (route) => (route.name as TabName) === "[group]",
+      (route) => (route.name as TabName) === "group",
     );
   }
 
@@ -145,7 +159,7 @@ function MainTabBar(
           switch (route.name as TabName) {
             case "index":
               return "Dashboard";
-            case "[group]":
+            case "group":
               return IS_FOCUSED ? "Camera" : "Chat";
             case "profile":
               return "Profile";
