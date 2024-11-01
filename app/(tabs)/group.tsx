@@ -1,5 +1,6 @@
 import { CHAT_STYLES } from "@/components/chat/ChatStyles";
 import { MessageComponent } from "@/components/chat/MesssageComponent";
+import { Fonts } from "@/constants/Fonts";
 import { ChatMessage, ImageMessage, TextMessage } from "@/data/ImageMessage";
 import { FlashList } from "@shopify/flash-list";
 import { View, Text } from "react-native";
@@ -32,7 +33,11 @@ function ChatItem({ item, index }: { item: ChatDataItem; index: number }) {
   }
 
   if (itemIsDateString(item)) {
-    return <Text>{item}</Text>;
+    function DateDivider({ date }: { date: string }) {
+      return <Text style={[Fonts.paragraph.p9, CHAT_STYLES.date]}>{date}</Text>;
+    }
+
+    return <DateDivider date={item} />;
   } else {
     return (
       <MessageComponent

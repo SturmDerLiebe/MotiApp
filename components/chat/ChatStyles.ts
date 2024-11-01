@@ -45,5 +45,16 @@ export const CHAT_STYLES = StyleSheet.create({
     height: 184,
     alignSelf: "flex-start",
   },
+  date: {
+    alignSelf: "center",
+    textAlign: "center",
+
+    backgroundColor: Colors.grey.dark3,
+    color: Colors.white,
+
+    borderRadius: 100,
+    paddingVertical: 2,
+    paddingHorizontal: 8,
+  },
   divider: { height: 12 },
 });
