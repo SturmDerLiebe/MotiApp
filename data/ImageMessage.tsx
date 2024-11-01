@@ -40,7 +40,7 @@ export class ImageMessage extends ChatMessage {
   constructor(
     author: string,
     timestamp: string,
-    public imageURL: string,
+    public imageUri: string,
   ) {
     super(author, timestamp);
   }
