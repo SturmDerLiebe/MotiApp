@@ -20,7 +20,7 @@ class GroupRepository {
       bulildRequest(
         `group/${dto.groupId}/message`,
         "POST",
-        `message=${dto.text}`,
+        `message=${dto.content}`,
         dto,
       ),
     );
