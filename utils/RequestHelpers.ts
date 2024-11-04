@@ -8,7 +8,7 @@ type apiPaths =
   | "activation"
   | "personal-goal"
   | "group"
-  | `group/${number}/message`
+  | `group/${string}/message`
   | "user-info";
 
 const API_BASE_ROUTE = "https://my.api.mockaroo.com";
