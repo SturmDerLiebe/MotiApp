@@ -1,4 +1,5 @@
 import { bulildRequest } from "@/utils/RequestHelpers";
+import { MessageDTO } from "../DataTransferObjects/MessageDTO";
 
 class GroupRepository {
   /**
@@ -12,6 +13,17 @@ class GroupRepository {
 
   join(joinCode: string) {
     return fetch(bulildRequest("group", "PATCH", `code=${joinCode}`, joinCode));
+  }
+
+  sendMessage(dto: MessageDTO) {
+    return fetch(
+      bulildRequest(
+        `group/${dto.groupId}/message`,
+        "POST",
+        `message=${dto.text}`,
+        dto,
+      ),
+    );
   }
 }
 
