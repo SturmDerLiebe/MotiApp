@@ -1,6 +1,5 @@
 export interface MessageDTO {
   groupId: string;
-  userId: string;
   timestamp: string;
   content: string | Blob;
 }
@@ -8,7 +7,6 @@ export interface MessageDTO {
 export class SingleMessageDTO implements MessageDTO {
   constructor(
     public groupId: string,
-    public userId: string,
     public timestamp: string,
     public content: string,
   ) {}
@@ -17,7 +15,6 @@ export class SingleMessageDTO implements MessageDTO {
 export class SingleImageDTO implements MessageDTO {
   constructor(
     public groupId: string,
-    public userId: string,
     public timestamp: string,
     public content: Blob,
   ) {}
