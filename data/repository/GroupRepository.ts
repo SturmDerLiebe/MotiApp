@@ -31,7 +31,18 @@ class GroupRepository {
       bulildRequest(
         `group/${groupId}/message`,
         "POST",
-        `groupId=${groupId}`,
+        `groupId=${groupId}&amount=20`,
+        groupId,
+      ),
+    );
+  }
+
+  receiveNewMessages(groupId: string) {
+    return fetch(
+      bulildRequest(
+        `group/${groupId}/message`,
+        "POST",
+        `groupId=${groupId}&amount=1`,
         groupId,
       ),
     );
