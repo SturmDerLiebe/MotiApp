@@ -1,15 +1,24 @@
 import { ChatMessageDAO } from "@/data/DataAccessObjects/ChatMessageDAO";
 
-export interface SocketStatus {}
-
-export class SocketConnectionLoading implements SocketStatus {}
-
-export class SocketListSuccess implements SocketStatus {
-  constructor(public payload: ChatMessageDAO[]) {}
+export interface SocketStatus {
+  mostRecentPayload: ChatMessageDAO[];
 }
 
-export class SocketFailure implements SocketStatus {}
+export class SocketInitialLoading implements SocketStatus {
+  mostRecentPayload: ChatMessageDAO[] = [];
+}
+
+export class SocketListSuccess implements SocketStatus {
+  constructor(public mostRecentPayload: ChatMessageDAO[]) {}
+}
+
+export class SocketFailure implements SocketStatus {
+  constructor(public mostRecentPayload: ChatMessageDAO[]) {}
+}
 
 export class SocketError implements SocketStatus {
-  constructor(public code: number) {}
+  constructor(
+    public code: number,
+    public mostRecentPayload: ChatMessageDAO[],
+  ) {}
 }
