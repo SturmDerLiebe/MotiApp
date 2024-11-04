@@ -1,4 +1,8 @@
-import { ChatMessage, ImageMessage, TextMessage } from "@/data/ImageMessage";
+import {
+  ChatMessageDAO,
+  ImageMessageDAO,
+  TextMessageDAO,
+} from "@/data/ChatMessageDAO";
 import { PropsWithChildren } from "react";
 import { CHAT_STYLES } from "./ChatStyles";
 import { Text, View } from "react-native";
@@ -11,22 +15,22 @@ export function MessageComponent({
   item,
   previousAuthor,
 }: {
-  item: ChatMessage;
+  item: ChatMessageDAO;
   previousAuthor: string | null;
 }) {
   function isDifferentAuthorFromLast() {
     return previousAuthor !== item.author;
   }
 
-  function determineComponentMatchingMessageType(item: ChatMessage) {
-    if (item instanceof TextMessage) {
+  function determineComponentMatchingMessageType(item: ChatMessageDAO) {
+    if (item instanceof TextMessageDAO) {
       return (
         <TextMessageComponent
           showAuthor={isDifferentAuthorFromLast()}
           {...item}
         />
       );
-    } else if (item instanceof ImageMessage) {
+    } else if (item instanceof ImageMessageDAO) {
       return <ImageMessageComponent {...item} />;
     } else {
       return null;

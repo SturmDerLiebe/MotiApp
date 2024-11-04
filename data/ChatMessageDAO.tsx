@@ -10,7 +10,7 @@ const TIME_FORMATTER = Intl.DateTimeFormat(undefined, {
   minute: "2-digit",
 });
 
-export abstract class ChatMessage {
+export abstract class ChatMessageDAO {
   private timestamp: Date;
 
   public dateString: string;
@@ -26,7 +26,7 @@ export abstract class ChatMessage {
   }
 }
 
-export class TextMessage extends ChatMessage {
+export class TextMessageDAO extends ChatMessageDAO {
   constructor(
     author: string,
     timestamp: string,
@@ -36,7 +36,7 @@ export class TextMessage extends ChatMessage {
   }
 }
 
-export class ImageMessage extends ChatMessage {
+export class ImageMessageDAO extends ChatMessageDAO {
   constructor(
     author: string,
     timestamp: string,

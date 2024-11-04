@@ -1,7 +1,11 @@
 import { CHAT_STYLES } from "@/components/chat/ChatStyles";
 import { MessageComponent } from "@/components/chat/MesssageComponent";
 import { Fonts } from "@/constants/Fonts";
-import { ChatMessage, ImageMessage, TextMessage } from "@/data/ImageMessage";
+import {
+  ChatMessageDAO,
+  ImageMessageDAO,
+  TextMessageDAO,
+} from "@/data/ChatMessageDAO";
 import { FlashList } from "@shopify/flash-list";
 import { View, Text } from "react-native";
 
@@ -51,37 +55,37 @@ function ChatItem({ item, index }: { item: ChatDataItem; index: number }) {
 // --------------------
 
 const SAMPLE_DATA = [
-  new ImageMessage(
+  new ImageMessageDAO(
     "Jung",
     "2024-08-11T17:03:06Z",
     "https://placehold.co/140x184",
   ),
-  new TextMessage(
+  new TextMessageDAO(
     "Jung",
     "2024-08-11T17:03:10Z",
     "cheer for your friend @user1!",
   ),
-  new TextMessage(
+  new TextMessageDAO(
     "Jung",
     "2024-08-11T17:03:10Z",
     "We have a result from the last week’s challenge.\n@user1 and @user5 unfortunately didn’t meet the goal!\n\nPlease pay 10€ for the group fund.\nCurrent balance: 40€",
   ),
-  new TextMessage(
+  new TextMessageDAO(
     "Jung",
     "2024-08-12T17:03:06Z",
     "cheer for your friend @user1!",
   ),
-  new TextMessage(
+  new TextMessageDAO(
     "Jung",
     "2024-08-12T17:03:06Z",
     "cheer for your friend @user1!",
   ),
-  new TextMessage(
+  new TextMessageDAO(
     "Jung",
     "2024-08-13T17:03:06Z",
     "cheer for your friend @user1!",
   ),
-  new ImageMessage(
+  new ImageMessageDAO(
     "Jung",
     "2024-08-11T17:03:06Z",
     "https://placehold.co/140x184",
@@ -108,7 +112,7 @@ const GROUPED_SAMPLE_DATA = groupByPolyFill(SAMPLE_DATA, function (item) {
   return item.dateString;
 });
 
-type ChatDataItem = ChatMessage | string;
+type ChatDataItem = ChatMessageDAO | string;
 
 const SAMPLE_DATA_WITH_DATE: ChatDataItem[] = Object.entries(
   GROUPED_SAMPLE_DATA,

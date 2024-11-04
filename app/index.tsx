@@ -34,7 +34,7 @@ export default function ChooseRegistrationOrLoginScreen() {
           />
           <PrimaryButton
             title="Login"
-            onPress={() => router.push("/initial-group")}
+            onPress={() => router.push("/(tabs)/group")}
             style={{ width: BUTTON_WIDTH }}
           />
         </View>
