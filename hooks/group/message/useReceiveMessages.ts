@@ -1,8 +1,7 @@
 import { ChatMessageDAO } from "@/data/DataAccessObjects/ChatMessageDAO";
 import GroupRepository from "@/data/repository/GroupRepository";
-import { NetworkError } from "@/utils/RequestStatus";
 import {
-  SocketConnectionLoading,
+  SocketInitialLoading,
   SocketStatus,
   SocketListSuccess,
   SocketError,
@@ -16,7 +15,7 @@ export default function useReceiveMessageState(): [
   (groupId: string) => void,
 ] {
   let [receiveMessageState, setReceiveMessageState] = useState<SocketStatus>(
-    new SocketConnectionLoading(),
+    new SocketInitialLoading(),
   );
 
   let intervalId: NodeJS.Timeout;
@@ -49,7 +48,7 @@ export default function useReceiveMessageState(): [
     } else {
       //TODO: socket.on('error')
       setReceiveMessageState(
-        new SocketError(1003),
+        (currentState) => new SocketError(1003, currentState.mostRecentPayload),
         // SocketError.determineGeneralErrorMessage(RESPONSE.status, TAG),
       );
     }
@@ -61,7 +60,9 @@ export default function useReceiveMessageState(): [
       "There was an Error during the connection to a socket:",
       error,
     );
-    setReceiveMessageState(new NetworkError());
+    setReceiveMessageState(
+      (currentState) => new SocketError(1008, currentState.mostRecentPayload),
+    );
   }
 
   function startFetchingNewMessages(groupId: string) {
@@ -71,14 +72,27 @@ export default function useReceiveMessageState(): [
       //TODO: socket.on('listSuccess')
       if (RESPONSE.ok) {
         const DATA: ChatMessageDAO[] = await RESPONSE.json();
-        setReceiveMessageState(new SocketListSuccess(DATA));
+
+        setReceiveMessageState(
+          (currentState) =>
+            new SocketListSuccess(mergePayloads(currentState, DATA)),
+        );
       } else {
         //TODO: socket.on('error')
         setReceiveMessageState(
-          new SocketError(1003),
+          (currentState) =>
+            new SocketError(1003, currentState.mostRecentPayload),
           // SocketError.determineGeneralErrorMessage(RESPONSE.status, TAG),
         );
       }
     }, 5000);
+  }
+
+  function mergePayloads(
+    currentState: SocketStatus,
+    newData: ChatMessageDAO[],
+  ) {
+    currentState.mostRecentPayload.push(...newData);
+    return currentState.mostRecentPayload;
   }
 }
