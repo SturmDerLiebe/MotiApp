@@ -25,6 +25,17 @@ class GroupRepository {
       ),
     );
   }
+
+  receiveExistingMessages(groupId: string) {
+    return fetch(
+      bulildRequest(
+        `group/${groupId}/message`,
+        "POST",
+        `groupId=${groupId}`,
+        groupId,
+      ),
+    );
+  }
 }
 
 /**
