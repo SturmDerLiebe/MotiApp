@@ -11,12 +11,12 @@ const TIME_FORMATTER = Intl.DateTimeFormat(undefined, {
   minute: "2-digit",
 });
 
-enum MessageType {
+export enum MessageType {
   TEXT,
   IMAGE,
 }
 
-export class TextMessageDAO {
+export class ChatMessageDAO {
   public time: string;
   public date: string;
 

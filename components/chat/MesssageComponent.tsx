@@ -1,8 +1,7 @@
 import {
   ChatMessageDAO,
-  ImageMessageDAO,
-  TextMessageDAO,
-} from "@/data/ChatMessageDAO";
+  MessageType,
+} from "@/data/DataAccessObjects/ChatMessageDAO";
 import { PropsWithChildren } from "react";
 import { CHAT_STYLES } from "./ChatStyles";
 import { Text, View } from "react-native";
@@ -23,15 +22,16 @@ export function MessageComponent({
   }
 
   function determineComponentMatchingMessageType(item: ChatMessageDAO) {
-    if (item instanceof TextMessageDAO) {
+    if (item.type === MessageType.TEXT) {
       return (
         <TextMessageComponent
           showAuthor={isDifferentAuthorFromLast()}
+          text={item.content}
           {...item}
         />
       );
-    } else if (item instanceof ImageMessageDAO) {
-      return <ImageMessageComponent {...item} />;
+    } else if (item.type === MessageType.IMAGE) {
+      return <ImageMessageComponent imageUri={item.content} {...item} />;
     } else {
       return null;
     }
@@ -75,10 +75,10 @@ export function ChatItemWrapper({
 
 export function ImageMessageComponent({
   imageUri,
-  timeString,
+  time: timeString,
 }: {
   imageUri: string;
-  timeString: string;
+  time: string;
 }) {
   return (
     <Image
@@ -91,7 +91,7 @@ export function ImageMessageComponent({
 
 export function TextMessageComponent(props: {
   text: string;
-  timeString: string;
+  time: string;
   author: string;
   showAuthor: boolean;
 }) {
@@ -103,9 +103,7 @@ export function TextMessageComponent(props: {
         <Text style={[Fonts.paragraph.p4]}>{props.text}</Text>
       </View>
 
-      <Text style={[Fonts.date.small, CHAT_STYLES.time]}>
-        {props.timeString}
-      </Text>
+      <Text style={[Fonts.date.small, CHAT_STYLES.time]}>{props.time}</Text>
     </View>
   );
 }
