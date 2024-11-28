@@ -1,24 +1,24 @@
-import { ChatMessageDAO } from "@/data/DataAccessObjects/ChatMessageDAO";
+import { ChatMessageListItem } from "@/hooks/group/message/useReceiveMessages";
 
 export interface SocketStatus {
-  mostRecentPayload: ChatMessageDAO[];
+  mostRecentPayload: ChatMessageListItem[];
 }
 
 export class SocketInitialLoading implements SocketStatus {
-  mostRecentPayload: ChatMessageDAO[] = [];
+  mostRecentPayload: ChatMessageListItem[] = [];
 }
 
 export class SocketListSuccess implements SocketStatus {
-  constructor(public mostRecentPayload: ChatMessageDAO[]) {}
+  constructor(public mostRecentPayload: ChatMessageListItem[]) {}
 }
 
 export class SocketFailure implements SocketStatus {
-  constructor(public mostRecentPayload: ChatMessageDAO[]) {}
+  constructor(public mostRecentPayload: ChatMessageListItem[]) {}
 }
 
 export class SocketError implements SocketStatus {
   constructor(
     public code: number,
-    public mostRecentPayload: ChatMessageDAO[],
+    public mostRecentPayload: ChatMessageListItem[],
   ) {}
 }
