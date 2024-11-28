@@ -1,5 +1,6 @@
 import { ChatMessageDAO } from "@/data/DataAccessObjects/ChatMessageDAO";
 import GroupRepository from "@/data/repository/GroupRepository";
+import { spliceChatMessageListWithDates } from "@/utils/ChatMessage/helper";
 import {
   SocketInitialLoading,
   SocketStatus,
@@ -37,12 +38,15 @@ export default function useReceiveMessageState(): [
    * @throws any {@link Response}.json related Error
    */
   async function handleResponse(groupId: string) {
-    const RESPONSE = await GroupRepository.receiveExistingMessages(groupId);
+    const RESPONSE = await GroupRepository.receiveExistingMessages(groupId); // TODO: This should arrive sorted from BE
 
     //TODO: socket.on('listSuccess')
     if (RESPONSE.ok) {
       const DATA: ChatMessageDAO[] = await RESPONSE.json();
-      setReceiveMessageState(new SocketListSuccess(DATA));
+
+      const DATE_SPLICED_DATA = spliceChatMessageListWithDates(DATA);
+
+      setReceiveMessageState(new SocketListSuccess(DATE_SPLICED_DATA));
 
       startFetchingNewMessages(groupId);
     } else {
@@ -96,3 +100,5 @@ export default function useReceiveMessageState(): [
     return currentState.mostRecentPayload;
   }
 }
+
+export type ChatMessageListItem = ChatMessageDAO | string;
