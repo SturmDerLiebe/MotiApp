@@ -11,24 +11,31 @@ import { useState } from "react";
 
 const TAG = "USE_RECEIVE_MESSAGES >>>";
 
+/**
+ * @returns Triple of [receivedMessageState, startReceivingMessages(), stopReceivingMessages()]
+ */
 export default function useReceiveMessageState(): [
   SocketStatus,
   (groupId: string) => void,
+  () => void,
 ] {
-  let [receiveMessageState, setReceiveMessageState] = useState<SocketStatus>(
+  let [receivedMessageState, setReceivedMessageState] = useState<SocketStatus>(
     new SocketInitialLoading(),
   );
 
   let intervalId: NodeJS.Timeout;
 
-  return [receiveMessageState, startSocketConnection];
+  return [
+    receivedMessageState,
+    startSocketConnection,
+    () => clearInterval(intervalId),
+  ];
 
   async function startSocketConnection(groupId: string) {
     try {
       handleResponse(groupId);
     } catch (error) {
       handleError(error);
-    } finally {
       clearInterval(intervalId);
     }
   }
@@ -46,12 +53,12 @@ export default function useReceiveMessageState(): [
 
       const DATE_SPLICED_DATA = spliceChatMessageListWithDates(DATA);
 
-      setReceiveMessageState(new SocketListSuccess(DATE_SPLICED_DATA));
+      setReceivedMessageState(new SocketListSuccess(DATE_SPLICED_DATA));
 
       startFetchingNewMessages(groupId);
     } else {
       //TODO: socket.on('error')
-      setReceiveMessageState(
+      setReceivedMessageState(
         (currentState) => new SocketError(1003, currentState.mostRecentPayload),
         // SocketError.determineGeneralErrorMessage(RESPONSE.status, TAG),
       );
@@ -64,7 +71,7 @@ export default function useReceiveMessageState(): [
       "There was an Error during the connection to a socket:",
       error,
     );
-    setReceiveMessageState(
+    setReceivedMessageState(
       (currentState) => new SocketError(1008, currentState.mostRecentPayload),
     );
   }
@@ -77,13 +84,13 @@ export default function useReceiveMessageState(): [
       if (RESPONSE.ok) {
         const DATA: ChatMessageDAO[] = await RESPONSE.json();
 
-        setReceiveMessageState(
+        setReceivedMessageState(
           (currentState) =>
             new SocketListSuccess(mergePayloads(currentState, DATA)),
         );
       } else {
         //TODO: socket.on('error')
-        setReceiveMessageState(
+        setReceivedMessageState(
           (currentState) =>
             new SocketError(1003, currentState.mostRecentPayload),
           // SocketError.determineGeneralErrorMessage(RESPONSE.status, TAG),
