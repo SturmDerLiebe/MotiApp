@@ -15,7 +15,10 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": false,
+      "config": {
+        "usesNonExemptEncryption": false
+      }
     },
     "android": {
       "softwareKeyboardLayoutMode": "pan",
@@ -24,7 +27,17 @@
         "backgroundColor": "#ffffff"
       }
     },
-    "plugins": ["expo-router", "expo-font"],
+    "plugins": [
+      "expo-router",
+      "expo-font",
+      [
+        "expo-secure-store",
+        {
+          "configureAndroidBackup": true,
+          "faceIDPermission": "We encrypt all your sensitive data. In order to do this, please allow $(PRODUCT_NAME) to access your Face ID biometric data."
+        }
+      ]
+    ],
     "experiments": {
       "typedRoutes": true
     }
