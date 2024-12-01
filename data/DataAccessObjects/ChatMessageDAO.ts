@@ -21,7 +21,10 @@ export class ChatMessageDAO {
   public date: string;
 
   constructor(
-    public messageId: string,
+    /**
+     * Nullable `string` to allow for new messages not synced with the backend without a {@link messageId}.
+     */
+    public messageId: string | null,
     public author: string,
     timestamp: string,
     public content: string,
