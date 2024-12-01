@@ -5,7 +5,7 @@ import {
   RequestLoading,
   RequestStatus,
   UserInfoSuccess,
-} from "@/utils/RegistrationStatus";
+} from "@/utils/RequestStatus";
 import { useCallback, useState } from "react";
 
 const TAG = "USE_USER_INFO_STATE >>>";

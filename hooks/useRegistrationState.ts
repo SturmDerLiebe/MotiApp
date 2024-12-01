@@ -8,7 +8,7 @@ import {
   RequestSuccess,
   NetworkError,
   GeneralErrorMessage,
-} from "@/utils/RegistrationStatus";
+} from "@/utils/RequestStatus";
 
 const TAG = "USE_REGISTRATION_STATE >>>";
 

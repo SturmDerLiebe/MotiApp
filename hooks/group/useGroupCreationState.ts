@@ -5,7 +5,7 @@ import {
   RequestError,
   RequestLoading,
   RequestStatus,
-} from "@/utils/RegistrationStatus";
+} from "@/utils/RequestStatus";
 import { useState } from "react";
 
 const TAG = "USE_GROUP_CREATION >>>";

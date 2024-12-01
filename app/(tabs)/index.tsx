@@ -3,7 +3,7 @@ import { Colors } from "@/constants/Colors";
 import { Fonts } from "@/constants/Fonts";
 import { BODY_STYLES } from "@/constants/styles/Body";
 import useUserInfoState from "@/hooks/profile/useUserInfoState";
-import { UserInfoSuccess } from "@/utils/RegistrationStatus";
+import { UserInfoSuccess } from "@/utils/RequestStatus";
 import { useEffect } from "react";
 import { Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";

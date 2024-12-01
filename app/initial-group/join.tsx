@@ -4,12 +4,12 @@ import { Fonts } from "@/constants/Fonts";
 import { Colors } from "@/constants/Colors";
 import useAndroidBackButtonInputHandling from "@/hooks/useAndroidBackButtonInputHandling";
 import { View, Text, StyleSheet } from "react-native";
-import { RequestSuccess, isFailedRequest } from "@/utils/RegistrationStatus";
 import { SlotInputBackground } from "@/components/input/slot/SlotInputBackground";
 import { SlotInputField } from "@/components/input/slot/SlotInputField";
 import useGroupJoinState from "@/hooks/group/useGroupJoinState";
 import { BODY_STYLES } from "@/constants/styles/Body";
 import { router } from "expo-router";
+import { RequestSuccess, isFailedRequest } from "@/utils/RequestStatus";
 
 const styles = StyleSheet.create({
   middleText: {

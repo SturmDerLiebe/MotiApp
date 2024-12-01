@@ -7,7 +7,7 @@ import { View, Text, TextInput, StyleSheet, Pressable } from "react-native";
 import useVerification, {
   VerificationError,
 } from "@/hooks/verification/useVerification";
-import { NetworkError, RequestSuccess } from "@/utils/RegistrationStatus";
+import { NetworkError, RequestSuccess } from "@/utils/RequestStatus";
 import { useEffect, useRef, useState } from "react";
 import useNavigateOnSuccessEffect from "@/hooks/navigation/useNavigationOnSuccessEffect";
 import { SlotInputBackground } from "@/components/input/slot/SlotInputBackground";

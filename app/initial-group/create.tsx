@@ -12,7 +12,7 @@ import {
   NetworkError,
   RequestError,
   RequestStatus,
-} from "@/utils/RegistrationStatus";
+} from "@/utils/RequestStatus";
 import useNavigateOnSuccessEffect from "@/hooks/navigation/useNavigationOnSuccessEffect";
 
 const GROUP_NAME_PATTERN = /^[\p{L}\p{S}]+(?:\s[\p{L}\p{S}]+){0,4}$/u;

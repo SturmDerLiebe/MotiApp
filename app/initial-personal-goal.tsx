@@ -4,7 +4,7 @@ import { Fonts } from "@/constants/Fonts";
 import { Colors } from "@/constants/Colors";
 import useAndroidBackButtonInputHandling from "@/hooks/useAndroidBackButtonInputHandling";
 import { View, Text, StyleSheet, TextInput } from "react-native";
-import { NetworkError, RequestError } from "@/utils/RegistrationStatus";
+import { NetworkError, RequestError } from "@/utils/RequestStatus";
 import usePersonalGoal from "@/hooks/profile/usePersonalGoal";
 import { useState } from "react";
 import { DigitString } from "@/utils/UtilityClasses";

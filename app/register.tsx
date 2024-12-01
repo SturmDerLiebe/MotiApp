@@ -17,7 +17,7 @@ import { Text, View } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
 import { Fonts } from "@/constants/Fonts";
 import { Colors } from "@/constants/Colors";
-import { NetworkError, RequestLoading } from "@/utils/RegistrationStatus";
+import { NetworkError, RequestLoading } from "@/utils/RequestStatus";
 import useNavigateOnSuccessEffect from "@/hooks/navigation/useNavigationOnSuccessEffect";
 
 export default function RegistrationScreen() {

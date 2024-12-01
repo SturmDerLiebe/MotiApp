@@ -5,7 +5,7 @@ import {
   RequestLoading,
   RequestStatus,
   RequestSuccess,
-} from "@/utils/RegistrationStatus";
+} from "@/utils/RequestStatus";
 import { DigitString, SafeDigits } from "@/utils/UtilityClasses";
 import { useState } from "react";
 
