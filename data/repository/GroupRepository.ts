@@ -11,10 +11,16 @@ class GroupRepository {
     );
   }
 
+  /**
+   * @throws any `fetch()` related error
+   */
   join(joinCode: string) {
     return fetch(bulildRequest("group", "PATCH", `code=${joinCode}`, joinCode));
   }
 
+  /**
+   * @throws any `fetch()` related error
+   */
   sendMessage(dto: MessageDTO) {
     return fetch(
       bulildRequest(
@@ -26,6 +32,9 @@ class GroupRepository {
     );
   }
 
+  /**
+   * @throws any `fetch()` related error
+   */
   receiveExistingMessages(groupId: string) {
     return fetch(
       bulildRequest(
@@ -37,6 +46,9 @@ class GroupRepository {
     );
   }
 
+  /**
+   * @throws any `fetch()` related error
+   */
   receiveNewMessages(groupId: string) {
     return fetch(
       bulildRequest(

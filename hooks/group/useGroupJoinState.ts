@@ -33,6 +33,7 @@ export default function useGroupJoinState(): [
   /**
    * @throws any {@link fetch} related Error
    * @throws any {@link Response}.json related Error
+   * @throws any {@link SecureStore} related Error
    */
   async function handleResponse(joinCode: string) {
     const RESPONSE = await GroupRepository.join(joinCode);

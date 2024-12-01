@@ -34,6 +34,7 @@ export default function useGroupCreationState(): [
   /**
    * @throws any {@link fetch} related Error
    * @throws any {@link Response}.json related Error
+   * @throws any {@link AsyncStorage} related Error
    */
   async function handleResponse(groupName: string) {
     const RESPONSE = await GroupRepository.create(groupName);
