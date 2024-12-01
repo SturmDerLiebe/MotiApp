@@ -1,4 +1,4 @@
-import { RequestStatus, RequestSuccess } from "@/utils/RegistrationStatus";
+import { RequestStatus, RequestSuccess } from "@/utils/RequestStatus";
 import { Href, router } from "expo-router";
 import { useEffect } from "react";
 
@@ -7,7 +7,7 @@ import { useEffect } from "react";
  */
 export default function useNavigateOnSuccessEffect(
   requestState: RequestStatus | null,
-  route: Href<string | object>,
+  route: Href,
 ) {
   useEffect(() => {
     if (requestState instanceof RequestSuccess) {
