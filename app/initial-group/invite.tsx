@@ -44,7 +44,7 @@ export default function InviteScreen() {
         >
           <TextInput
             readOnly={true}
-            value={joinCode}
+            defaultValue={joinCode}
             style={[TEXT_STYLES.copyText, { paddingTop: 30 }]}
           />
           <Pressable

@@ -80,7 +80,7 @@ export default function PersonalGoalScreen() {
             setIsBeingEdited(true);
             setGoalInput(text);
           }}
-          value={goalInput}
+          defaultValue={goalInput}
           style={[
             {
               width: "40%",

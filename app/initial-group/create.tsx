@@ -81,7 +81,7 @@ export default function GroupCreationScreen() {
           onEndEditing={function checkValidity({ nativeEvent: { text } }) {
             setIsValid(GROUP_NAME_PATTERN.test(text));
           }}
-          value={groupName}
+          defaultValue={groupName}
           style={[
             BASE_INPUT_STYLES.basic,
             {
