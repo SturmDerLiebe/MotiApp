@@ -1,8 +1,7 @@
 import { GroupCreationResponse } from "@/hooks/group/useGroupCreationState";
 import { UserInfoResponse } from "@/hooks/profile/useUserInfoState";
 
-export interface RequestStatus {}
-//TODO: interface RequestErrorStatus
+export abstract class RequestStatus {}
 
 export class RequestSuccess implements RequestStatus {}
 export class GroupCreationSuccess extends RequestSuccess {
