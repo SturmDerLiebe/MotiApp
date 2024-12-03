@@ -12,6 +12,10 @@ export class SocketListSuccess implements SocketStatus {
   constructor(public mostRecentPayload: ChatMessageListItem[]) {}
 }
 
+export class SocketListUpdateInitiated implements SocketStatus {
+  constructor(public mostRecentPayload: ChatMessageListItem[]) {}
+}
+
 export class SocketFailure implements SocketStatus {
   constructor(public mostRecentPayload: ChatMessageListItem[]) {}
 }
