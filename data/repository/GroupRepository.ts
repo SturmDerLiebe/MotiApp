@@ -1,32 +1,47 @@
-import { bulildRequest } from "@/utils/RequestHelpers";
+import { buildBaseHeaders, bulildRequest } from "@/utils/RequestHelpers";
 import { MessageDTO } from "../DataTransferObjects/MessageDTO";
 
 class GroupRepository {
   /**
    * @throws any `fetch()` related error
    */
-  create(groupName: string) {
+  async create(groupName: string) {
     return fetch(
-      bulildRequest("group", "POST", `name=${groupName}`, groupName),
+      bulildRequest(
+        "group",
+        "POST",
+        `name=${groupName}`,
+        await buildBaseHeaders(),
+        groupName,
+      ),
     );
   }
 
   /**
    * @throws any `fetch()` related error
    */
-  join(joinCode: string) {
-    return fetch(bulildRequest("group", "PATCH", `code=${joinCode}`, joinCode));
+  async join(joinCode: string) {
+    return fetch(
+      bulildRequest(
+        "group",
+        "PATCH",
+        `code=${joinCode}`,
+        await buildBaseHeaders(),
+        joinCode,
+      ),
+    );
   }
 
   /**
    * @throws any `fetch()` related error
    */
-  sendMessage(dto: MessageDTO) {
+  async sendMessage(dto: MessageDTO) {
     return fetch(
       bulildRequest(
         `group/${dto.groupId}/message`,
         "POST",
         `message=${dto.content}`,
+        await buildBaseHeaders(),
         dto,
       ),
     );
@@ -35,12 +50,13 @@ class GroupRepository {
   /**
    * @throws any `fetch()` related error
    */
-  receiveExistingMessages(groupId: string) {
+  async receiveExistingMessages(groupId: string) {
     return fetch(
       bulildRequest(
         `group/${groupId}/message`,
         "POST",
         `groupId=${groupId}&amount=20`,
+        await buildBaseHeaders(),
         groupId,
       ),
     );
@@ -49,12 +65,13 @@ class GroupRepository {
   /**
    * @throws any `fetch()` related error
    */
-  receiveNewMessages(groupId: string) {
+  async receiveNewMessages(groupId: string) {
     return fetch(
       bulildRequest(
         `group/${groupId}/message`,
         "POST",
         `groupId=${groupId}&amount=1`,
+        await buildBaseHeaders(),
         groupId,
       ),
     );
