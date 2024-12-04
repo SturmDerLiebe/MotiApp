@@ -5,6 +5,7 @@ import { CHAT_STYLES } from "./ChatStyles";
 import { MessageComponent } from "./MesssageComponent";
 import { FlashList } from "@shopify/flash-list";
 import { SocketStatus } from "@/utils/socket/status";
+import { ExistingChatMessage } from "@/data/DTO/ChatMessage";
 
 export function ChatList({ chatState }: { chatState: SocketStatus }) {
   return (
@@ -38,7 +39,9 @@ function ChatItem({
   }
 
   function determinePreviousAuthor() {
-    return typeof previousItem == "string" ? null : previousItem.author;
+    return previousItem instanceof ExistingChatMessage
+      ? previousItem.author
+      : null;
   }
 
   if (itemIsDateString(item)) {

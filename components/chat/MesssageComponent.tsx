@@ -1,7 +1,3 @@
-import {
-  ExistingChatMessage,
-  MessageType,
-} from "@/data/DataAccessObjects/ChatMessageDAO";
 import { PropsWithChildren } from "react";
 import { CHAT_STYLES } from "./ChatStyles";
 import { Text, View } from "react-native";
@@ -9,23 +5,30 @@ import { ClapReactionButton } from "../buttons/ClapReactionButton";
 import { Image } from "expo-image";
 import { Fonts } from "@/constants/Fonts";
 import { Colors } from "@/constants/Colors";
+import {
+  ChatMessage,
+  ExistingChatMessage,
+  MessageType,
+} from "@/data/DTO/ChatMessage";
 
 export function MessageComponent({
   item,
   previousAuthor,
 }: {
-  item: ExistingChatMessage;
+  item: ChatMessage;
   previousAuthor: string | null;
 }) {
-  function isDifferentAuthorFromLast() {
-    return previousAuthor !== item.author;
+  function shouldShowAuthor() {
+    return (
+      item instanceof ExistingChatMessage && previousAuthor !== item.author
+    );
   }
 
-  function determineComponentMatchingMessageType(item: ExistingChatMessage) {
+  function determineComponentMatchingMessageType(item: ChatMessage) {
     if (item.type === MessageType.TEXT) {
       return (
         <TextMessageComponent
-          showAuthor={isDifferentAuthorFromLast()}
+          showAuthor={shouldShowAuthor()}
           text={item.content}
           {...item}
         />
@@ -39,7 +42,7 @@ export function MessageComponent({
 
   return (
     <ChatItemWrapper
-      showAuthor={isDifferentAuthorFromLast()}
+      showAuthor={shouldShowAuthor()}
       clapCount={
         1
         // TODO: should be item.clapCount
@@ -73,9 +76,9 @@ export function ChatItemWrapper({
   );
 }
 
-export function ImageMessageComponent({
+function ImageMessageComponent({
   imageUri,
-  time: timeString,
+  time: string,
 }: {
   imageUri: string;
   time: string;
@@ -89,16 +92,19 @@ export function ImageMessageComponent({
   );
 }
 
-export function TextMessageComponent(props: {
+function TextMessageComponent(props: {
   text: string;
   time: string;
-  author: string;
+  author?: string;
   showAuthor: boolean;
 }) {
   return (
     <View style={CHAT_STYLES.bodyBase}>
       <View style={CHAT_STYLES.headerAndMainContainer}>
-        <Author shouldShowAuthor={props.showAuthor} author={props.author} />
+        <Author
+          shouldShowAuthor={props.showAuthor && props.author !== undefined}
+          author={props.author ?? ""}
+        />
 
         <Text style={[Fonts.paragraph.p4]}>{props.text}</Text>
       </View>
@@ -108,13 +114,13 @@ export function TextMessageComponent(props: {
   );
 }
 
-export function Author(props: { shouldShowAuthor: boolean; author: string }) {
+function Author(props: { shouldShowAuthor: boolean; author: string }) {
   return props.shouldShowAuthor ? (
     <Text style={Fonts.paragraph.p9}>{props.author}</Text>
   ) : null;
 }
 
-export function AvatarIcon(props: { showAuthor: boolean }) {
+function AvatarIcon(props: { showAuthor: boolean }) {
   return props.showAuthor ? (
     <Image
       tintColor={Colors.orange.dark}
