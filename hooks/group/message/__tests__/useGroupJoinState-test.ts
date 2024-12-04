@@ -1,25 +1,23 @@
-import {
-  ChatMessageDAO,
-  MessageType,
-} from "@/data/DataAccessObjects/ChatMessageDAO";
+import { ExistingChatMessage } from "@/data/DTO/ChatMessage";
 import { spliceChatMessageListWithDates } from "@/utils/ChatMessage/helper";
 
 test("spliceChatMessageListWithDates - returns correct flattened List", () => {
   //GIVEN
-  const TODAY_MESSAGE = new ChatMessageDAO(
-    "12345",
-    "DummyAuthor",
-    "2024-11-28T00:00:00Z",
-    "Lorem Ipsum",
-    MessageType.TEXT,
-  );
-  const TOMORROW_MESSAGE = new ChatMessageDAO(
-    "4321",
-    "DummyAuthor",
-    "2024-11-29T00:00:00Z",
-    "imgage.url",
-    MessageType.IMAGE,
-  );
+  const TODAY_MESSAGE = new ExistingChatMessage({
+    messageId: "12345",
+    author: "DummyAuthor",
+    timestamp: "2024-11-28T00:00:00Z",
+    content: "Lorem Ipsum",
+    type: "TEXT",
+  });
+
+  const TOMORROW_MESSAGE = new ExistingChatMessage({
+    messageId: "4321",
+    author: "DummyAuthor",
+    timestamp: "2024-11-29T00:00:00Z",
+    content: "imgage.url",
+    type: "IMAGE",
+  });
 
   const SAMPLE_DATA = [
     TODAY_MESSAGE,

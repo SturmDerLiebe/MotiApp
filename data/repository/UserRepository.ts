@@ -18,11 +18,11 @@ export class RegistrationDetails {
 
 class UserRepository {
   /**
+   * Sends a request to register the new user with {@link RegistrationDetails} and handles saving the sessionID from the Responses Cookie
    * @throws any `fetch()` related error
    * @throws any {@link SecureStore} related Error
    */
   async registerUser(body: RegistrationDetails) {
-    // return
     const RESPONSE = await fetch(
       bulildRequest(
         "registration",

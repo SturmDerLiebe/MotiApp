@@ -1,5 +1,5 @@
 import {
-  ChatMessageDAO,
+  ExistingChatMessage,
   MessageType,
 } from "@/data/DataAccessObjects/ChatMessageDAO";
 import { PropsWithChildren } from "react";
@@ -14,14 +14,14 @@ export function MessageComponent({
   item,
   previousAuthor,
 }: {
-  item: ChatMessageDAO;
+  item: ExistingChatMessage;
   previousAuthor: string | null;
 }) {
   function isDifferentAuthorFromLast() {
     return previousAuthor !== item.author;
   }
 
-  function determineComponentMatchingMessageType(item: ChatMessageDAO) {
+  function determineComponentMatchingMessageType(item: ExistingChatMessage) {
     if (item.type === MessageType.TEXT) {
       return (
         <TextMessageComponent

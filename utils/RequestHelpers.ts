@@ -2,15 +2,15 @@ import UserRepository, {
   RegistrationDetails,
 } from "@/data/repository/UserRepository";
 import { SafeDigits } from "./UtilityClasses";
-import { MessageDTO } from "@/data/DataTransferObjects/MessageDTO";
 import { typeCheckEnvVariable } from "./TypeHelpers";
+import { RawMessageData } from "@/data/DTO/ChatMessage";
 
 type apiPaths =
   | "registration"
   | "activation"
   | "personal-goal"
   | "group"
-  | `group/${string}/message`
+  | `group/message`
   | "user-info";
 
 const API_BASE_ROUTE = "https://my.api.mockaroo.com";
@@ -40,7 +40,7 @@ export function bulildRequest(
   method: "GET" | "POST" | "PUT" | "PATCH",
   queryParamPair: string,
   headers: Headers,
-  body?: RegistrationDetails | SafeDigits | MessageDTO | string,
+  body?: RegistrationDetails | SafeDigits | RawMessageData | string,
 ) {
   return new Request(`${API_BASE_ROUTE}/${route}?${queryParamPair}`, {
     method,

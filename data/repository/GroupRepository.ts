@@ -1,5 +1,5 @@
 import { buildBaseHeaders, bulildRequest } from "@/utils/RequestHelpers";
-import { MessageDTO } from "../DataTransferObjects/MessageDTO";
+import { RawExistingMessageData } from "../DTO/ChatMessage";
 
 class GroupRepository {
   /**
@@ -35,10 +35,10 @@ class GroupRepository {
   /**
    * @throws any `fetch()` related error
    */
-  async sendMessage(dto: MessageDTO) {
+  async sendMessage(dto: RawExistingMessageData) {
     return fetch(
       bulildRequest(
-        `group/${dto.groupId}/message`,
+        `group/message`,
         "POST",
         `message=${dto.content}`,
         await buildBaseHeaders(),
@@ -50,14 +50,13 @@ class GroupRepository {
   /**
    * @throws any `fetch()` related error
    */
-  async receiveExistingMessages(groupId: string) {
+  async receiveExistingMessages() {
     return fetch(
       bulildRequest(
-        `group/${groupId}/message`,
+        `group/message`,
         "POST",
-        `groupId=${groupId}&amount=20`,
+        `amount=20`,
         await buildBaseHeaders(),
-        groupId,
       ),
     );
   }
@@ -65,14 +64,13 @@ class GroupRepository {
   /**
    * @throws any `fetch()` related error
    */
-  async receiveNewMessages(groupId: string) {
+  async receiveNewMessages() {
     return fetch(
       bulildRequest(
-        `group/${groupId}/message`,
+        `group/message`,
         "POST",
-        `groupId=${groupId}&amount=1`,
+        `amount=1`,
         await buildBaseHeaders(),
-        groupId,
       ),
     );
   }
