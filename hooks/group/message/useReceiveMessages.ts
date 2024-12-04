@@ -1,4 +1,10 @@
-import { ChatMessageDAO } from "@/data/DataAccessObjects/ChatMessageDAO";
+import {
+  ChatMessage,
+  ExistingChatMessage,
+  NewChatMessage,
+  RawExistingMessageData,
+  transformRawToUIMessage,
+} from "@/data/DTO/ChatMessage";
 import GroupRepository from "@/data/repository/GroupRepository";
 import { spliceChatMessageListWithDates } from "@/utils/ChatMessage/helper";
 import {
@@ -6,18 +12,26 @@ import {
   SocketStatus,
   SocketListSuccess,
   SocketError,
+  SocketListUpdateInitiated,
 } from "@/utils/socket/status";
 import { useState } from "react";
+
+export type ChatMessageListItem = ChatMessage | string;
 
 const TAG = "USE_RECEIVE_MESSAGES >>>";
 
 /**
- * @returns Triple of [receivedMessageState, startReceivingMessages(), stopReceivingMessages()]
+ * @returns A Tuple of the current state and three functions to handle Message SocketInitialLoading
+ * @example
+ * ```typescript
+ * [receivedMessageState, startReceivingMessages(), stopReceivingMessages(), sendNewMessage()] = useReceiveMessageState()
+ * ```
  */
 export default function useReceiveMessageState(): [
   SocketStatus,
-  (groupId: string) => void,
   () => void,
+  () => void,
+  (newMessage: NewChatMessage) => void,
 ] {
   let [receivedMessageState, setReceivedMessageState] = useState<SocketStatus>(
     new SocketInitialLoading(),
@@ -28,12 +42,20 @@ export default function useReceiveMessageState(): [
   return [
     receivedMessageState,
     startSocketConnection,
-    () => clearInterval(intervalId),
+    function stopReceivingMessages() {
+      clearInterval(intervalId);
+    },
+    function mergeNewMessageInput(newMessage: NewChatMessage): void {
+      setReceivedMessageState((currentState) => {
+        currentState.mostRecentPayload.push(newMessage);
+        return new SocketListUpdateInitiated(currentState.mostRecentPayload);
+      });
+    },
   ];
 
-  async function startSocketConnection(groupId: string) {
+  async function startSocketConnection() {
     try {
-      handleResponse(groupId);
+      handleResponse();
     } catch (error) {
       handleError(error);
       clearInterval(intervalId);
@@ -44,24 +66,56 @@ export default function useReceiveMessageState(): [
    * @throws any {@link fetch} related Error
    * @throws any {@link Response}.json related Error
    */
-  async function handleResponse(groupId: string) {
-    const RESPONSE = await GroupRepository.receiveExistingMessages(groupId); // TODO: This should arrive sorted from BE
+  async function handleResponse() {
+    const RESPONSE = await GroupRepository.receiveExistingMessages(); // TODO: This should arrive sorted from BE
 
     //TODO: socket.on('listSuccess')
     if (RESPONSE.ok) {
-      const DATA: ChatMessageDAO[] = await RESPONSE.json();
+      const RAW_MESSAGES: RawExistingMessageData[] = await RESPONSE.json();
+      const MESSAGES = transformRawToUIMessage(RAW_MESSAGES);
 
-      const DATE_SPLICED_DATA = spliceChatMessageListWithDates(DATA);
+      const DATE_SPLICED_DATA = spliceChatMessageListWithDates(MESSAGES);
 
       setReceivedMessageState(new SocketListSuccess(DATE_SPLICED_DATA));
 
-      startFetchingNewMessages(groupId);
+      startFetchingNewMessages();
     } else {
       //TODO: socket.on('error')
       setReceivedMessageState(
         (currentState) => new SocketError(1003, currentState.mostRecentPayload),
         // SocketError.determineGeneralErrorMessage(RESPONSE.status, TAG),
       );
+    }
+
+    function startFetchingNewMessages() {
+      intervalId = setInterval(async function () {
+        const RESPONSE = await GroupRepository.receiveNewMessages();
+
+        //TODO: socket.on('listSuccess')
+        if (RESPONSE.ok) {
+          const DATA: ExistingChatMessage[] = await RESPONSE.json();
+
+          setReceivedMessageState(
+            (currentState) =>
+              new SocketListSuccess(mergePayloads(currentState, DATA)),
+          );
+        } else {
+          //TODO: socket.on('error')
+          setReceivedMessageState(
+            (currentState) =>
+              new SocketError(1003, currentState.mostRecentPayload),
+            // SocketError.determineGeneralErrorMessage(RESPONSE.status, TAG),
+          );
+        }
+      }, 5000);
+    }
+
+    function mergePayloads(
+      currentState: SocketStatus,
+      newData: ExistingChatMessage[],
+    ): ChatMessageListItem[] {
+      currentState.mostRecentPayload.push(...newData);
+      return currentState.mostRecentPayload;
     }
   }
 
@@ -75,37 +129,4 @@ export default function useReceiveMessageState(): [
       (currentState) => new SocketError(1008, currentState.mostRecentPayload),
     );
   }
-
-  function startFetchingNewMessages(groupId: string) {
-    intervalId = setInterval(async function () {
-      const RESPONSE = await GroupRepository.receiveNewMessages(groupId);
-
-      //TODO: socket.on('listSuccess')
-      if (RESPONSE.ok) {
-        const DATA: ChatMessageDAO[] = await RESPONSE.json();
-
-        setReceivedMessageState(
-          (currentState) =>
-            new SocketListSuccess(mergePayloads(currentState, DATA)),
-        );
-      } else {
-        //TODO: socket.on('error')
-        setReceivedMessageState(
-          (currentState) =>
-            new SocketError(1003, currentState.mostRecentPayload),
-          // SocketError.determineGeneralErrorMessage(RESPONSE.status, TAG),
-        );
-      }
-    }, 5000);
-  }
-
-  function mergePayloads(
-    currentState: SocketStatus,
-    newData: ChatMessageDAO[],
-  ) {
-    currentState.mostRecentPayload.push(...newData);
-    return currentState.mostRecentPayload;
-  }
 }
-
-export type ChatMessageListItem = ChatMessageDAO | string;
