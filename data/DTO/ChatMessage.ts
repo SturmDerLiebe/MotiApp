@@ -51,7 +51,10 @@ export abstract class ChatMessage {
 
   constructor(
     instant: Date,
-    public content: string | Blob,
+    /**
+     * Text or remote/local Image Uri
+     */
+    public content: string,
     public type: MessageType,
   ) {
     const INSTANT = instant;
