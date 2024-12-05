@@ -258,7 +258,7 @@ function TabBarPressable({
           ? {
               borderRadius: 100,
               position: "relative",
-              bottom: "6%",
+              bottom: "35%",
               alignSelf: "center",
               justifyContent: "center",
               alignItems: "center",
