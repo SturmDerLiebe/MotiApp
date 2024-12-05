@@ -6,10 +6,13 @@ import * as NavigationBar from "expo-navigation-bar";
 import { Pressable, Text, View, ViewStyle } from "react-native";
 import { Image } from "expo-image";
 import { BurgerMenuButton } from "@/components/navigation/BurgerMenuButton";
+import { PropsWithChildren } from "react";
 
 const HEADER_TINT_COLOR = Colors.white;
 const HEADER_BORDER_RADIUS = 20;
 const TAB_BAR_BACKGROUND_COLOR = Colors.grey.light1;
+
+type TabName = "index" | "group" | "profile";
 
 export default function TabLayout() {
   const USER_DATA = { groupName: "Avengers" };
@@ -28,10 +31,6 @@ export default function TabLayout() {
         );
 
         // NOTE: TS types of bottomTabBarProps are not exported properly. Leave this component in this scope to make use of `typeof`.
-
-        //#region MAIN TAB BAR COMPONENT
-
-        type TabName = "index" | "group" | "profile";
 
         /**
          * Mostly copied from [React Native Navigation Docs](https://reactnavigation.org/docs/bottom-tab-navigator/#tabbar)
@@ -54,122 +53,54 @@ export default function TabLayout() {
             tabBarStyle,
           } = props;
 
+          // TODO: Combine
+          const INDEX_OF_GROUP_TAB = state.routes.findIndex(
+            (route) => (route.name as TabName) === "group",
+          );
+          const IS_GROUP_FOCUSED = state.index === INDEX_OF_GROUP_TAB;
+
           return (
-            <View
-              style={[
-                tabBarStyle,
-                {
-                  flexDirection: "row",
-                  backgroundColor: isGroupFocused()
-                    ? Colors.transparent
-                    : backgroundColor,
-                  paddingTop: 5,
-                },
-              ]}
+            <TabBarWrapper
+              isGroupFocused={IS_GROUP_FOCUSED}
+              backgroundColor={backgroundColor}
+              tabBarStyle={tabBarStyle}
             >
-              <Image
-                style={{
-                  position: "absolute",
-                  zIndex: -1,
-                  width: "100%",
-                  aspectRatio: 4.43,
-                  tintColor: Colors.grey.light1,
-                }}
-                source={require("@/assets/images/optimized_svg/CurvedBottomNavBackground.svg")} //TODO: This svg is to high. Crop bottom from to curviture
-              />
               {state.routes.map((route, index) => {
-                //#region RENDER TAB BUTTONS
+                const {
+                  options: {
+                    tabBarActiveTintColor,
+                    tabBarInactiveTintColor,
+                    tabBarLabel,
+                    tabBarAccessibilityLabel,
+                  },
+                } = descriptors[route.key];
 
-                //TODO: CONTINUE REFACTOR MORE
-                const { options } = descriptors[route.key];
-                const LABEL = options.tabBarLabel;
-
-                const IS_FOCUSED = state.index === index;
+                const IS_TAB_FOCUSED = state.index === index;
                 const BUTTON_COLOR =
-                  (IS_FOCUSED
-                    ? options.tabBarActiveTintColor
-                    : options.tabBarInactiveTintColor) ?? Colors.blue.grey;
+                  (IS_TAB_FOCUSED
+                    ? tabBarActiveTintColor
+                    : tabBarInactiveTintColor) ?? Colors.blue.grey;
 
                 return (
-                  <Pressable
-                    accessibilityRole="button"
-                    accessibilityState={IS_FOCUSED ? { selected: true } : {}}
-                    accessibilityLabel={options.tabBarAccessibilityLabel}
+                  <TabBarPressable
+                    // Label is not of type ReactNode as of now, therefore we can typecast to string:
+                    label={tabBarLabel as string}
+                    accessibilityLabel={tabBarAccessibilityLabel}
+                    buttonColor={BUTTON_COLOR}
+                    iconSize={iconSize}
+                    isFocused={IS_TAB_FOCUSED}
+                    showCurvedTabBar={IS_GROUP_FOCUSED}
+                    routeName={route.name}
                     onPress={onPress}
                     onLongPress={onLongPress}
-                    style={[
-                      { flex: 1 },
-                      showCurvedTabBar(index)
-                        ? {
-                            borderRadius: 100,
-                            position: "relative",
-                            bottom: "6%",
-                            alignSelf: "center",
-                            justifyContent: "center",
-                            alignItems: "center",
-                          }
-                        : null,
-                    ]}
                     key={route.key}
-                  >
-                    <GroupIcon index={index} />
-
-                    {typeof LABEL === "string" && !showCurvedTabBar(index) ? (
-                      <Text
-                        style={[
-                          Fonts.paragraph.p10,
-                          {
-                            color: BUTTON_COLOR,
-                            textAlign: "center",
-                          },
-                        ]}
-                      >
-                        {LABEL}
-                      </Text>
-                    ) : null}
-                  </Pressable>
+                  />
                 );
 
-                function GroupIcon({ index }: { index: number }) {
-                  return showCurvedTabBar(index) ? (
-                    <View
-                      style={{
-                        width: "65%",
-                        aspectRatio: 1,
-                        borderRadius: 100,
-                        backgroundColor: TAB_BAR_BACKGROUND_COLOR,
-                        justifyContent: "center",
-                      }}
-                    >
-                      <Icon
-                        tintColor={BUTTON_COLOR}
-                        size={iconSize * 1.5}
-                        icon={determineIcon()}
-                      />
-                    </View>
-                  ) : (
-                    <Icon
-                      tintColor={BUTTON_COLOR}
-                      size={iconSize}
-                      icon={determineIcon()}
-                    />
-                  );
-                }
-
-                function determineIcon(): keyof typeof Icons {
-                  switch (route.name as TabName) {
-                    case "index":
-                      return "Dashboard";
-                    case "group":
-                      return IS_FOCUSED ? "Camera" : "Chat";
-                    case "profile":
-                      return "Profile";
-                    default:
-                      throw new Error(
-                        `Tab ${route.name} does not exist in the current TabNavigator`,
-                      );
-                  }
-                }
+                // CAN BE REMOVED?
+                // function showCurvedTabBar(index: number) {
+                //   return index === INDEX_OF_GROUP_TAB && isGroupFocused();
+                // }
 
                 function onPress() {
                   const event = navigation.emit({
@@ -178,7 +109,7 @@ export default function TabLayout() {
                     canPreventDefault: true,
                   });
 
-                  if (!IS_FOCUSED && !event.defaultPrevented) {
+                  if (!IS_TAB_FOCUSED && !event.defaultPrevented) {
                     navigation.navigate(route.name, route.params);
                   }
                 }
@@ -189,25 +120,9 @@ export default function TabLayout() {
                     target: route.key,
                   });
                 }
-                //#endregion
               })}
-            </View>
+            </TabBarWrapper>
           );
-
-          function indexOfGroup() {
-            return state.routes.findIndex(
-              (route) => (route.name as TabName) === "group",
-            );
-          }
-
-          function isGroupFocused() {
-            return state.index === indexOfGroup();
-          }
-
-          function showCurvedTabBar(index: number) {
-            return index === indexOfGroup() && isGroupFocused();
-          }
-          //#endregion
         }
       }}
       screenOptions={{
@@ -266,4 +181,166 @@ export default function TabLayout() {
       />
     </Tabs>
   );
+}
+
+function TabBarWrapper({
+  isGroupFocused,
+  backgroundColor,
+  tabBarStyle,
+  children,
+}: PropsWithChildren<{
+  isGroupFocused: boolean;
+  backgroundColor: string;
+  tabBarStyle: ViewStyle;
+}>) {
+  return (
+    <View
+      style={[
+        tabBarStyle,
+        {
+          flexDirection: "row",
+          backgroundColor: isGroupFocused
+            ? Colors.transparent
+            : backgroundColor,
+          paddingTop: 5,
+        },
+      ]}
+    >
+      <Image
+        style={{
+          position: "absolute",
+          zIndex: -1,
+          width: "100%",
+          aspectRatio: 4.43,
+          tintColor: Colors.grey.light1,
+        }}
+        source={require("@/assets/images/optimized_svg/CurvedBottomNavBackground.svg")} //TODO: This svg is to high. Crop bottom from to curviture
+      />
+      {children}
+    </View>
+  );
+}
+
+function TabBarPressable({
+  label,
+  accessibilityLabel,
+  buttonColor,
+  iconSize,
+  isFocused,
+  showCurvedTabBar,
+  routeName,
+  onPress,
+  onLongPress,
+}: {
+  label: string;
+  accessibilityLabel?: string;
+  buttonColor: string;
+  iconSize: number;
+  isFocused: boolean;
+  showCurvedTabBar: boolean;
+  routeName: string;
+  onPress: () => void;
+  onLongPress: () => void;
+  key: React.Key;
+}) {
+  return (
+    <Pressable
+      accessibilityRole="button"
+      accessibilityState={isFocused ? { selected: true } : {}}
+      accessibilityLabel={accessibilityLabel}
+      onPress={onPress}
+      onLongPress={onLongPress}
+      style={[
+        { flex: 1 },
+        showCurvedTabBar
+          ? {
+              borderRadius: 100,
+              position: "relative",
+              bottom: "6%",
+              alignSelf: "center",
+              justifyContent: "center",
+              alignItems: "center",
+            }
+          : null,
+      ]}
+    >
+      <GroupIcon
+        buttonColor={buttonColor}
+        iconSize={iconSize}
+        isFocused={isFocused}
+        showCurvedTabBar={showCurvedTabBar}
+        routeName={routeName as TabName}
+      />
+
+      {typeof label === "string" && !showCurvedTabBar ? (
+        <Text
+          style={[
+            Fonts.paragraph.p10,
+            {
+              color: buttonColor,
+              textAlign: "center",
+            },
+          ]}
+        >
+          {label}
+        </Text>
+      ) : null}
+    </Pressable>
+  );
+}
+
+function GroupIcon({
+  buttonColor,
+  iconSize,
+  isFocused,
+  showCurvedTabBar,
+  routeName,
+}: {
+  buttonColor: string;
+  iconSize: number;
+  isFocused: boolean;
+  showCurvedTabBar: boolean;
+  routeName: TabName;
+}) {
+  return showCurvedTabBar ? (
+    <View
+      style={{
+        width: "65%",
+        aspectRatio: 1,
+        borderRadius: 100,
+        backgroundColor: TAB_BAR_BACKGROUND_COLOR,
+        justifyContent: "center",
+      }}
+    >
+      <Icon
+        tintColor={buttonColor}
+        size={iconSize * 1.5}
+        icon={determineIcon(routeName, isFocused)}
+      />
+    </View>
+  ) : (
+    <Icon
+      tintColor={buttonColor}
+      size={iconSize}
+      icon={determineIcon(routeName, isFocused)}
+    />
+  );
+}
+
+function determineIcon(
+  routeName: TabName,
+  isFocused: boolean,
+): keyof typeof Icons {
+  switch (routeName) {
+    case "index":
+      return "Dashboard";
+    case "group":
+      return isFocused ? "Camera" : "Chat";
+    case "profile":
+      return "Profile";
+    default:
+      throw new Error(
+        `Tab ${routeName} does not exist in the current TabNavigator`,
+      );
+  }
 }
