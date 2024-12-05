@@ -1,7 +1,7 @@
 /**
  * Interfaces extending {@link RawMessageData} represent a raw chat message data item in a Request from or Response to the API.
  */
-interface RawMessageData {
+export interface RawMessageData {
   timestamp: string;
   content: string | Blob;
   type: "TEXT" | "IMAGE";
