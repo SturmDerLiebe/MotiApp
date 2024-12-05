@@ -1,9 +1,8 @@
-import UserRepository, {
-  RegistrationDetails,
-} from "@/data/repository/UserRepository";
-import { SafeDigits } from "./UtilityClasses";
-import { typeCheckEnvVariable } from "./TypeHelpers";
 import { RawMessageData } from "@/data/DTO/ChatMessage";
+import SessionRepository from "@/data/repository/SessionRepository";
+import { RegistrationDetails } from "@/data/repository/UserRepository";
+import { typeCheckEnvVariable } from "./TypeHelpers";
+import { SafeDigits } from "./UtilityClasses";
 
 type apiPaths =
   | "registration"
@@ -16,7 +15,7 @@ type apiPaths =
 const API_BASE_ROUTE = "https://my.api.mockaroo.com";
 
 export async function buildBaseHeaders() {
-  const SESSION_ID = await UserRepository.findSessionId();
+  const SESSION_ID = await SessionRepository.findSessionId();
   const HEADERS = new Headers();
   HEADERS.append(
     "X-API-Key",

@@ -1,9 +1,7 @@
 import { buildBaseHeaders, bulildRequest } from "@/utils/RequestHelpers";
 import { readCookie } from "@/utils/Response/CookieUtils";
 import { SafeDigits } from "@/utils/UtilityClasses";
-import * as SecureStore from "expo-secure-store";
-
-const SECURE_STORE_KEY = { sessionId: "sessionId" };
+import SessionRepository from "./SessionRepository";
 
 /**
  * A Data Transfer Object containing details about a new user to be registered
@@ -33,7 +31,7 @@ class UserRepository {
       ),
     );
 
-    this.saveSessionId(readCookie(RESPONSE, "sessionId"));
+    SessionRepository.saveSessionId(readCookie(RESPONSE, "sessionId"));
     return RESPONSE;
   }
 
@@ -82,20 +80,6 @@ class UserRepository {
         await buildBaseHeaders(),
       ),
     );
-  }
-
-  /**
-   * @throws any {@link SecureStore} related Error
-   */
-  private saveSessionId(sessionId: string) {
-    return SecureStore.setItemAsync(SECURE_STORE_KEY.sessionId, sessionId);
-  }
-
-  /**
-   * @throws any {@link SecureStore} related Error
-   */
-  public findSessionId() {
-    return SecureStore.getItemAsync(SECURE_STORE_KEY.sessionId);
   }
 }
 
