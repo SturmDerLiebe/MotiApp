@@ -1,16 +1,17 @@
+import { BurgerMenuButton } from "@/components/navigation/BurgerMenuButton";
 import { Colors } from "@/constants/Colors";
 import { Fonts } from "@/constants/Fonts";
 import { Icon, Icons } from "@/constants/Icons";
-import { Tabs } from "expo-router";
-import * as NavigationBar from "expo-navigation-bar";
-import { Pressable, Text, View, ViewStyle } from "react-native";
 import { Image } from "expo-image";
-import { BurgerMenuButton } from "@/components/navigation/BurgerMenuButton";
+import * as NavigationBar from "expo-navigation-bar";
+import { Tabs } from "expo-router";
 import { PropsWithChildren } from "react";
+import { Pressable, Text, View } from "react-native";
 
 const HEADER_TINT_COLOR = Colors.white;
 const HEADER_BORDER_RADIUS = 20;
 const TAB_BAR_BACKGROUND_COLOR = Colors.grey.light1;
+const TAB_BAR_ICON_SIZE = 32;
 
 type TabName = "index" | "group" | "profile";
 
@@ -21,16 +22,10 @@ export default function TabLayout() {
   return (
     <Tabs
       tabBar={function renderTabBar(bottomTabBarProps) {
-        return (
-          <MainTabBar
-            iconSize={32}
-            backgroundColor={TAB_BAR_BACKGROUND_COLOR}
-            tabBarStyle={{ height: "7%", elevation: 0 }}
-            {...bottomTabBarProps}
-          />
-        );
+        return <MainTabBar {...bottomTabBarProps} />;
 
-        // FIX: FLICKERING
+        //ISSUE: Having all subcomponents extracted causes Flickering?
+        //
         // NOTE: TS types of bottomTabBarProps are not exported properly. Leave this component in this scope to make use of `typeof`.
 
         /**
@@ -38,34 +33,16 @@ export default function TabLayout() {
          *
          * **Important**: Make sure to that `tabBarLabel` is of type `string`
          */
-        function MainTabBar(
-          props: typeof bottomTabBarProps & {
-            iconSize: number;
-            backgroundColor: string;
-            tabBarStyle: ViewStyle;
-          },
-        ) {
-          const {
-            state,
-            descriptors,
-            navigation,
-            iconSize,
-            backgroundColor,
-            tabBarStyle,
-          } = props;
+        function MainTabBar(props: typeof bottomTabBarProps) {
+          const { state, descriptors, navigation } = props;
 
-          // TODO: Combine
           const INDEX_OF_GROUP_TAB = state.routes.findIndex(
             (route) => (route.name as TabName) === "group",
           );
           const IS_GROUP_FOCUSED = state.index === INDEX_OF_GROUP_TAB;
 
           return (
-            <TabBarWrapper
-              isGroupFocused={IS_GROUP_FOCUSED}
-              backgroundColor={backgroundColor}
-              tabBarStyle={tabBarStyle}
-            >
+            <TabBarWrapper isGroupFocused={IS_GROUP_FOCUSED}>
               {state.routes.map((route, index) => {
                 const {
                   options: {
@@ -88,7 +65,6 @@ export default function TabLayout() {
                     label={tabBarLabel as string}
                     accessibilityLabel={tabBarAccessibilityLabel}
                     buttonColor={BUTTON_COLOR}
-                    iconSize={iconSize}
                     isCurrentTabFocused={IS_TAB_FOCUSED}
                     isGroupTabFocused={IS_GROUP_FOCUSED}
                     routeName={route.name}
@@ -97,11 +73,6 @@ export default function TabLayout() {
                     key={route.key}
                   />
                 );
-
-                // CAN BE REMOVED?
-                // function showCurvedTabBar(index: number) {
-                //   return index === INDEX_OF_GROUP_TAB && isGroupFocused();
-                // }
 
                 function onPress() {
                   const event = navigation.emit({
@@ -186,23 +157,20 @@ export default function TabLayout() {
 
 function TabBarWrapper({
   isGroupFocused,
-  backgroundColor,
-  tabBarStyle,
   children,
 }: PropsWithChildren<{
   isGroupFocused: boolean;
-  backgroundColor: string;
-  tabBarStyle: ViewStyle;
 }>) {
   return (
     <View
       style={[
-        tabBarStyle,
         {
+          height: "7%",
+          elevation: 0,
           flexDirection: "row",
           backgroundColor: isGroupFocused
             ? Colors.transparent
-            : backgroundColor,
+            : TAB_BAR_BACKGROUND_COLOR,
           paddingTop: 5,
         },
       ]}
@@ -210,12 +178,11 @@ function TabBarWrapper({
       <Image
         style={{
           position: "absolute",
-          zIndex: -1,
           width: "100%",
           aspectRatio: 4.43,
           tintColor: Colors.grey.light1,
         }}
-        source={require("@/assets/images/optimized_svg/CurvedBottomNavBackground.svg")} //TODO: This svg is to high. Crop bottom from to curviture
+        source={require("@/assets/images/optimized_svg/CurvedBottomNavBackground.svg")}
       />
       {children}
     </View>
@@ -226,7 +193,6 @@ function TabBarPressable({
   label,
   accessibilityLabel,
   buttonColor,
-  iconSize,
   isCurrentTabFocused,
   isGroupTabFocused,
   routeName,
@@ -236,7 +202,6 @@ function TabBarPressable({
   label: string;
   accessibilityLabel?: string;
   buttonColor: string;
-  iconSize: number;
   isCurrentTabFocused: boolean;
   isGroupTabFocused: boolean;
   routeName: string;
@@ -268,7 +233,6 @@ function TabBarPressable({
     >
       <GroupIcon
         buttonColor={buttonColor}
-        iconSize={iconSize}
         isCameraIcon={IS_FOCUSED_GROUP_TAB}
         routeName={routeName as TabName}
       />
@@ -292,12 +256,10 @@ function TabBarPressable({
 
 function GroupIcon({
   buttonColor,
-  iconSize,
   isCameraIcon,
   routeName,
 }: {
   buttonColor: string;
-  iconSize: number;
   isCameraIcon: boolean;
   routeName: TabName;
 }) {
@@ -313,14 +275,14 @@ function GroupIcon({
     >
       <Icon
         tintColor={buttonColor}
-        size={iconSize * 1.5}
+        size={TAB_BAR_ICON_SIZE * 1.5}
         icon={determineIcon(routeName, isCameraIcon)}
       />
     </View>
   ) : (
     <Icon
       tintColor={buttonColor}
-      size={iconSize}
+      size={TAB_BAR_ICON_SIZE}
       icon={determineIcon(routeName, isCameraIcon)}
     />
   );
