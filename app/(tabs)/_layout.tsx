@@ -2,6 +2,7 @@ import { BurgerMenuButton } from "@/components/navigation/BurgerMenuButton";
 import { Colors } from "@/constants/Colors";
 import { Fonts } from "@/constants/Fonts";
 import { Icon, Icons } from "@/constants/Icons";
+import { ParamListBase, TabNavigationState } from "@react-navigation/native";
 import { Image } from "expo-image";
 import * as NavigationBar from "expo-navigation-bar";
 import { Tabs } from "expo-router";
@@ -23,79 +24,6 @@ export default function TabLayout() {
     <Tabs
       tabBar={function renderTabBar(bottomTabBarProps) {
         return <MainTabBar {...bottomTabBarProps} />;
-
-        //ISSUE: Having all subcomponents extracted causes Flickering?
-        //
-        // NOTE: TS types of bottomTabBarProps are not exported properly. Leave this component in this scope to make use of `typeof`.
-
-        /**
-         * Mostly copied from [React Native Navigation Docs](https://reactnavigation.org/docs/bottom-tab-navigator/#tabbar)
-         *
-         * **Important**: Make sure to that `tabBarLabel` is of type `string`
-         */
-        function MainTabBar(props: typeof bottomTabBarProps) {
-          const { state, descriptors, navigation } = props;
-
-          const INDEX_OF_GROUP_TAB = state.routes.findIndex(
-            (route) => (route.name as TabName) === "group",
-          );
-          const IS_GROUP_FOCUSED = state.index === INDEX_OF_GROUP_TAB;
-
-          return (
-            <TabBarWrapper isGroupFocused={IS_GROUP_FOCUSED}>
-              {state.routes.map((route, index) => {
-                const {
-                  options: {
-                    tabBarActiveTintColor,
-                    tabBarInactiveTintColor,
-                    tabBarLabel,
-                    tabBarAccessibilityLabel,
-                  },
-                } = descriptors[route.key];
-
-                const IS_TAB_FOCUSED = state.index === index;
-                const BUTTON_COLOR =
-                  (IS_TAB_FOCUSED
-                    ? tabBarActiveTintColor
-                    : tabBarInactiveTintColor) ?? Colors.blue.grey;
-
-                return (
-                  <TabBarPressable
-                    // Label is not of type ReactNode as of now, therefore we can typecast to string:
-                    label={tabBarLabel as string}
-                    accessibilityLabel={tabBarAccessibilityLabel}
-                    buttonColor={BUTTON_COLOR}
-                    isCurrentTabFocused={IS_TAB_FOCUSED}
-                    isGroupTabFocused={IS_GROUP_FOCUSED}
-                    routeName={route.name}
-                    onPress={onPress}
-                    onLongPress={onLongPress}
-                    key={route.key}
-                  />
-                );
-
-                function onPress() {
-                  const event = navigation.emit({
-                    type: "tabPress",
-                    target: route.key,
-                    canPreventDefault: true,
-                  });
-
-                  if (!IS_TAB_FOCUSED && !event.defaultPrevented) {
-                    navigation.navigate(route.name, route.params);
-                  }
-                }
-
-                function onLongPress() {
-                  navigation.emit({
-                    type: "tabLongPress",
-                    target: route.key,
-                  });
-                }
-              })}
-            </TabBarWrapper>
-          );
-        }
       }}
       screenOptions={{
         sceneStyle: { backgroundColor: Colors.white },
@@ -106,6 +34,7 @@ export default function TabLayout() {
     >
       <Tabs.Screen
         name="index"
+        // TODO: CONTINUE: get info from User Repository
         options={{
           tabBarLabel: "Dashboard",
         }}
@@ -152,6 +81,77 @@ export default function TabLayout() {
         }}
       />
     </Tabs>
+  );
+}
+
+/**
+ * Mostly copied from [React Native Navigation Docs](https://reactnavigation.org/docs/bottom-tab-navigator/#tabbar)
+ *
+ * **Important**: Make sure to that `tabBarLabel` is of type `string`
+ */
+function MainTabBar(props: any) {
+  // NOTE: TS types of BottomTabBarProps are not exported properly which justifies the use of `any` here
+  const state: TabNavigationState<ParamListBase> = props.state;
+  const { descriptors, navigation } = props;
+
+  const INDEX_OF_GROUP_TAB = state.routes.findIndex(
+    // NOTE: We can assume the only options of `route.name` to be of `TabName`
+    (route) => (route.name as TabName) === "group",
+  );
+  const IS_GROUP_FOCUSED = state.index === INDEX_OF_GROUP_TAB;
+
+  return (
+    <TabBarWrapper isGroupFocused={IS_GROUP_FOCUSED}>
+      {state.routes.map((route: any, index: number) => {
+        const {
+          options: {
+            tabBarActiveTintColor,
+            tabBarInactiveTintColor,
+            tabBarLabel,
+            tabBarAccessibilityLabel,
+          },
+        } = descriptors[route.key];
+
+        const IS_TAB_FOCUSED = state.index === index;
+        const BUTTON_COLOR =
+          (IS_TAB_FOCUSED ? tabBarActiveTintColor : tabBarInactiveTintColor) ??
+          Colors.blue.grey;
+
+        return (
+          <TabBarPressable
+            // NOTE: Label is not of type ReactNode as of now, therefore we can typecast to string:
+            label={tabBarLabel as string}
+            accessibilityLabel={tabBarAccessibilityLabel}
+            buttonColor={BUTTON_COLOR}
+            isCurrentTabFocused={IS_TAB_FOCUSED}
+            isGroupTabFocused={IS_GROUP_FOCUSED}
+            routeName={route.name}
+            onPress={onPress}
+            onLongPress={onLongPress}
+            key={route.key}
+          />
+        );
+
+        function onPress() {
+          const event = navigation.emit({
+            type: "tabPress",
+            target: route.key,
+            canPreventDefault: true,
+          });
+
+          if (!IS_TAB_FOCUSED && !event.defaultPrevented) {
+            navigation.navigate(route.name, route.params);
+          }
+        }
+
+        function onLongPress() {
+          navigation.emit({
+            type: "tabLongPress",
+            target: route.key,
+          });
+        }
+      })}
+    </TabBarWrapper>
   );
 }
 
