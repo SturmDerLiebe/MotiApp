@@ -30,6 +30,7 @@ export default function TabLayout() {
           />
         );
 
+        // FIX: FLICKERING
         // NOTE: TS types of bottomTabBarProps are not exported properly. Leave this component in this scope to make use of `typeof`.
 
         /**
@@ -88,8 +89,8 @@ export default function TabLayout() {
                     accessibilityLabel={tabBarAccessibilityLabel}
                     buttonColor={BUTTON_COLOR}
                     iconSize={iconSize}
-                    isFocused={IS_TAB_FOCUSED}
-                    showCurvedTabBar={IS_GROUP_FOCUSED}
+                    isCurrentTabFocused={IS_TAB_FOCUSED}
+                    isGroupTabFocused={IS_GROUP_FOCUSED}
                     routeName={route.name}
                     onPress={onPress}
                     onLongPress={onLongPress}
@@ -226,8 +227,8 @@ function TabBarPressable({
   accessibilityLabel,
   buttonColor,
   iconSize,
-  isFocused,
-  showCurvedTabBar,
+  isCurrentTabFocused,
+  isGroupTabFocused,
   routeName,
   onPress,
   onLongPress,
@@ -236,23 +237,24 @@ function TabBarPressable({
   accessibilityLabel?: string;
   buttonColor: string;
   iconSize: number;
-  isFocused: boolean;
-  showCurvedTabBar: boolean;
+  isCurrentTabFocused: boolean;
+  isGroupTabFocused: boolean;
   routeName: string;
   onPress: () => void;
   onLongPress: () => void;
   key: React.Key;
 }) {
+  const IS_FOCUSED_GROUP_TAB = isCurrentTabFocused && isGroupTabFocused;
   return (
     <Pressable
       accessibilityRole="button"
-      accessibilityState={isFocused ? { selected: true } : {}}
+      accessibilityState={isCurrentTabFocused ? { selected: true } : {}}
       accessibilityLabel={accessibilityLabel}
       onPress={onPress}
       onLongPress={onLongPress}
       style={[
         { flex: 1 },
-        showCurvedTabBar
+        IS_FOCUSED_GROUP_TAB
           ? {
               borderRadius: 100,
               position: "relative",
@@ -267,12 +269,11 @@ function TabBarPressable({
       <GroupIcon
         buttonColor={buttonColor}
         iconSize={iconSize}
-        isFocused={isFocused}
-        showCurvedTabBar={showCurvedTabBar}
+        isCameraIcon={IS_FOCUSED_GROUP_TAB}
         routeName={routeName as TabName}
       />
 
-      {typeof label === "string" && !showCurvedTabBar ? (
+      {!IS_FOCUSED_GROUP_TAB ? (
         <Text
           style={[
             Fonts.paragraph.p10,
@@ -292,17 +293,15 @@ function TabBarPressable({
 function GroupIcon({
   buttonColor,
   iconSize,
-  isFocused,
-  showCurvedTabBar,
+  isCameraIcon,
   routeName,
 }: {
   buttonColor: string;
   iconSize: number;
-  isFocused: boolean;
-  showCurvedTabBar: boolean;
+  isCameraIcon: boolean;
   routeName: TabName;
 }) {
-  return showCurvedTabBar ? (
+  return isCameraIcon ? (
     <View
       style={{
         width: "65%",
@@ -315,14 +314,14 @@ function GroupIcon({
       <Icon
         tintColor={buttonColor}
         size={iconSize * 1.5}
-        icon={determineIcon(routeName, isFocused)}
+        icon={determineIcon(routeName, isCameraIcon)}
       />
     </View>
   ) : (
     <Icon
       tintColor={buttonColor}
       size={iconSize}
-      icon={determineIcon(routeName, isFocused)}
+      icon={determineIcon(routeName, isCameraIcon)}
     />
   );
 }
