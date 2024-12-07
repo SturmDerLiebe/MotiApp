@@ -1,3 +1,4 @@
+import type { FlashList } from "@shopify/flash-list";
 import {
   ChatMessage,
   ExistingChatMessage,
@@ -45,10 +46,16 @@ export default function useReceiveMessageState(): [
     function stopReceivingMessages() {
       clearInterval(intervalId);
     },
+    /**
+     * **Preformance Notice:**
+     * This function needs to create a new object for the `mostRecentPayload`, since {@link FlashList} will not rerender otherwise.
+     */
     function mergeNewMessageInput(newMessage: NewChatMessage): void {
       setReceivedMessageState((currentState) => {
-        currentState.mostRecentPayload.push(newMessage);
-        return new SocketListUpdateInitiated(currentState.mostRecentPayload);
+        return new SocketListUpdateInitiated([
+          ...currentState.mostRecentPayload,
+          newMessage,
+        ]);
       });
     },
   ];
