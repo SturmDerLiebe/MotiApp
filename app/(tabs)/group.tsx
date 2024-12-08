@@ -2,10 +2,12 @@ import { ChatList } from "@/components/chat/ChatList";
 import { CHAT_STYLES } from "@/components/chat/ChatStyles";
 import { MessageType, NewChatMessage } from "@/data/DTO/ChatMessage";
 import useReceiveMessageState from "@/hooks/group/message/useReceiveMessages";
-import { useEffect, useState } from "react";
 import { TextInput, View } from "react-native";
+import { useRef, useState } from "react";
 
 export default function GroupScreen() {
+  const TEXT_INPUT_REF = useRef<TextInput>(null);
+
   const [
     socketState,
     startReceivingMessages,
@@ -24,10 +26,12 @@ export default function GroupScreen() {
     <View style={CHAT_STYLES.screenContainer}>
       <ChatList chatState={socketState} />
       <TextInput
+        ref={TEXT_INPUT_REF}
         defaultValue={message}
         onChange={(event) => setMessage(event.nativeEvent.text)}
         onSubmitEditing={function sendMessage() {
           sendNewMessage(new NewChatMessage(message, MessageType.TEXT));
+          TEXT_INPUT_REF.current?.clear();
         }}
         returnKeyType="send"
       />
