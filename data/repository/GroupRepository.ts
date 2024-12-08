@@ -40,7 +40,7 @@ class GroupRepository {
       bulildRequest(
         `group/message`,
         "POST",
-        `message=${dto.content}`,
+        `message=${encodeURIComponent(dto.content)}`,
         await buildBaseHeaders(),
         dto,
       ),
@@ -54,7 +54,7 @@ class GroupRepository {
     return fetch(
       bulildRequest(
         `group/message`,
-        "POST",
+        "GET",
         `amount=20`,
         await buildBaseHeaders(),
       ),
@@ -68,7 +68,7 @@ class GroupRepository {
     return fetch(
       bulildRequest(
         `group/message`,
-        "POST",
+        "GET",
         `amount=1`,
         await buildBaseHeaders(),
       ),
