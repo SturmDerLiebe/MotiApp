@@ -1,4 +1,3 @@
-import type { FlashList } from "@shopify/flash-list";
 import {
   ChatMessage,
   ExistingChatMessage,
@@ -104,7 +103,10 @@ export default function useReceiveMessageState(): [
 
           setReceivedMessageState(
             (currentState) =>
-              new SocketListSuccess(mergePayloads(currentState, DATA)),
+              new SocketListSuccess([
+                ...currentState.mostRecentPayload,
+                ...DATA,
+              ]),
           );
         } else {
           //TODO: socket.on('error')
@@ -115,14 +117,6 @@ export default function useReceiveMessageState(): [
           );
         }
       }, 5000);
-    }
-
-    function mergePayloads(
-      currentState: SocketStatus,
-      newData: ExistingChatMessage[],
-    ): ChatMessageListItem[] {
-      currentState.mostRecentPayload.push(...newData);
-      return currentState.mostRecentPayload;
     }
   }
 
