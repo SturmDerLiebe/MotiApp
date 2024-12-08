@@ -2,8 +2,8 @@ import { ChatList } from "@/components/chat/ChatList";
 import { CHAT_STYLES } from "@/components/chat/ChatStyles";
 import { MessageType, NewChatMessage } from "@/data/DTO/ChatMessage";
 import useReceiveMessageState from "@/hooks/group/message/useReceiveMessages";
-import { TextInput, View } from "react-native";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { StyleSheet, TextInput, View } from "react-native";
 
 export default function GroupScreen() {
   const TEXT_INPUT_REF = useRef<TextInput>(null);
@@ -17,7 +17,7 @@ export default function GroupScreen() {
 
   useEffect(() => {
     startReceivingMessages();
-    return stopReceivingMessages();
+    return stopReceivingMessages;
   }, [startReceivingMessages, stopReceivingMessages]);
 
   const [message, setMessage] = useState("");
@@ -34,6 +34,7 @@ export default function GroupScreen() {
           TEXT_INPUT_REF.current?.clear();
         }}
         returnKeyType="send"
+        style={{ borderWidth: StyleSheet.hairlineWidth }}
       />
     </View>
   );
