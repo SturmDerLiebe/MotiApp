@@ -16,7 +16,7 @@ export interface RawExistingMessageData extends RawMessageData {
   content: string;
 }
 
-export function transformRawToUIMessage(
+export function transformRawToUIMessageList(
   rawMessageItems: RawExistingMessageData[],
 ): ExistingChatMessage[] {
   return rawMessageItems.map(
