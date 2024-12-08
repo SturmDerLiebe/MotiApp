@@ -5,12 +5,15 @@ import { CHAT_STYLES } from "./ChatStyles";
 import { MessageComponent } from "./MesssageComponent";
 import { FlashList } from "@shopify/flash-list";
 import { SocketStatus } from "@/utils/socket/status";
-import { ExistingChatMessage } from "@/data/DTO/ChatMessage";
+import { ExistingChatMessage, MessageType } from "@/data/DTO/ChatMessage";
+import { useEffect, useRef } from "react";
+  const FLASH_LIST_REF = useRef<FlashList<ChatMessageListItem>>(null);
 
 export function ChatList({ chatState }: { chatState: SocketStatus }) {
   return (
     <FlashList
       data={chatState.mostRecentPayload}
+      ref={FLASH_LIST_REF}
       renderItem={({ item, index }) => (
         <ChatItem
           item={item}
@@ -22,6 +25,10 @@ export function ChatList({ chatState }: { chatState: SocketStatus }) {
       }}
       estimatedItemSize={100}
       estimatedListSize={{ height: 592, width: 350 }}
+      initialScrollIndex={mostRecentPayload.length - 1}
+      onContentSizeChange={(_, height) =>
+        FLASH_LIST_REF.current?.scrollToOffset({ offset: height })
+      }
       getItemType={(item) => {
         return typeof item === "string" ? 100 : item.type;
       }}
