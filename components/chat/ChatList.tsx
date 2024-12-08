@@ -22,6 +22,9 @@ export function ChatList({ chatState }: { chatState: SocketStatus }) {
       }}
       estimatedItemSize={100}
       estimatedListSize={{ height: 592, width: 350 }}
+      getItemType={(item) => {
+        return typeof item === "string" ? 100 : item.type;
+      }}
     />
   );
 }
