@@ -1,24 +1,26 @@
 import { Fonts } from "@/constants/Fonts";
+import { ExistingChatMessage } from "@/data/DTO/ChatMessage";
 import { ChatMessageListItem } from "@/hooks/group/message/useReceiveMessages";
+import { SocketStatus } from "@/utils/socket/status";
+import { FlashList } from "@shopify/flash-list";
+import { useRef } from "react";
 import { Text, View } from "react-native";
 import { CHAT_STYLES } from "./ChatStyles";
 import { MessageComponent } from "./MesssageComponent";
-import { FlashList } from "@shopify/flash-list";
-import { SocketStatus } from "@/utils/socket/status";
-import { ExistingChatMessage, MessageType } from "@/data/DTO/ChatMessage";
-import { useEffect, useRef } from "react";
+
+export function ChatList({
+  chatState: { mostRecentPayload },
+}: {
+  chatState: SocketStatus;
+}) {
   const FLASH_LIST_REF = useRef<FlashList<ChatMessageListItem>>(null);
 
-export function ChatList({ chatState }: { chatState: SocketStatus }) {
   return (
     <FlashList
-      data={chatState.mostRecentPayload}
       ref={FLASH_LIST_REF}
+      data={mostRecentPayload}
       renderItem={({ item, index }) => (
-        <ChatItem
-          item={item}
-          previousItem={chatState.mostRecentPayload[index - 1]}
-        />
+        <ChatItem item={item} previousItem={mostRecentPayload[index - 1]} />
       )}
       ItemSeparatorComponent={function () {
         return <View style={CHAT_STYLES.divider} />;
