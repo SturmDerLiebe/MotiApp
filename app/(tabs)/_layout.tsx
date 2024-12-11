@@ -7,6 +7,9 @@ import * as NavigationBar from "expo-navigation-bar";
 import { Tabs } from "expo-router";
 import { Text } from "react-native";
 
+/** This type is to be used for components relying on the `name` of all our `Tabs.Screen`-elements of the main tab navigation */
+export type TabName = "index" | "group" | "profile" | "camera";
+
 // TODO: Read from UserInfo response instead
 const USER_DATA = { groupName: "Avengers" };
 const HEADER_TINT_COLOR = Colors.white;
@@ -74,6 +77,8 @@ export default function TabLayout() {
           tabBarLabel: "My Profile",
         }}
       />
+
+      <Tabs.Screen name="camera" />
     </Tabs>
   );
 }
