@@ -36,6 +36,12 @@
           "configureAndroidBackup": true,
           "faceIDPermission": "We encrypt all your sensitive data. In order to do this, please allow $(PRODUCT_NAME) to access your Face ID biometric data."
         }
+      ],
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Allow $(PRODUCT_NAME) to use your device's camera"
+        }
       ]
     ],
     "experiments": {
