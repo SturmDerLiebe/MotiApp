@@ -1,13 +1,18 @@
+import { TabName } from "@/app/(tabs)/_layout";
 import { Colors } from "@/constants/Colors";
 import { Fonts } from "@/constants/Fonts";
 import { Icon, Icons } from "@/constants/Icons";
-import { ParamListBase, TabNavigationState } from "@react-navigation/native";
+import {
+  NavigationRoute,
+  ParamListBase,
+  TabNavigationState,
+} from "@react-navigation/native";
 import { Image } from "expo-image";
 import { PropsWithChildren } from "react";
 import { Pressable, Text, View } from "react-native";
 import { TabBarStyles } from "./Styles";
-
-type TabName = "index" | "group" | "profile";
+import { router } from "expo-router";
+import { navigate } from "expo-router/build/global-state/routing";
 
 /**
  * Mostly copied from [React Native Navigation Docs](https://reactnavigation.org/docs/bottom-tab-navigator/#tabbar)
@@ -24,15 +29,24 @@ export function MainTabBar({
   descriptors: any;
   navigation: any;
 }) {
-  const INDEX_OF_GROUP_TAB = state.routes.findIndex(
+  function getTabName(route: NavigationRoute<ParamListBase, string>): TabName {
     // NOTE: We can assume the only options of `route.name` to be of `TabName`
-    (route) => (route.name as TabName) === "group",
-  );
-  const IS_GROUP_FOCUSED = state.index === INDEX_OF_GROUP_TAB;
+    return route.name as TabName;
+  }
 
-  return (
+  function findIndexOfTab(
+    state: TabNavigationState<ParamListBase>,
+    tabName: TabName,
+  ): number {
+    return state.routes.findIndex((route) => getTabName(route) === tabName);
+  }
+
+  const IS_CAMERA_FOCUSED = state.index === findIndexOfTab(state, "camera");
+  const IS_GROUP_FOCUSED = state.index === findIndexOfTab(state, "group");
+
+  return IS_CAMERA_FOCUSED ? null : (
     <TabBarWrapper isGroupFocused={IS_GROUP_FOCUSED}>
-      {state.routes.map((route: any, index: number) => {
+      {state.routes.map((route, index) => {
         const {
           options: {
             tabBarActiveTintColor,
@@ -43,11 +57,12 @@ export function MainTabBar({
         } = descriptors[route.key];
 
         const IS_TAB_FOCUSED = state.index === index;
+        const IS_CAMERA = findIndexOfTab(state, "camera") === index;
         const BUTTON_COLOR =
           (IS_TAB_FOCUSED ? tabBarActiveTintColor : tabBarInactiveTintColor) ??
           Colors.blue.grey;
 
-        return (
+        return IS_CAMERA ? null : (
           <TabBarPressable
             // NOTE: Label is not of type ReactNode as of now, therefore we can typecast to string:
             label={tabBarLabel as string}
@@ -72,10 +87,15 @@ export function MainTabBar({
           if (event.defaultPrevented) {
             return;
           }
+
           if (!IS_TAB_FOCUSED) {
             navigation.navigate(route.name, route.params);
-          } else {
-            // TODO: Navigate to Camera
+            return;
+          }
+
+          if (IS_GROUP_FOCUSED) {
+            navigation.navigate("camera");
+            return;
           }
         }
 
