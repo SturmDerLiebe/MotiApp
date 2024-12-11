@@ -1,11 +1,11 @@
 import { Colors } from "@/constants/Colors";
+import { Fonts } from "@/constants/Fonts";
+import { Icon, Icons } from "@/constants/Icons";
 import { ParamListBase, TabNavigationState } from "@react-navigation/native";
+import { Image } from "expo-image";
 import { PropsWithChildren } from "react";
 import { Pressable, Text, View } from "react-native";
 import { TabBarStyles } from "./Styles";
-import { Image } from "expo-image";
-import { Fonts } from "@/constants/Fonts";
-import { Icon, Icons } from "@/constants/Icons";
 
 type TabName = "index" | "group" | "profile";
 
@@ -14,11 +14,16 @@ type TabName = "index" | "group" | "profile";
  *
  * **Important**: Make sure to that `tabBarLabel` is of type `string`
  */
-export function MainTabBar(props: any) {
+export function MainTabBar({
+  state,
+  descriptors,
+  navigation,
+}: {
+  state: TabNavigationState<ParamListBase>;
   // NOTE: TS types of external BottomTabBarProps are not exported properly which justifies the use of `any` here
-  const state: TabNavigationState<ParamListBase> = props.state;
-  const { descriptors, navigation } = props;
-
+  descriptors: any;
+  navigation: any;
+}) {
   const INDEX_OF_GROUP_TAB = state.routes.findIndex(
     // NOTE: We can assume the only options of `route.name` to be of `TabName`
     (route) => (route.name as TabName) === "group",
@@ -64,8 +69,13 @@ export function MainTabBar(props: any) {
             canPreventDefault: true,
           });
 
-          if (!IS_TAB_FOCUSED && !event.defaultPrevented) {
+          if (event.defaultPrevented) {
+            return;
+          }
+          if (!IS_TAB_FOCUSED) {
             navigation.navigate(route.name, route.params);
+          } else {
+            // TODO: Navigate to Camera
           }
         }
 
