@@ -9,6 +9,8 @@ import { Text } from "react-native";
 
 // TODO: Read from UserInfo response instead
 const USER_DATA = { groupName: "Avengers" };
+const HEADER_TINT_COLOR = Colors.white;
+const HEADER_BORDER_RADIUS = 20;
 
 export default function TabLayout() {
   NavigationBar.setBackgroundColorAsync(TabBarStyles.backgroundColor);
@@ -32,7 +34,39 @@ export default function TabLayout() {
         }}
       />
 
-      <GroupTab groupName={USER_DATA.groupName} />
+      <Tabs.Screen
+        name="group"
+        options={{
+          href: {
+            pathname: "/(tabs)/group",
+            params: { group: USER_DATA.groupName },
+          },
+
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: Colors.eggplant.dark,
+          },
+          headerBackgroundContainerStyle: {
+            borderEndStartRadius: HEADER_BORDER_RADIUS,
+            borderEndEndRadius: HEADER_BORDER_RADIUS,
+          },
+
+          headerTintColor: HEADER_TINT_COLOR,
+
+          headerTitle: ({ tintColor }) => (
+            <Text style={[{ color: tintColor }, Fonts.title.h6]}>
+              {USER_DATA.groupName}
+            </Text>
+          ),
+          headerTitleAlign: "left",
+
+          headerRight: ({ tintColor = HEADER_TINT_COLOR }) => (
+            <BurgerMenuButton tintColor={tintColor} />
+          ),
+
+          tabBarLabel: "My Group",
+        }}
+      />
 
       <Tabs.Screen
         name="profile"
@@ -41,46 +75,5 @@ export default function TabLayout() {
         }}
       />
     </Tabs>
-  );
-}
-
-function GroupTab({ groupName }: { groupName: string }) {
-  const HEADER_TINT_COLOR = Colors.white;
-  const HEADER_BORDER_RADIUS = 20;
-
-  return (
-    <Tabs.Screen
-      name="group"
-      options={{
-        href: {
-          pathname: "/(tabs)/group",
-          params: { group: groupName },
-        },
-
-        headerShown: true,
-        headerStyle: {
-          backgroundColor: Colors.eggplant.dark,
-        },
-        headerBackgroundContainerStyle: {
-          borderEndStartRadius: HEADER_BORDER_RADIUS,
-          borderEndEndRadius: HEADER_BORDER_RADIUS,
-        },
-
-        headerTintColor: HEADER_TINT_COLOR,
-
-        headerTitle: ({ tintColor }) => (
-          <Text style={[{ color: tintColor }, Fonts.title.h6]}>
-            {groupName}
-          </Text>
-        ),
-        headerTitleAlign: "left",
-
-        headerRight: ({ tintColor = HEADER_TINT_COLOR }) => (
-          <BurgerMenuButton tintColor={tintColor} />
-        ),
-
-        tabBarLabel: "My Group",
-      }}
-    />
   );
 }
