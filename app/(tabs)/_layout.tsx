@@ -7,9 +7,6 @@ import * as NavigationBar from "expo-navigation-bar";
 import { Tabs } from "expo-router";
 import { Text } from "react-native";
 
-const HEADER_TINT_COLOR = Colors.white;
-const HEADER_BORDER_RADIUS = 20;
-
 // TODO: Read from UserInfo response instead
 const USER_DATA = { groupName: "Avengers" };
 
@@ -48,6 +45,9 @@ export default function TabLayout() {
 }
 
 function GroupTab({ groupName }: { groupName: string }) {
+  const HEADER_TINT_COLOR = Colors.white;
+  const HEADER_BORDER_RADIUS = 20;
+
   return (
     <Tabs.Screen
       name="group"
