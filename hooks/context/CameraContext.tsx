@@ -5,13 +5,20 @@ import React, {
     useReducer,
 } from "react";
 
+/**
+ * Actions to dispatch certain changes of the camera related dispatchCameraState
+ */
 type CameraAction =
-    | { type: "ResetImageUri" }
+    | { type: "ConsumeImageUri" }
     | { type: "SetImageUri"; imageUri: string }
     | { type: "EnableCamera" }
+    | { type: "ResetCamera" }
     | { type: "DisableCamera" }
     | { type: "DisableCamera" };
 
+/**
+ * Interface for state containing the URI of the just taken picture and if the camera should currently be active.
+ */
 interface CameraState {
     imageUri: string | null;
     cameraIsActive: boolean;
@@ -55,14 +62,13 @@ function reducer(state: CameraState, action: CameraAction): CameraState {
         case "SetImageUri": {
             return { ...state, imageUri: action.imageUri };
         }
-        case "ResetImageUri": {
-            return { ...state, imageUri: null };
-        }
-        case "EnableCamera": {
-            return { ...state, cameraIsActive: true };
-        }
+        case "ConsumeImageUri":
         case "DisableCamera": {
-            return { ...state, cameraIsActive: false };
+            return { imageUri: null, cameraIsActive: false };
+        }
+        case "ResetCamera":
+        case "EnableCamera": {
+            return { imageUri: null, cameraIsActive: true };
         }
     }
 }
