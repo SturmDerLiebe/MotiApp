@@ -24,4 +24,5 @@ export const Colors = {
         light: "#F9E0C9",
         dark: "#EA974C",
     },
+    graphicSpecific: { orange: "#F89238" },
 };
