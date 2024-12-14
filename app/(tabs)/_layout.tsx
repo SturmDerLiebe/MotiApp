@@ -82,7 +82,14 @@ export default function TabLayout() {
                     }}
                 />
 
-                <Tabs.Screen name="camera" />
+                <Tabs.Screen
+                    name="camera"
+                    options={{
+                        sceneStyle: {
+                            backgroundColor: Colors.black,
+                        },
+                    }}
+                />
             </Tabs>
         </CameraProvider>
     );
