@@ -2,84 +2,84 @@
  * Interfaces extending {@link RawMessageData} represent a raw chat message data item in a Request from or Response to the API.
  */
 export interface RawMessageData {
-  timestamp: string;
-  content: string | Blob;
-  type: "TEXT" | "IMAGE";
+    timestamp: string;
+    content: string | Blob;
+    type: "TEXT" | "IMAGE";
 }
 
 /**
  * This interface describes the raw message data item from the API Response.
  */
 export interface RawExistingMessageData extends RawMessageData {
-  messageId: string;
-  author: string;
-  content: string;
+    messageId: string;
+    author: string;
+    content: string;
 }
 
 export function transformRawToUIMessageList(
-  rawMessageItems: RawExistingMessageData[],
+    rawMessageItems: RawExistingMessageData[],
 ): ExistingChatMessage[] {
-  return rawMessageItems.map(
-    (rawMessage) => new ExistingChatMessage(rawMessage),
-  );
+    return rawMessageItems.map(
+        (rawMessage) => new ExistingChatMessage(rawMessage),
+    );
 }
 
 // NOTE: OPTIMIZATION idea - Use .formatToParts() with only one formatter and pick the neccessary parts accordingly
 // NOTE: Using undefined for now until custom timezone is specified
 const DATE_FORMATTER = Intl.DateTimeFormat(undefined, {
-  year: "numeric",
-  month: "numeric",
-  day: "numeric",
+    year: "numeric",
+    month: "numeric",
+    day: "numeric",
 });
 
 const TIME_FORMATTER = Intl.DateTimeFormat(undefined, {
-  hour: "2-digit",
-  minute: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
 });
 
 export enum MessageType {
-  TEXT,
-  IMAGE,
+    TEXT,
+    IMAGE,
 }
 
 /**
  * Classes inheriting {@link ChatMessage} contain the data used for displaying a chat message
  */
 export abstract class ChatMessage {
-  time: string;
-  date: string;
+    time: string;
+    date: string;
 
-  constructor(
-    instant: Date,
-    /**
-     * Text or remote/local Image Uri
-     */
-    public content: string,
-    public type: MessageType,
-  ) {
-    const INSTANT = instant;
-    this.date = DATE_FORMATTER.format(INSTANT);
-    this.time = TIME_FORMATTER.format(INSTANT);
-  }
+    constructor(
+        instant: Date,
+        /**
+         * Text or remote/local Image Uri
+         */
+        public content: string,
+        public type: MessageType,
+    ) {
+        const INSTANT = instant;
+        this.date = DATE_FORMATTER.format(INSTANT);
+        this.time = TIME_FORMATTER.format(INSTANT);
+    }
 }
 
 export class ExistingChatMessage extends ChatMessage {
-  public messageId: string;
-  public author: string;
+    public messageId: string;
+    public author: string;
 
-  constructor(rawMessage: RawExistingMessageData) {
-    super(
-      new Date(rawMessage.timestamp),
-      rawMessage.content,
-      MessageType[rawMessage.type],
-    );
-    this.messageId = rawMessage.messageId;
-    this.author = rawMessage.author;
-  }
+    constructor(rawMessage: RawExistingMessageData) {
+        super(
+            new Date(rawMessage.timestamp),
+            rawMessage.content,
+            MessageType[rawMessage.type],
+        );
+        this.messageId = rawMessage.messageId;
+        this.author = rawMessage.author;
+    }
 }
 
 export class NewChatMessage extends ChatMessage {
-  constructor(content: string, type: MessageType) {
-    super(new Date(), content, type);
-  }
+    constructor(content: string, type: MessageType) {
+        super(new Date(), content, type);
+    }
 }
