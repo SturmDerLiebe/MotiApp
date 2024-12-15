@@ -62,8 +62,10 @@ function reducer(state: CameraState, action: CameraAction): CameraState {
         case "SetImageUri": {
             return { ...state, imageUri: action.imageUri };
         }
-        case "ConsumeImageUri":
         case "DisableCamera": {
+            return { ...state, cameraIsActive: false };
+        }
+        case "ConsumeImageUri": {
             return { imageUri: null, cameraIsActive: false };
         }
         case "ResetCamera":
