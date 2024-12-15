@@ -5,6 +5,7 @@ export interface RawMessageData {
     timestamp: string;
     content: string | Blob;
     type: "TEXT" | "IMAGE";
+    isMotiMateMessage: boolean;
 }
 
 /**
@@ -14,6 +15,7 @@ export interface RawExistingMessageData extends RawMessageData {
     messageId: string;
     author: string;
     content: string;
+    clapCount: number;
 }
 
 export function transformRawToUIMessageList(
@@ -56,30 +58,49 @@ export abstract class ChatMessage {
          */
         public content: string,
         public type: MessageType,
+        public isMotiMateMessage: boolean,
     ) {
-        const INSTANT = instant;
-        this.date = DATE_FORMATTER.format(INSTANT);
-        this.time = TIME_FORMATTER.format(INSTANT);
+        this.date = DATE_FORMATTER.format(instant);
+        this.time = TIME_FORMATTER.format(instant);
     }
 }
 
 export class ExistingChatMessage extends ChatMessage {
     public messageId: string;
     public author: string;
+    public clapCount: number;
 
     constructor(rawMessage: RawExistingMessageData) {
         super(
             new Date(rawMessage.timestamp),
             rawMessage.content,
             MessageType[rawMessage.type],
+            rawMessage.isMotiMateMessage,
         );
         this.messageId = rawMessage.messageId;
         this.author = rawMessage.author;
+        this.clapCount = rawMessage.clapCount;
     }
 }
 
 export class NewChatMessage extends ChatMessage {
-    constructor(content: string, type: MessageType) {
-        super(new Date(), content, type);
+    private timestamp: string; //NOTE: Will be needed when sending New Message to the Server for ease of use in the BE
+
+    constructor(
+        content: string,
+        type: MessageType,
+        isMotiMateMessage: boolean,
+    ) {
+        const INSTANT = new Date();
+        super(INSTANT, content, type, isMotiMateMessage);
+        this.timestamp = INSTANT.toISOString();
+    }
+
+    transformToRawChatMessage(): RawMessageData {
+        return {
+            ...this,
+            timestamp: this.timestamp,
+            type: MessageType[this.type],
+        };
     }
 }
