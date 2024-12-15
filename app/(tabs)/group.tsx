@@ -1,30 +1,26 @@
 import { ChatList } from "@/components/chat/ChatList";
 import { CHAT_STYLES } from "@/components/chat/ChatStyles";
 import { MessageType, NewChatMessage } from "@/data/DTO/ChatMessage";
-import useReceiveMessageState from "@/hooks/group/message/useReceiveMessages";
+import useMessagingState from "@/hooks/group/message/useMessaging";
 import { useEffect, useRef, useState } from "react";
 import { StyleSheet, TextInput, View } from "react-native";
 
 export default function GroupScreen() {
     const TEXT_INPUT_REF = useRef<TextInput>(null);
 
-    const [
-        socketState,
-        startReceivingMessages,
-        stopReceivingMessages,
-        sendNewMessage,
-    ] = useReceiveMessageState();
+    const { messagingState, startMessaging, cancelMessaging, sendNewMessage } =
+        useMessagingState();
 
     useEffect(() => {
-        startReceivingMessages();
-        return stopReceivingMessages;
-    }, [startReceivingMessages, stopReceivingMessages]);
+        startMessaging();
+        return cancelMessaging;
+    }, [startMessaging, cancelMessaging]);
 
     const [message, setMessage] = useState("");
 
     return (
         <View style={CHAT_STYLES.screenContainer}>
-            <ChatList chatState={socketState} />
+            <ChatList chatState={messagingState} />
             <TextInput
                 ref={TEXT_INPUT_REF}
                 defaultValue={message}
