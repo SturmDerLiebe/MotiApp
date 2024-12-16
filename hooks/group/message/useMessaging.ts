@@ -1,19 +1,24 @@
 import {
     ChatMessage,
+    MessageType,
     NewChatMessage,
     RawExistingMessageData,
 } from "@/data/DTO/ChatMessage";
 import GroupRepository from "@/data/repository/GroupRepository";
 import { Logger } from "@/utils/Logging/Logger";
 import { SocketInitialLoading, SocketStatus } from "@/utils/socket/status";
-import { useCallback, useReducer, useRef } from "react";
+import { useCallback, useEffect, useReducer, useRef } from "react";
 import messagingReducer, { MessagingAction } from "./messagingReducer";
+import {
+    useCameraContext,
+    useCameraDispatchContext,
+} from "@/hooks/context/CameraContext";
 
 export type ChatMessageListItem = ChatMessage | string;
 
 const TAG = "USE_RECEIVE_MESSAGES";
 
-export default function useMessagingState(): {
+export default function useMessaging(): {
     messagingState: SocketStatus;
     startMessaging: () => void;
     cancelMessaging: () => void;
@@ -23,6 +28,8 @@ export default function useMessagingState(): {
         messagingReducer,
         new SocketInitialLoading(),
     );
+
+    useNewProgressEffect(dispatchMessaging);
 
     const INTERVAL_REF = useRef<NodeJS.Timeout>();
 
@@ -48,6 +55,27 @@ export default function useMessagingState(): {
             });
         },
     };
+}
+
+function useNewProgressEffect(
+    dispatchMessaging: React.Dispatch<MessagingAction>,
+) {
+    const cameraState = useCameraContext();
+    const dispatchCameraAction = useCameraDispatchContext();
+
+    useEffect(() => {
+        if (cameraState.imageUri !== null) {
+            dispatchMessaging({
+                type: "SendNewMessage",
+                newPayload: new NewChatMessage(
+                    cameraState.imageUri,
+                    MessageType.IMAGE,
+                    true,
+                ),
+            });
+            dispatchCameraAction({ type: "ConsumeImageUri" });
+        }
+    }, [cameraState, dispatchCameraAction, dispatchMessaging]);
 }
 
 async function startSocketConnection({
