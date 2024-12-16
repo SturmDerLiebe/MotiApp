@@ -17,7 +17,7 @@ export function ClapReactionButton({
         <Pressable
             onPress={function () {
                 setCount((current) =>
-                    !hasAnyReactions(current) ? current + 1 : current - 1,
+                    count === initialCount ? current + 1 : current - 1,
                 );
             }}
             style={{ flexDirection: "row", alignItems: "center" }}

@@ -42,13 +42,7 @@ export function MessageComponent({
     }
 
     return (
-        <ChatItemWrapper
-            showAuthor={shouldShowAuthor()}
-            clapCount={
-                1
-                // TODO: should be item.clapCount
-            }
-        >
+        <ChatItemWrapper showAuthor={shouldShowAuthor()} item={item}>
             {determineComponentMatchingMessageType(item)}
         </ChatItemWrapper>
     );
@@ -56,11 +50,11 @@ export function MessageComponent({
 
 export function ChatItemWrapper({
     showAuthor,
-    clapCount = 0,
+    item,
     children,
 }: PropsWithChildren<{
     showAuthor: boolean;
-    clapCount: number;
+    item: ChatMessage;
 }>) {
     return (
         <View style={CHAT_STYLES.messageContainer}>
@@ -70,9 +64,11 @@ export function ChatItemWrapper({
 
             {children}
 
-            <View style={CHAT_STYLES.clapReactionContainer}>
-                <ClapReactionButton initialCount={0} />
-            </View>
+            {item instanceof ExistingChatMessage && item.isMotiMateMessage ? (
+                <View style={CHAT_STYLES.clapReactionContainer}>
+                    <ClapReactionButton initialCount={item.clapCount} />
+                </View>
+            ) : null}
         </View>
     );
 }
