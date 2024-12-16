@@ -8,7 +8,7 @@ import React, {
 /**
  * Actions to dispatch certain changes of the camera related dispatchCameraState
  */
-type CameraAction =
+export type CameraAction =
     | { type: "ConsumeImageUri" }
     | { type: "SetImageUri"; imageUri: string }
     | { type: "EnableCamera" }
