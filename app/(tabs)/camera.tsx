@@ -1,5 +1,6 @@
 import { Colors } from "@/constants/Colors";
 import {
+    CameraAction,
     useCameraContext,
     useCameraDispatchContext,
 } from "@/hooks/context/CameraContext";
@@ -15,6 +16,20 @@ export default function CameraScreen() {
 
     const { imageUri } = useCameraContext();
     const dispatchCameraState = useCameraDispatchContext();
+
+    useEffect(
+        function handleBackNavigation() {
+            const EVENT_SUBSCRIPTION = BackHandler.addEventListener(
+                "hardwareBackPress",
+                () => {
+                    navigateBackFromCamera(dispatchCameraState);
+                    return true;
+                },
+            );
+            return () => EVENT_SUBSCRIPTION.remove();
+        },
+        [dispatchCameraState],
+    );
 
     return (
         <View
@@ -38,23 +53,7 @@ export default function CameraScreen() {
                 <ConditionalPicturePreview />
             </View>
 
-            <View
-                style={{ flexDirection: "row", justifyContent: "space-evenly" }}
-            >
-                <Button
-                    title="Redo"
-                    onPress={() => {
-                        dispatchCameraState({ type: "ResetCamera" });
-                    }}
-                />
-                <Button
-                    title="Post"
-                    onPress={() => {
-                        dispatchCameraState({ type: "DisableCamera" });
-                        router.navigate("/(tabs)/group");
-                    }}
-                />
-            </View>
+            <ConditionalButtonRow />
         </View>
     );
 }
@@ -64,21 +63,6 @@ function CameraComponent() {
 
     const { cameraIsActive } = useCameraContext();
     const dispatchCameraState = useCameraDispatchContext();
-
-    useEffect(
-        function handleBackNavigation() {
-            const EVENT_SUBSCRIPTION = BackHandler.addEventListener(
-                "hardwareBackPress",
-                () => {
-                    dispatchCameraState({ type: "DisableCamera" });
-                    router.navigate("/(tabs)/group");
-                    return true;
-                },
-            );
-            return () => EVENT_SUBSCRIPTION.remove();
-        },
-        [dispatchCameraState],
-    );
 
     useEffect(
         function handleCameraState() {
@@ -133,7 +117,7 @@ function CameraComponent() {
 
                     dispatchCameraState({
                         type: "SetImageUri",
-                        imageUri: PICTURE?.uri,
+                        imageUri: PICTURE.uri,
                     });
                 }}
             ></Pressable>
@@ -157,4 +141,40 @@ function ConditionalPicturePreview() {
             }}
         />
     ) : null;
+}
+
+function ConditionalButtonRow() {
+    const { imageUri } = useCameraContext();
+    const dispatchCameraState = useCameraDispatchContext();
+
+    return imageUri === null ? (
+        <Button
+            title="Back"
+            onPress={() => {
+                navigateBackFromCamera(dispatchCameraState);
+            }}
+        />
+    ) : (
+        <View style={{ flexDirection: "row", justifyContent: "space-evenly" }}>
+            <Button
+                title="Redo"
+                onPress={() => {
+                    dispatchCameraState({ type: "ResetCamera" });
+                }}
+            />
+            <Button
+                title="Post"
+                onPress={() => {
+                    navigateBackFromCamera(dispatchCameraState);
+                }}
+            />
+        </View>
+    );
+}
+
+function navigateBackFromCamera(
+    dispatchCameraState: React.Dispatch<CameraAction>,
+) {
+    dispatchCameraState({ type: "DisableCamera" });
+    router.navigate("/(tabs)/group");
 }
