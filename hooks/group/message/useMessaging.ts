@@ -60,22 +60,22 @@ export default function useMessaging(): {
 function useNewProgressEffect(
     dispatchMessaging: React.Dispatch<MessagingAction>,
 ) {
-    const cameraState = useCameraContext();
+    const { cameraIsActive, imageUri } = useCameraContext();
     const dispatchCameraAction = useCameraDispatchContext();
 
     useEffect(() => {
-        if (cameraState.imageUri !== null) {
+        if (imageUri !== null && !cameraIsActive) {
             dispatchMessaging({
                 type: "SendNewMessage",
                 newPayload: new NewChatMessage(
-                    cameraState.imageUri,
+                    imageUri,
                     MessageType.IMAGE,
                     true,
                 ),
             });
             dispatchCameraAction({ type: "ConsumeImageUri" });
         }
-    }, [cameraState, dispatchCameraAction, dispatchMessaging]);
+    }, [cameraIsActive, imageUri, dispatchCameraAction, dispatchMessaging]);
 }
 
 async function startSocketConnection({
