@@ -129,17 +129,23 @@ function ConditionalPicturePreview() {
     const { imageUri } = useCameraContext();
 
     return imageUri !== null ? (
-        <Image
-            source={imageUri}
+        <View
             style={{
-                zIndex: 2,
+                zIndex: 1,
                 position: "absolute",
                 width: "100%",
                 height: "100%",
-                borderRadius: 12,
                 backgroundColor: Colors.graphicSpecific.orange,
             }}
-        />
+        >
+            <Image
+                source={imageUri}
+                style={{
+                    flex: 1,
+                    borderRadius: 12,
+                }}
+            />
+        </View>
     ) : null;
 }
 
