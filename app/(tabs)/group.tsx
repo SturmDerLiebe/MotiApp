@@ -1,7 +1,7 @@
 import { ChatList } from "@/components/chat/ChatList";
 import { CHAT_STYLES } from "@/components/chat/ChatStyles";
 import { MessageType, NewChatMessage } from "@/data/DTO/ChatMessage";
-import useMessagingState from "@/hooks/group/message/useMessaging";
+import useMessaging from "@/hooks/group/message/useMessaging";
 import { useEffect, useRef, useState } from "react";
 import { StyleSheet, TextInput, View } from "react-native";
 
@@ -9,7 +9,7 @@ export default function GroupScreen() {
     const TEXT_INPUT_REF = useRef<TextInput>(null);
 
     const { messagingState, startMessaging, cancelMessaging, sendNewMessage } =
-        useMessagingState();
+        useMessaging();
 
     useEffect(() => {
         startMessaging();
@@ -27,7 +27,7 @@ export default function GroupScreen() {
                 onChange={(event) => setMessage(event.nativeEvent.text)}
                 onSubmitEditing={function sendMessage() {
                     sendNewMessage(
-                        new NewChatMessage(message, MessageType.TEXT),
+                        new NewChatMessage(message, MessageType.TEXT, false),
                     );
                     TEXT_INPUT_REF.current?.clear();
                 }}
