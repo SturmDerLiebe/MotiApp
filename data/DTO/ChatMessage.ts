@@ -70,16 +70,24 @@ export class ExistingChatMessage extends ChatMessage {
     public author: string;
     public clapCount: number;
 
-    constructor(rawMessage: RawExistingMessageData) {
+    constructor({
+        timestamp,
+        content,
+        type,
+        isMotiMateMessage,
+        messageId,
+        author,
+        clapCount,
+    }: RawExistingMessageData) {
         super(
-            new Date(rawMessage.timestamp),
-            rawMessage.content,
-            MessageType[rawMessage.type],
-            rawMessage.isMotiMateMessage,
+            new Date(timestamp),
+            content,
+            MessageType[type],
+            isMotiMateMessage,
         );
-        this.messageId = rawMessage.messageId;
-        this.author = rawMessage.author;
-        this.clapCount = rawMessage.clapCount;
+        this.messageId = messageId;
+        this.author = author;
+        this.clapCount = clapCount;
     }
 }
 
