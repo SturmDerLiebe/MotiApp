@@ -58,7 +58,10 @@ export function ChatItemWrapper({
 }>) {
     return (
         <View style={CHAT_STYLES.messageContainer}>
-            <AvatarIcon showAuthor={showAuthor} />
+            <AvatarIcon
+                showAuthor={showAuthor}
+                isMotiMateMessage={item.isMotiMateMessage}
+            />
 
             <View style={{ width: "2.5%" }} />
 
@@ -121,10 +124,17 @@ function Author(props: { shouldShowAuthor: boolean; author: string }) {
     ) : null;
 }
 
-function AvatarIcon(props: { showAuthor: boolean }) {
+function AvatarIcon(props: {
+    showAuthor: boolean;
+    isMotiMateMessage: boolean;
+}) {
     return props.showAuthor ? (
         <Image
-            tintColor={Colors.orange.dark}
+            tintColor={
+                props.isMotiMateMessage
+                    ? Colors.eggplant.dark
+                    : Colors.orange.dark
+            }
             source="https://placehold.co/30"
             style={CHAT_STYLES.avatar}
         />
