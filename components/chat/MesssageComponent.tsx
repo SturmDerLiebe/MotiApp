@@ -20,8 +20,9 @@ export function MessageComponent({
 }) {
     function shouldShowAuthor() {
         return (
-            item instanceof ExistingChatMessage &&
-            previousAuthor !== item.author
+            item.isMotiMateMessage ||
+            (item instanceof ExistingChatMessage &&
+                previousAuthor !== item.author)
         );
     }
 
