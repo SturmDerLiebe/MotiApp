@@ -1,5 +1,5 @@
 import { buildBaseHeaders, bulildRequest } from "@/utils/RequestHelpers";
-import { RawExistingMessageData } from "../DTO/ChatMessage";
+import { RawMessageData } from "../DTO/ChatMessage";
 
 class GroupRepository {
     /**
@@ -35,12 +35,12 @@ class GroupRepository {
     /**
      * @throws any `fetch()` related error
      */
-    async sendMessage(dto: RawExistingMessageData) {
+    async sendMessage(dto: RawMessageData) {
         return fetch(
             bulildRequest(
                 `group/message`,
                 "POST",
-                `message=${encodeURIComponent(dto.content)}`,
+                `message=${encodeURIComponent(dto.content.toString())}`,
                 await buildBaseHeaders(),
                 dto,
             ),
