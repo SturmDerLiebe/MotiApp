@@ -9,6 +9,7 @@ import {
     ChatMessage,
     ExistingChatMessage,
     MessageType,
+    NewChatMessage,
 } from "@/data/DTO/ChatMessage";
 
 export function MessageComponent({
@@ -58,9 +59,15 @@ export function ChatItemWrapper({
     item: ChatMessage;
 }>) {
     return (
-        <View style={CHAT_STYLES.messageContainer}>
+        <View
+            style={
+                !isOwnMessage()
+                    ? CHAT_STYLES.messageContainer
+                    : { flexDirection: "row-reverse" }
+            }
+        >
             <AvatarIcon
-                showAuthor={showAuthor}
+                showAvatar={showAuthor || item instanceof NewChatMessage}
                 isMotiMateMessage={item.isMotiMateMessage}
             />
 
@@ -75,6 +82,10 @@ export function ChatItemWrapper({
             ) : null}
         </View>
     );
+
+    function isOwnMessage() {
+        return item instanceof NewChatMessage && !item.isMotiMateMessage;
+    }
 }
 
 function ImageMessageComponent({
@@ -143,10 +154,10 @@ function Author(props: { shouldShowAuthor: boolean; author: string }) {
 }
 
 function AvatarIcon(props: {
-    showAuthor: boolean;
+    showAvatar: boolean;
     isMotiMateMessage: boolean;
 }) {
-    return props.showAuthor ? (
+    return props.showAvatar ? (
         <Image
             tintColor={
                 props.isMotiMateMessage
