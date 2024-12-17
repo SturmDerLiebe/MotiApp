@@ -2,26 +2,20 @@ import { SingleCircularProgress } from "@/components/progress/circular/SingleCir
 import { Colors } from "@/constants/Colors";
 import { Fonts } from "@/constants/Fonts";
 import { BODY_STYLES } from "@/constants/styles/Body";
-import useUserInfoState from "@/hooks/profile/useUserInfoState";
+import { useUserInfoContext } from "@/hooks/context/UserInfoContext";
 import { UserInfoSuccess } from "@/utils/RequestStatus";
-import { useEffect } from "react";
 import { Text, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function IndexScreen() {
-    const [USER_INFO_STATE, START_USER_INFO_REQUEST] = useUserInfoState();
-    //TODO: Use useFocusEffect() instead
-    useEffect(() => {
-        START_USER_INFO_REQUEST();
-    }, [START_USER_INFO_REQUEST]);
+    const userInfoState = useUserInfoContext();
 
-    return USER_INFO_STATE instanceof UserInfoSuccess ? (
-        <SafeAreaView style={[BODY_STYLES.dashboard]}>
+    return userInfoState instanceof UserInfoSuccess ? (
+        <View style={[BODY_STYLES.dashboard]}>
             <View style={{ height: "1%" }} />
 
             <Text
                 style={[{ color: Colors.blue.grey }, Fonts.title.h6]}
-            >{`Hi, ${USER_INFO_STATE.username ?? "You"}!`}</Text>
+            >{`Hi, ${userInfoState.username ?? "You"}!`}</Text>
             <View>
                 <Text style={[Fonts.paragraph.p2, { color: Colors.blue.grey }]}>
                     Your progress so far
@@ -43,7 +37,7 @@ export default function IndexScreen() {
                 ]}
             >
                 <SingleCircularProgress
-                    progress={USER_INFO_STATE.progress}
+                    progress={userInfoState.progress}
                     width={"100%"}
                 />
 
@@ -60,12 +54,12 @@ export default function IndexScreen() {
                     </Text>
                     <Text
                         style={[{ color: Colors.orange.dark }, Fonts.title.h5]}
-                    >{`${USER_INFO_STATE.personalProgress ?? 0}/${USER_INFO_STATE.personalGoal ?? 0}`}</Text>
+                    >{`${userInfoState.personalProgress ?? 0}/${userInfoState.personalGoal ?? 0}`}</Text>
                 </View>
             </View>
 
             <View style={{ height: "18%" }} />
-        </SafeAreaView>
+        </View>
     ) : (
         <Text>Loading</Text>
     );
