@@ -6,6 +6,7 @@ export const Colors = {
         dark1: "#D0D5DD",
         dark2: "#9EA8B3",
         dark3: "#737C8D",
+        dark3_80_Percent: `#737C8DCC`,
     },
     blue: {
         dark: "#1D3D5E",
