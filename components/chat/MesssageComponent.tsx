@@ -11,6 +11,7 @@ import {
     MessageType,
     NewChatMessage,
 } from "@/data/DTO/ChatMessage";
+import { SvgAssets } from "@/constants/SvgAssets";
 
 export function MessageComponent({
     item,
@@ -58,6 +59,10 @@ export function ChatItemWrapper({
     showAuthor: boolean;
     item: ChatMessage;
 }>) {
+    function isOwnMessage() {
+        return item instanceof NewChatMessage && !item.isMotiMateMessage;
+    }
+
     return (
         <View
             style={
@@ -70,8 +75,10 @@ export function ChatItemWrapper({
                 showAvatar={showAuthor || item instanceof NewChatMessage}
                 isMotiMateMessage={item.isMotiMateMessage}
             />
-
-            <View style={{ width: "2.5%" }} />
+            <ChatBubbleTipContainingSpacer
+                type={item.type}
+                isOwnMessage={isOwnMessage()}
+            />
 
             {children}
 
@@ -82,10 +89,49 @@ export function ChatItemWrapper({
             ) : null}
         </View>
     );
+}
 
-    function isOwnMessage() {
-        return item instanceof NewChatMessage && !item.isMotiMateMessage;
-    }
+function ChatBubbleTipContainingSpacer({
+    type,
+    isOwnMessage,
+}: {
+    type: MessageType;
+    isOwnMessage: boolean;
+}) {
+    /**
+     * Represents the direction the Tip of the Chat Bubble should point to.
+     * ```
+     * -1 == left
+     *  1 == right
+     * ```
+     */
+    const TIP_ALIGNMENT = isOwnMessage ? -1 : 1;
+    return (
+        <View
+            style={{
+                width: "2.5%",
+                justifyContent: "flex-end",
+                alignItems: isOwnMessage ? "flex-start" : "flex-end",
+            }}
+        >
+            {type === MessageType.TEXT ? (
+                <Image
+                    tintColor={CHAT_STYLES.bodyBase.backgroundColor}
+                    source={SvgAssets.ChatBubbleTipLeft}
+                    style={[
+                        CHAT_STYLES.chatBubbleTip,
+                        {
+                            transform: [
+                                { scaleX: TIP_ALIGNMENT },
+                                //NOTE: After scaleX is Mirrored via TIP_ALIGNMENT, translateX does not need to be inverted anymore!
+                                { translateX: 12 },
+                            ],
+                        },
+                    ]}
+                />
+            ) : null}
+        </View>
+    );
 }
 
 function ImageMessageComponent({

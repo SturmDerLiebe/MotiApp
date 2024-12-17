@@ -24,6 +24,10 @@ export const CHAT_STYLES = StyleSheet.create({
         paddingTop: 4,
         paddingStart: 12,
     },
+    chatBubbleTip: {
+        width: 16.5,
+        aspectRatio: 0.8,
+    },
     headerAndMainContainer: {
         paddingBottom: 8,
     },
