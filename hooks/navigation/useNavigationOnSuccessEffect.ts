@@ -6,12 +6,12 @@ import { useEffect } from "react";
  * Navigates to {@link route} **if and only if** {@link requestState} is `instanceof` {@link RequestSuccess}
  */
 export default function useNavigateOnSuccessEffect(
-  requestState: RequestStatus | null,
-  route: Href,
+    requestState: RequestStatus | null,
+    route: Href,
 ) {
-  useEffect(() => {
-    if (requestState instanceof RequestSuccess) {
-      router.navigate(route);
-    }
-  }, [requestState, route]);
+    useEffect(() => {
+        if (requestState instanceof RequestSuccess) {
+            router.navigate(route);
+        }
+    }, [requestState, route]);
 }

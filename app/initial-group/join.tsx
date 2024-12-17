@@ -12,78 +12,78 @@ import { router } from "expo-router";
 import { RequestSuccess, isFailedRequest } from "@/utils/RequestStatus";
 
 const styles = StyleSheet.create({
-  middleText: {
-    color: Colors.grey.dark3,
-    ...Fonts.paragraph.p6,
-  },
+    middleText: {
+        color: Colors.grey.dark3,
+        ...Fonts.paragraph.p6,
+    },
 });
 
 const INPUT_STYLES = StyleSheet.create({
-  slotInputBox: {
-    alignSelf: "center",
-    width: "90%",
-    height: "14.5%",
-    justifyContent: "space-between",
-  },
+    slotInputBox: {
+        alignSelf: "center",
+        width: "90%",
+        height: "14.5%",
+        justifyContent: "space-between",
+    },
 });
 
 export default function InviteScreen() {
-  useAndroidBackButtonInputHandling();
+    useAndroidBackButtonInputHandling();
 
-  const [JOIN_STATE, START_JOINING] = useGroupJoinState();
+    const [JOIN_STATE, START_JOINING] = useGroupJoinState();
 
-  const SLOT_AMOUNT = 5;
-  // useNavigateOnSuccessEffect(, "");
+    const SLOT_AMOUNT = 5;
+    // useNavigateOnSuccessEffect(, "");
 
-  return (
-    <View style={[BODY_STYLES.nonScrollable]}>
-      <Heading5>Join a Group Chat!</Heading5>
+    return (
+        <View style={[BODY_STYLES.nonScrollable]}>
+            <Heading5>Join a Group Chat!</Heading5>
 
-      <View style={INPUT_STYLES.slotInputBox}>
-        <Text style={styles.middleText}>Enter a 5 Digit Code</Text>
+            <View style={INPUT_STYLES.slotInputBox}>
+                <Text style={styles.middleText}>Enter a 5 Digit Code</Text>
 
-        <View style={{ justifyContent: "center" }}>
-          <SlotInputBackground
-            slotAmount={SLOT_AMOUNT}
-            columnGap={7}
-            successPredicate={successPredicate}
-            failurePredicate={failurePredicate}
-          />
-          <SlotInputField
-            keyboardType="numeric"
-            slotAmount={SLOT_AMOUNT}
-            width="102.5%"
-            height="80%"
-            letterSpacing={35}
-            fontStyle="medium"
-            onChange={function (text: string) {
-              if (text.length === SLOT_AMOUNT) {
-                START_JOINING(text);
-              }
-            }}
-            failurePredicate={failurePredicate}
-            alignSelf="center"
-          />
+                <View style={{ justifyContent: "center" }}>
+                    <SlotInputBackground
+                        slotAmount={SLOT_AMOUNT}
+                        columnGap={7}
+                        successPredicate={successPredicate}
+                        failurePredicate={failurePredicate}
+                    />
+                    <SlotInputField
+                        keyboardType="numeric"
+                        slotAmount={SLOT_AMOUNT}
+                        width="102.5%"
+                        height="80%"
+                        letterSpacing={35}
+                        fontStyle="medium"
+                        onChange={function (text: string) {
+                            if (text.length === SLOT_AMOUNT) {
+                                START_JOINING(text);
+                            }
+                        }}
+                        failurePredicate={failurePredicate}
+                        alignSelf="center"
+                    />
+                </View>
+            </View>
+
+            <View style={{ height: "50%" }} />
+
+            <PrimaryButton
+                title={"Start Your Journey"}
+                disabled={!successPredicate()}
+                onPress={() => {
+                    router.navigate("/(tabs)");
+                }}
+            />
         </View>
-      </View>
+    );
 
-      <View style={{ height: "50%" }} />
+    function successPredicate(): boolean {
+        return JOIN_STATE instanceof RequestSuccess;
+    }
 
-      <PrimaryButton
-        title={"Start Your Journey"}
-        disabled={!successPredicate()}
-        onPress={() => {
-          router.navigate("/(tabs)");
-        }}
-      />
-    </View>
-  );
-
-  function successPredicate(): boolean {
-    return JOIN_STATE instanceof RequestSuccess;
-  }
-
-  function failurePredicate() {
-    return isFailedRequest(JOIN_STATE);
-  }
+    function failurePredicate() {
+        return isFailedRequest(JOIN_STATE);
+    }
 }

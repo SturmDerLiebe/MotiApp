@@ -8,13 +8,13 @@ import { Keyboard, type TextInputProps } from "react-native";
  * This hook handles this by clearing all focus, so {@link TextInputProps}`.onEndEditing()` can fire properly
  */
 export default function useAndroidBackButtonInputHandling(): void {
-  useEffect(() => {
-    const KEYBOARD_CLOSE = Keyboard.addListener("keyboardDidHide", () => {
-      Keyboard.dismiss();
-    });
+    useEffect(() => {
+        const KEYBOARD_CLOSE = Keyboard.addListener("keyboardDidHide", () => {
+            Keyboard.dismiss();
+        });
 
-    return () => {
-      KEYBOARD_CLOSE.remove();
-    };
-  }, []);
+        return () => {
+            KEYBOARD_CLOSE.remove();
+        };
+    }, []);
 }

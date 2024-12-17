@@ -3,17 +3,17 @@ import { ChatMessageListItem } from "@/hooks/group/message/useReceiveMessages";
 
 //TODO: Performance Improvement Idea: Do this while mapping over RawMessageData[]
 export function spliceChatMessageListWithDates(
-  chatMessageList: ExistingChatMessage[],
+    chatMessageList: ExistingChatMessage[],
 ): ChatMessageListItem[] {
-  const RESULT_MAP = new Map<string, ChatMessage[]>();
+    const RESULT_MAP = new Map<string, ChatMessage[]>();
 
-  for (const ELEMENT of chatMessageList) {
-    if (RESULT_MAP.has(ELEMENT.date)) {
-      RESULT_MAP.get(ELEMENT.date)?.push(ELEMENT);
-    } else {
-      RESULT_MAP.set(ELEMENT.date, [ELEMENT]);
+    for (const ELEMENT of chatMessageList) {
+        if (RESULT_MAP.has(ELEMENT.date)) {
+            RESULT_MAP.get(ELEMENT.date)?.push(ELEMENT);
+        } else {
+            RESULT_MAP.set(ELEMENT.date, [ELEMENT]);
+        }
     }
-  }
 
-  return [...RESULT_MAP].flat(2);
+    return [...RESULT_MAP].flat(2);
 }

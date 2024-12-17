@@ -1,51 +1,51 @@
 {
-  "expo": {
-    "name": "MotiMate",
-    "slug": "MotiMate",
-    "version": "1.0.0",
-    "newArchEnabled": true,
-    "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
-    "scheme": "myapp",
-    "userInterfaceStyle": "automatic",
-    "backgroundColor": "#ffffff",
-    "splash": {
-      "image": "./assets/images/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
-    "ios": {
-      "supportsTablet": false,
-      "config": {
-        "usesNonExemptEncryption": false
-      }
-    },
-    "android": {
-      "softwareKeyboardLayoutMode": "pan",
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      }
-    },
-    "plugins": [
-      "expo-router",
-      "expo-font",
-      [
-        "expo-secure-store",
-        {
-          "configureAndroidBackup": true,
-          "faceIDPermission": "We encrypt all your sensitive data. In order to do this, please allow $(PRODUCT_NAME) to access your Face ID biometric data."
+    "expo": {
+        "name": "MotiMate",
+        "slug": "MotiMate",
+        "version": "1.0.0",
+        "newArchEnabled": true,
+        "orientation": "portrait",
+        "icon": "./assets/images/icon.png",
+        "scheme": "myapp",
+        "userInterfaceStyle": "automatic",
+        "backgroundColor": "#ffffff",
+        "splash": {
+            "image": "./assets/images/splash.png",
+            "resizeMode": "contain",
+            "backgroundColor": "#ffffff"
+        },
+        "ios": {
+            "supportsTablet": false,
+            "config": {
+                "usesNonExemptEncryption": false
+            }
+        },
+        "android": {
+            "softwareKeyboardLayoutMode": "pan",
+            "adaptiveIcon": {
+                "foregroundImage": "./assets/images/adaptive-icon.png",
+                "backgroundColor": "#ffffff"
+            }
+        },
+        "plugins": [
+            "expo-router",
+            "expo-font",
+            [
+                "expo-secure-store",
+                {
+                    "configureAndroidBackup": true,
+                    "faceIDPermission": "We encrypt all your sensitive data. In order to do this, please allow $(PRODUCT_NAME) to access your Face ID biometric data."
+                }
+            ],
+            [
+                "expo-camera",
+                {
+                    "cameraPermission": "Allow $(PRODUCT_NAME) to use your device's camera"
+                }
+            ]
+        ],
+        "experiments": {
+            "typedRoutes": true
         }
-      ],
-      [
-        "expo-camera",
-        {
-          "cameraPermission": "Allow $(PRODUCT_NAME) to use your device's camera"
-        }
-      ]
-    ],
-    "experiments": {
-      "typedRoutes": true
     }
-  }
 }
