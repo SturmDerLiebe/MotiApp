@@ -27,13 +27,6 @@ export const CHAT_STYLES = StyleSheet.create({
     headerAndMainContainer: {
         paddingBottom: 8,
     },
-    time: {
-        position: "absolute",
-        end: 8,
-        bottom: 4,
-
-        color: Colors.grey.dark3,
-    },
     clapReactionContainer: {
         width: "15%",
         justifyContent: "center",
@@ -57,4 +50,22 @@ export const CHAT_STYLES = StyleSheet.create({
         paddingHorizontal: 8,
     },
     divider: { height: 12 },
+});
+
+export const TIME_STYLES = StyleSheet.create({
+    timeGeneral: {
+        position: "absolute",
+        end: 8,
+        bottom: 4,
+    },
+    timeText: { color: Colors.grey.dark3, end: 8, bottom: 4 },
+    timeImage: {
+        color: Colors.white,
+        paddingHorizontal: 8,
+        end: 4,
+        bottom: 4,
+        paddingVertical: 2,
+        borderRadius: 100,
+        backgroundColor: Colors.grey.dark3_80_Percent,
+    },
 });

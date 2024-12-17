@@ -1,5 +1,5 @@
 import { PropsWithChildren } from "react";
-import { CHAT_STYLES } from "./ChatStyles";
+import { CHAT_STYLES, TIME_STYLES } from "./ChatStyles";
 import { Text, View } from "react-native";
 import { ClapReactionButton } from "../buttons/ClapReactionButton";
 import { Image } from "expo-image";
@@ -79,17 +79,20 @@ export function ChatItemWrapper({
 
 function ImageMessageComponent({
     imageUri,
-    time: string,
+    time,
 }: {
     imageUri: string;
     time: string;
 }) {
     return (
-        <Image
-            source={{ uri: imageUri }}
-            contentFit="cover"
-            style={CHAT_STYLES.image}
-        />
+        <View>
+            <Image
+                source={{ uri: imageUri }}
+                contentFit="cover"
+                style={CHAT_STYLES.image}
+            />
+            <TimeTag time={time} type={MessageType.IMAGE} />
+        </View>
     );
 }
 
@@ -112,10 +115,24 @@ function TextMessageComponent(props: {
                 <Text style={[Fonts.paragraph.p4]}>{props.text}</Text>
             </View>
 
-            <Text style={[Fonts.date.small, CHAT_STYLES.time]}>
-                {props.time}
-            </Text>
+            <TimeTag time={props.time} type={MessageType.TEXT} />
         </View>
+    );
+}
+
+function TimeTag({ time, type }: { time: string; type: MessageType }) {
+    return (
+        <Text
+            style={[
+                Fonts.date.small,
+                TIME_STYLES.timeGeneral,
+                type === MessageType.TEXT
+                    ? TIME_STYLES.timeText
+                    : TIME_STYLES.timeImage,
+            ]}
+        >
+            {time}
+        </Text>
     );
 }
 
