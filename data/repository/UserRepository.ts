@@ -71,14 +71,9 @@ class UserRepository {
      * @throws any `fetch()` related error
      * @throws any {@link SecureStore} related Error
      */
-    async getUserInfo(sessionID: string) {
+    async getUserInfo() {
         return fetch(
-            bulildRequest(
-                "user-info",
-                "GET",
-                `sessionID=${sessionID}`,
-                await buildBaseHeaders(),
-            ),
+            bulildRequest("user-info", "GET", "", await buildBaseHeaders()),
         );
     }
 }
