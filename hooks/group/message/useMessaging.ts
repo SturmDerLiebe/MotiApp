@@ -49,10 +49,7 @@ export default function useMessaging(): {
             clearInterval(INTERVAL_REF.current);
         }, []),
         sendNewMessage(newMessage: NewChatMessage): void {
-            dispatchMessaging({
-                type: "SendNewMessage",
-                newPayload: newMessage,
-            });
+            sendMessage(dispatchMessaging, newMessage);
         },
     };
 }
@@ -65,17 +62,29 @@ function useNewProgressEffect(
 
     useEffect(() => {
         if (imageUri !== null && !cameraIsActive) {
-            dispatchMessaging({
-                type: "SendNewMessage",
-                newPayload: new NewChatMessage(
-                    imageUri,
-                    MessageType.IMAGE,
-                    true,
-                ),
-            });
+            const NEW_MESSAGE = new NewChatMessage(
+                imageUri,
+                MessageType.IMAGE,
+                true,
+            );
+            sendMessage(dispatchMessaging, NEW_MESSAGE);
             dispatchCameraAction({ type: "ConsumeImageUri" });
         }
     }, [cameraIsActive, imageUri, dispatchCameraAction, dispatchMessaging]);
+}
+
+function sendMessage(
+    dispatchMessaging: React.Dispatch<MessagingAction>,
+    NEW_MESSAGE: NewChatMessage,
+) {
+    dispatchMessaging({
+        type: "SendNewMessage",
+        newPayload: NEW_MESSAGE,
+    });
+    //TODO: To save Free Api Requests this is commented out:
+    // GroupRepository.sendMessage(
+    //     NEW_MESSAGE.transformToRawChatMessage(),
+    // );
 }
 
 async function startSocketConnection({
