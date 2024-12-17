@@ -6,19 +6,52 @@ import {
     RequestStatus,
     UserInfoSuccess,
 } from "@/utils/RequestStatus";
-import { useCallback, useState } from "react";
+import {
+    PropsWithChildren,
+    createContext,
+    useCallback,
+    useContext,
+    useState,
+} from "react";
 
 const TAG = "USE_USER_INFO_STATE >>>";
 
-export type UserInfoResponse = {
+export interface UserInfoResponse {
     username: string;
     personalGoal: number;
     personalProgress: number;
-};
+    //TODO: Adjust Mockaroo
+    groupName: string;
+    //Todo: settings: {}
+}
 
-export default function useUserInfoState(): [RequestStatus, () => void] {
-    const sessionID = "123456789"; //TODO: Save and retrieve Session ID
+const UserInfoContext = createContext<RequestStatus>(new RequestLoading());
 
+export function useUserInfoContext() {
+    return useContext(UserInfoContext);
+}
+
+const RequestUserInfoContext = createContext<() => Promise<void>>(
+    async () => {},
+);
+
+export function useRequestUserInfoContext() {
+    return useContext(RequestUserInfoContext);
+}
+
+export function UserInfoProvider({ children }: PropsWithChildren) {
+    const [userInfoState, requestUserInfo] = useUserInfoState();
+
+    return (
+        <UserInfoContext.Provider value={userInfoState}>
+            <RequestUserInfoContext.Provider value={requestUserInfo}>
+                {children}
+            </RequestUserInfoContext.Provider>
+        </UserInfoContext.Provider>
+    );
+}
+
+function useUserInfoState(): [RequestStatus, () => Promise<void>] {
     let [userInfoState, setState] = useState<RequestStatus>(
         new RequestLoading(),
     );
@@ -29,7 +62,7 @@ export default function useUserInfoState(): [RequestStatus, () => void] {
         setState(new RequestLoading());
 
         try {
-            handleResponse(sessionID);
+            handleResponse();
         } catch (error) {
             handleError(error);
         }
@@ -39,8 +72,8 @@ export default function useUserInfoState(): [RequestStatus, () => void] {
      * @throws any {@link fetch} related Error
      * @throws any {@link Response}.json related Error
      */
-    async function handleResponse(sessionID: string) {
-        const RESPONSE = await UserRepository.getUserInfo(sessionID);
+    async function handleResponse() {
+        const RESPONSE = await UserRepository.getUserInfo();
 
         if (RESPONSE.ok) {
             const DATA: UserInfoResponse = await RESPONSE.json();
