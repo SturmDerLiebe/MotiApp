@@ -6,7 +6,7 @@ import { Fonts } from "@/constants/Fonts";
 import { CameraProvider } from "@/hooks/context/CameraContext";
 import {
     UserInfoProvider,
-    useRequestUserInfoContext,
+    useControlUserInfoContext,
     useUserInfoContext,
 } from "@/hooks/context/UserInfoContext";
 import {
@@ -25,6 +25,9 @@ export type TabName = "index" | "group" | "profile" | "camera";
 const HEADER_TINT_COLOR = Colors.white;
 const HEADER_BORDER_RADIUS = 20;
 
+/**
+ * This  component just wraps the {@link TabLayout} component with necessary Context CameraProvider
+ */
 export default function TabContextWrapper() {
     return (
         <UserInfoProvider>
@@ -38,7 +41,8 @@ export default function TabContextWrapper() {
 function TabLayout() {
     NavigationBar.setBackgroundColorAsync(TabBarStyles.backgroundColor);
     const userInfoState = useUserInfoContext();
-    const requestUserInfo = useRequestUserInfoContext();
+    const [requestUserInfo, cancelUserInfoRequest] =
+        useControlUserInfoContext();
 
     const [startMessaging, cancelMessaging] = useControlMessagingContext();
 
@@ -46,9 +50,15 @@ function TabLayout() {
         requestUserInfo();
         startMessaging();
         return () => {
+            cancelUserInfoRequest();
             cancelMessaging();
         };
-    }, [requestUserInfo, startMessaging, cancelMessaging]);
+    }, [
+        requestUserInfo,
+        cancelUserInfoRequest,
+        startMessaging,
+        cancelMessaging,
+    ]);
 
     return (
         <CameraProvider>
