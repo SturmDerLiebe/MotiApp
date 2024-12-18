@@ -11,30 +11,49 @@ import {
 } from "@/hooks/context/CameraContext";
 import { Logger } from "@/utils/Logging/Logger";
 import { SocketInitialLoading, SocketStatus } from "@/utils/socket/status";
-import { createContext, useCallback, useContext, useEffect, useReducer, useRef } from "react";
+import {
+    PropsWithChildren,
+    createContext,
+    useCallback,
+    useContext,
+    useEffect,
+    useReducer,
+    useRef,
+} from "react";
 import messagingReducer, { MessagingAction } from "./messagingReducer";
 
 export type ChatMessageListItem = ChatMessage | string;
 
 const TAG = "USE_RECEIVE_MESSAGES";
 
-const MessagingContext = createContext([new SocketInitialLoading(), (newMessage: NewChatMessage)=>{}]);
+const MessagingContext = createContext<
+    [SocketStatus, (newMessage: NewChatMessage) => void]
+>([new SocketInitialLoading(), () => {}]);
 
+/**
+ * @returns Pair of `[messagingStatus, sendNewMessage]`
+ */
 export function useMessagingContext() {
     return useContext(MessagingContext);
 }
 
-const ControlMessagingContext = createContext([()=>{},()=>{}]);
+const ControlMessagingContext = createContext([() => {}, () => {}]);
 
+/**
+ * @returns Pair of `[startMessaging, cancelMessaging]`
+ */
 export function useControlMessagingContext() {
     return useContext(ControlMessagingContext);
 }
 
 export function MessagingProvider({ children }: PropsWithChildren) {
-    const {messagingState, sendNewMessage, startMessaging, cancelMessaging} = useMessaging()
+    const { messagingState, sendNewMessage, startMessaging, cancelMessaging } =
+        useMessaging();
     return (
-        <MessagingContext.Provider value={[messagingState, sendMessage]}>
-            <ControlMessagingContext.Provider value={[startMessaging, cancelMessaging]}>
+        <MessagingContext.Provider value={[messagingState, sendNewMessage]}>
+            <ControlMessagingContext.Provider
+                value={[startMessaging, cancelMessaging]}
+            >
                 {children}
             </ControlMessagingContext.Provider>
         </MessagingContext.Provider>
@@ -72,7 +91,7 @@ function useMessaging(): {
             clearInterval(INTERVAL_REF.current);
         }, []),
         sendNewMessage(newMessage: NewChatMessage): void {
-            sendMessage(dispatchMessaging, newMessage);
+            sendMessageHelper(dispatchMessaging, newMessage);
         },
     };
 }
@@ -90,13 +109,13 @@ function useNewProgressEffect(
                 MessageType.IMAGE,
                 true,
             );
-            sendMessage(dispatchMessaging, NEW_MESSAGE);
+            sendMessageHelper(dispatchMessaging, NEW_MESSAGE);
             dispatchCameraAction({ type: "ConsumeImageUri" });
         }
     }, [cameraIsActive, imageUri, dispatchCameraAction, dispatchMessaging]);
 }
 
-function sendMessage(
+function sendMessageHelper(
     dispatchMessaging: React.Dispatch<MessagingAction>,
     NEW_MESSAGE: NewChatMessage,
 ) {

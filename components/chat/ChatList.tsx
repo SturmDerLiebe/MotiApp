@@ -1,6 +1,6 @@
 import { Fonts } from "@/constants/Fonts";
 import { ExistingChatMessage } from "@/data/DTO/ChatMessage";
-import { ChatMessageListItem } from "@/hooks/group/message/useMessaging";
+import { ChatMessageListItem } from "@/hooks/context/message/MessagingContext";
 import { SocketStatus } from "@/utils/socket/status";
 import { FlashList } from "@shopify/flash-list";
 import { useRef } from "react";
