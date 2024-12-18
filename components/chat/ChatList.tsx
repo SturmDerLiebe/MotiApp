@@ -4,11 +4,14 @@ import { ChatMessageListItem } from "@/hooks/context/message/MessagingContext";
 import { SocketStatus } from "@/utils/socket/status";
 import { FlashList } from "@shopify/flash-list";
 import { useRef } from "react";
+import { memo, useRef } from "react";
 import { Text, View } from "react-native";
 import { CHAT_STYLES } from "./ChatStyles";
 import { MessageComponent } from "./MesssageComponent";
 
-export function ChatList({
+const TAG = "CHAT_LIST";
+
+export const ChatList = memo(function _ChatList({
     chatState: { mostRecentPayload },
 }: {
     chatState: SocketStatus;
@@ -39,7 +42,7 @@ export function ChatList({
             }}
         />
     );
-}
+});
 
 function ChatItem({
     item,
