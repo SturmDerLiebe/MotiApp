@@ -1,14 +1,9 @@
 import {
     ChatMessage,
-    MessageType,
     NewChatMessage,
     RawExistingMessageData,
 } from "@/data/DTO/ChatMessage";
 import GroupRepository from "@/data/repository/GroupRepository";
-import {
-    useCameraContext,
-    useCameraDispatchContext,
-} from "@/hooks/context/CameraContext";
 import { Logger } from "@/utils/Logging/Logger";
 import { SocketInitialLoading, SocketStatus } from "@/utils/socket/status";
 import {
@@ -16,7 +11,6 @@ import {
     createContext,
     useCallback,
     useContext,
-    useEffect,
     useReducer,
     useRef,
 } from "react";
@@ -37,7 +31,10 @@ export function useMessagingContext() {
     return useContext(MessagingContext);
 }
 
-const ControlMessagingContext = createContext([() => {}, () => {}]);
+const ControlMessagingContext = createContext<[() => void, () => void]>([
+    () => {},
+    () => {},
+]);
 
 /**
  * @returns Pair of `[startMessaging, cancelMessaging]`
@@ -71,12 +68,11 @@ function useMessaging(): {
         new SocketInitialLoading(),
     );
 
-    useNewProgressEffect(dispatchMessaging);
-
     const INTERVAL_REF = useRef<NodeJS.Timeout>();
 
     return {
         messagingState,
+
         startMessaging: useCallback(() => {
             startSocketConnection({
                 intervalId: INTERVAL_REF.current,
@@ -86,33 +82,16 @@ function useMessaging(): {
                 dispatchMessageAction: dispatchMessaging,
             });
         }, []),
+
         cancelMessaging: useCallback(function () {
             Logger.logInfo(TAG, "Cancel Receiving Messages");
             clearInterval(INTERVAL_REF.current);
         }, []),
+
         sendNewMessage(newMessage: NewChatMessage): void {
             sendMessageHelper(dispatchMessaging, newMessage);
         },
     };
-}
-
-function useNewProgressEffect(
-    dispatchMessaging: React.Dispatch<MessagingAction>,
-) {
-    const { cameraIsActive, imageUri } = useCameraContext();
-    const dispatchCameraAction = useCameraDispatchContext();
-
-    useEffect(() => {
-        if (imageUri !== null && !cameraIsActive) {
-            const NEW_MESSAGE = new NewChatMessage(
-                imageUri,
-                MessageType.IMAGE,
-                true,
-            );
-            sendMessageHelper(dispatchMessaging, NEW_MESSAGE);
-            dispatchCameraAction({ type: "ConsumeImageUri" });
-        }
-    }, [cameraIsActive, imageUri, dispatchCameraAction, dispatchMessaging]);
 }
 
 function sendMessageHelper(
