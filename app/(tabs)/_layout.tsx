@@ -41,6 +41,7 @@ export default function TabContextWrapper() {
 function TabLayout() {
     NavigationBar.setBackgroundColorAsync(TabBarStyles.backgroundColor);
     const userInfoState = useUserInfoContext();
+
     const [requestUserInfo, cancelUserInfoRequest] =
         useControlUserInfoContext();
 
