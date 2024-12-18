@@ -9,6 +9,10 @@ import {
     useRequestUserInfoContext,
     useUserInfoContext,
 } from "@/hooks/context/UserInfoContext";
+import {
+    MessagingProvider,
+    useControlMessagingContext,
+} from "@/hooks/context/message/MessagingContext";
 import { UserInfoSuccess } from "@/utils/RequestStatus";
 import * as NavigationBar from "expo-navigation-bar";
 import { Tabs } from "expo-router";
@@ -24,7 +28,9 @@ const HEADER_BORDER_RADIUS = 20;
 export default function TabContextWrapper() {
     return (
         <UserInfoProvider>
-            <TabLayout />
+            <MessagingProvider>
+                <TabLayout />
+            </MessagingProvider>
         </UserInfoProvider>
     );
 }
@@ -34,9 +40,15 @@ function TabLayout() {
     const userInfoState = useUserInfoContext();
     const requestUserInfo = useRequestUserInfoContext();
 
+    const [startMessaging, cancelMessaging] = useControlMessagingContext();
+
     useEffect(() => {
         requestUserInfo();
-    }, [requestUserInfo]);
+        startMessaging();
+        return () => {
+            cancelMessaging();
+        };
+    }, [requestUserInfo, startMessaging, cancelMessaging]);
 
     return (
         <CameraProvider>

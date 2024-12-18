@@ -1,18 +1,12 @@
 import { ChatList } from "@/components/chat/ChatList";
 import { CHAT_STYLES } from "@/components/chat/ChatStyles";
 import { MessageType, NewChatMessage } from "@/data/DTO/ChatMessage";
-import useMessaging from "@/hooks/group/message/useMessaging";
-import { useEffect, useState } from "react";
+import { useMessagingContext } from "@/hooks/context/message/MessagingContext";
+import { useState } from "react";
 import { StyleSheet, TextInput, View } from "react-native";
 
 export default function GroupScreen() {
-    const { messagingState, startMessaging, cancelMessaging, sendNewMessage } =
-        useMessaging();
-
-    useEffect(() => {
-        startMessaging();
-        return cancelMessaging;
-    }, [startMessaging, cancelMessaging]);
+    const [messagingState, sendNewMessage] = useMessagingContext();
 
     const [message, setMessage] = useState("");
 
