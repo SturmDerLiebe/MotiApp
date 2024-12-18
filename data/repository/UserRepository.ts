@@ -71,7 +71,7 @@ class UserRepository {
      * @throws any `fetch()` related error
      * @throws any {@link SecureStore} related Error
      */
-    async getUserInfo() {
+    async getUserInfo(abortSignal: AbortSignal) {
         return fetch(
             bulildRequest("user-info", "GET", "", await buildBaseHeaders()),
         );
