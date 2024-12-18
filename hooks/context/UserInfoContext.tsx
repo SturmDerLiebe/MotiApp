@@ -6,13 +6,7 @@ import {
     RequestStatus,
     UserInfoSuccess,
 } from "@/utils/RequestStatus";
-import {
-    PropsWithChildren,
-    createContext,
-    useCallback,
-    useContext,
-    useState,
-} from "react";
+import { PropsWithChildren, createContext, useContext, useState } from "react";
 
 const TAG = "USE_USER_INFO_STATE >>>";
 
@@ -31,49 +25,67 @@ export function useUserInfoContext() {
     return useContext(UserInfoContext);
 }
 
-const RequestUserInfoContext = createContext<() => Promise<void>>(
-    async () => {},
-);
+const ControlUserInfoContext = createContext<[() => void, () => void]>([
+    () => {},
+    () => {},
+]);
 
-export function useRequestUserInfoContext() {
-    return useContext(RequestUserInfoContext);
+/**
+ * @returns A Triple of `[requestUserInfo, cancelUserInfoRequest]`
+ */
+export function useControlUserInfoContext() {
+    return useContext(ControlUserInfoContext);
 }
 
 export function UserInfoProvider({ children }: PropsWithChildren) {
-    const [userInfoState, requestUserInfo] = useUserInfoState();
+    const { userInfoState, requestUserInfo, cancelUserInfoRequest } =
+        useUserInfoState();
 
     return (
         <UserInfoContext.Provider value={userInfoState}>
-            <RequestUserInfoContext.Provider value={requestUserInfo}>
+            <ControlUserInfoContext.Provider
+                value={[requestUserInfo, cancelUserInfoRequest]}
+            >
                 {children}
-            </RequestUserInfoContext.Provider>
+            </ControlUserInfoContext.Provider>
         </UserInfoContext.Provider>
     );
 }
 
-function useUserInfoState(): [RequestStatus, () => Promise<void>] {
+function useUserInfoState(): {
+    userInfoState: RequestStatus;
+    requestUserInfo: () => void;
+    cancelUserInfoRequest: () => void;
+} {
     let [userInfoState, setState] = useState<RequestStatus>(
         new RequestLoading(),
     );
+    const ABORT_CONTROLLER = new AbortController();
 
-    return [userInfoState, useCallback(startUserInfoRequest, [])];
+    return {
+        userInfoState,
 
-    async function startUserInfoRequest() {
-        setState(new RequestLoading());
+        requestUserInfo: function () {
+            setState(new RequestLoading());
 
-        try {
-            handleResponse();
-        } catch (error) {
-            handleError(error);
-        }
-    }
+            try {
+                handleResponse(ABORT_CONTROLLER.signal);
+            } catch (error) {
+                handleError(error);
+            }
+        },
+
+        cancelUserInfoRequest: () => {
+            ABORT_CONTROLLER.abort();
+        },
+    };
 
     /**
      * @throws any {@link fetch} related Error
      * @throws any {@link Response}.json related Error
      */
-    async function handleResponse() {
-        const RESPONSE = await UserRepository.getUserInfo();
+    async function handleResponse(abortSignal: AbortSignal) {
+        const RESPONSE = await UserRepository.getUserInfo(abortSignal);
 
         if (RESPONSE.ok) {
             const DATA: UserInfoResponse = await RESPONSE.json();
