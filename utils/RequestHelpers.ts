@@ -40,6 +40,7 @@ export function bulildRequest(
     queryParamPair: string,
     headers: Headers,
     body?: RegistrationDetails | SafeDigits | RawMessageData | string,
+    signal?: AbortSignal,
 ) {
     return new Request(`${API_BASE_ROUTE}/${route}?${queryParamPair}`, {
         method,
@@ -48,5 +49,6 @@ export function bulildRequest(
             method === "GET"
                 ? undefined
                 : JSON.stringify(body as NonNullable<typeof body>),
+        signal: signal,
     });
 }
