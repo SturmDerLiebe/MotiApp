@@ -7,4 +7,9 @@ export const Logger = {
         console.error(`${tag} |====> ${message}
 Original Error: ${error}`);
     },
+
+    logDebug(tag: string, message: string) {
+        console.debug(`${tag} |====> ${message}
+!!!REMOVE BEFORE COMMITTING!!!`);
+    },
 };
