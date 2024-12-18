@@ -11,14 +11,37 @@ import {
 } from "@/hooks/context/CameraContext";
 import { Logger } from "@/utils/Logging/Logger";
 import { SocketInitialLoading, SocketStatus } from "@/utils/socket/status";
-import { useCallback, useEffect, useReducer, useRef } from "react";
+import { createContext, useCallback, useContext, useEffect, useReducer, useRef } from "react";
 import messagingReducer, { MessagingAction } from "./messagingReducer";
 
 export type ChatMessageListItem = ChatMessage | string;
 
 const TAG = "USE_RECEIVE_MESSAGES";
 
-export default function useMessaging(): {
+const MessagingContext = createContext([new SocketInitialLoading(), (newMessage: NewChatMessage)=>{}]);
+
+export function useMessagingContext() {
+    return useContext(MessagingContext);
+}
+
+const ControlMessagingContext = createContext([()=>{},()=>{}]);
+
+export function useControlMessagingContext() {
+    return useContext(ControlMessagingContext);
+}
+
+export function MessagingProvider({ children }: PropsWithChildren) {
+    const {messagingState, sendNewMessage, startMessaging, cancelMessaging} = useMessaging()
+    return (
+        <MessagingContext.Provider value={[messagingState, sendMessage]}>
+            <ControlMessagingContext.Provider value={[startMessaging, cancelMessaging]}>
+                {children}
+            </ControlMessagingContext.Provider>
+        </MessagingContext.Provider>
+    );
+}
+
+function useMessaging(): {
     messagingState: SocketStatus;
     startMessaging: () => void;
     cancelMessaging: () => void;
