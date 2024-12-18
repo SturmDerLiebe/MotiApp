@@ -6,7 +6,14 @@ import {
     RequestStatus,
     UserInfoSuccess,
 } from "@/utils/RequestStatus";
-import { PropsWithChildren, createContext, useContext, useState } from "react";
+import {
+    PropsWithChildren,
+    createContext,
+    useCallback,
+    useContext,
+    useMemo,
+    useState,
+} from "react";
 
 const TAG = "USE_USER_INFO_STATE >>>";
 
@@ -14,7 +21,6 @@ export interface UserInfoResponse {
     username: string;
     personalGoal: number;
     personalProgress: number;
-    //TODO: Adjust Mockaroo
     groupName: string;
     //Todo: settings: {}
 }
@@ -60,24 +66,29 @@ function useUserInfoState(): {
     let [userInfoState, setState] = useState<RequestStatus>(
         new RequestLoading(),
     );
-    const ABORT_CONTROLLER = new AbortController();
+
+    //TODO: To prevent having to useMemo and useCallback everything, the functions should be parameterized an put on the module scope
+    const ABORT_CONTROLLER = useMemo(() => new AbortController(), []);
 
     return {
         userInfoState,
 
-        requestUserInfo: function () {
-            setState(new RequestLoading());
+        requestUserInfo: useCallback(
+            function () {
+                setState(new RequestLoading());
 
-            try {
-                handleResponse(ABORT_CONTROLLER.signal);
-            } catch (error) {
-                handleError(error);
-            }
-        },
+                try {
+                    handleResponse(ABORT_CONTROLLER.signal);
+                } catch (error) {
+                    handleError(error);
+                }
+            },
+            [ABORT_CONTROLLER.signal],
+        ),
 
-        cancelUserInfoRequest: () => {
+        cancelUserInfoRequest: useCallback(() => {
             ABORT_CONTROLLER.abort();
-        },
+        }, [ABORT_CONTROLLER]),
     };
 
     /**
