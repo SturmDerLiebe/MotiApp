@@ -1,16 +1,18 @@
 import { Colors } from "@/constants/Colors";
 import { Icon } from "@/constants/Icons";
-import { router } from "expo-router";
 import { Pressable } from "react-native";
 
-export function BurgerMenuButton(props: { tintColor: string }) {
+export function BurgerMenuButton({
+    tintColor,
+    onPress,
+}: {
+    tintColor: string;
+    onPress: () => void;
+}) {
     return (
-        <Pressable
-            aria-label="Group Information and Actions"
-            onPress={() => router.navigate("/")}
-        >
+        <Pressable aria-label="Group Information and Actions" onPress={onPress}>
             <Icon
-                tintColor={props.tintColor ?? Colors.eggplant.dark}
+                tintColor={tintColor ?? Colors.eggplant.dark}
                 size={28}
                 icon="BurgerMenu"
             />
