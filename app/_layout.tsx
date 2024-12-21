@@ -1,4 +1,5 @@
 import { Colors } from "@/constants/Colors";
+import { UserInfoProvider } from "@/hooks/context/UserInfoContext";
 import {
     Inter_400Regular,
     Inter_500Medium,
@@ -13,7 +14,15 @@ import {
 import { Stack } from "expo-router";
 import { Text } from "react-native";
 
-export default function RootLayout() {
+export default function RootLayoutWrapper() {
+    return (
+        <UserInfoProvider>
+            <RootLayout />
+        </UserInfoProvider>
+    );
+}
+
+function RootLayout() {
     let [isLoaded, error] = useFonts({
         Inter_400Regular,
         Inter_500Medium,

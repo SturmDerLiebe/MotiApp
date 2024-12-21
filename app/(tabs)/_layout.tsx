@@ -5,7 +5,6 @@ import { Colors } from "@/constants/Colors";
 import { Fonts } from "@/constants/Fonts";
 import { CameraProvider } from "@/hooks/context/CameraContext";
 import {
-    UserInfoProvider,
     useControlUserInfoContext,
     useUserInfoContext,
 } from "@/hooks/context/UserInfoContext";
@@ -30,11 +29,9 @@ const HEADER_BORDER_RADIUS = 20;
  */
 export default function TabContextWrapper() {
     return (
-        <UserInfoProvider>
-            <MessagingProvider>
-                <TabLayout />
-            </MessagingProvider>
-        </UserInfoProvider>
+        <MessagingProvider>
+            <TabLayout />
+        </MessagingProvider>
     );
 }
 
