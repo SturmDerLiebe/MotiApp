@@ -21,8 +21,22 @@ export interface UserInfoResponse {
     username: string;
     personalGoal: number;
     personalProgress: number;
-    groupName: string;
+    //TODO: ADJUST MOCKAROO!!!
+    groupInfo: GroupInfo;
+
     //Todo: settings: {}
+}
+
+export interface GroupInfo {
+    groupName: string;
+    members: UserProfile[];
+    inviteCode: string;
+}
+
+export interface UserProfile {
+    userId: string;
+    username: string;
+    profileImageUri: string;
 }
 
 const UserInfoContext = createContext<RequestStatus>(new RequestLoading());
