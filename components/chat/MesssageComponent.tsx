@@ -1,8 +1,8 @@
 import { PropsWithChildren } from "react";
 import { CHAT_STYLES, TIME_STYLES } from "./ChatStyles";
-import { Text, View } from "react-native";
+import { StyleProp, Text, View } from "react-native";
 import { ClapReactionButton } from "../buttons/ClapReactionButton";
-import { Image } from "expo-image";
+import { Image, ImageStyle } from "expo-image";
 import { Fonts } from "@/constants/Fonts";
 import { Colors } from "@/constants/Colors";
 import {
@@ -72,6 +72,9 @@ export function ChatItemWrapper({
             }
         >
             <AvatarIcon
+                // TODO:
+                // imageUri={findImageUriByAuthorId(id)}
+                imageUri={Colors.orange.dark}
                 showAvatar={showAuthor || item instanceof NewChatMessage}
                 isMotiMateMessage={item.isMotiMateMessage}
             />
@@ -199,21 +202,43 @@ function Author(props: { shouldShowAuthor: boolean; author: string }) {
     ) : null;
 }
 
-function AvatarIcon(props: {
+function AvatarIcon({
+    imageUri,
+    showAvatar,
+    isMotiMateMessage,
+}: {
+    imageUri: string;
     showAvatar: boolean;
     isMotiMateMessage: boolean;
 }) {
-    return props.showAvatar ? (
-        <Image
-            tintColor={
-                props.isMotiMateMessage
-                    ? Colors.eggplant.dark
-                    : Colors.orange.dark
-            }
-            source="https://placehold.co/30"
+    //NOTE: As long as the FE is using a mock server, the imageUri is just a Hexcolor code to render a circle with the specified color.
+    return showAvatar ? (
+        <AvatarImage
+            imageUri={isMotiMateMessage ? Colors.eggplant.dark : imageUri}
+            diameter={30}
             style={CHAT_STYLES.avatar}
         />
     ) : (
         <View style={CHAT_STYLES.avatar} />
+    );
+}
+
+export function AvatarImage({
+    imageUri,
+    diameter,
+    style,
+}: {
+    imageUri: string;
+    diameter: number;
+    style?: StyleProp<ImageStyle>;
+}) {
+    return (
+        <Image
+            source={imageUri}
+            style={[
+                { width: diameter, aspectRatio: 1, borderRadius: diameter / 2 },
+                style,
+            ]}
+        />
     );
 }
