@@ -270,7 +270,7 @@ export const InputComponent = forwardRef(
 
 function determineBorderColor(isValid: boolean, isEmpty: boolean): string {
     if (!isValid) {
-        return Colors.red;
+        return Colors.red.error;
     } else if (isEmpty) {
         return Colors.grey.dark1;
     } else {

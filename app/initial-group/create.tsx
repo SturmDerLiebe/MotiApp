@@ -120,7 +120,7 @@ export default function GroupCreationScreen() {
         if (isEmpty(groupName)) {
             return Colors.grey.dark2;
         } else if (!isValid) {
-            return Colors.red;
+            return Colors.red.error;
         } else {
             return Colors.blue.grey;
         }
@@ -155,7 +155,7 @@ export default function GroupCreationScreen() {
     //TODO: Refactor out
     function ErrorText(props: PropsWithChildren) {
         return (
-            <Text style={[styles.topText, { color: Colors.red }]}>
+            <Text style={[styles.topText, { color: Colors.red.error }]}>
                 {props.children}
             </Text>
         );

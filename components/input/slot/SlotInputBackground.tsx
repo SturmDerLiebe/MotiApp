@@ -57,7 +57,7 @@ export function SlotInputBackground(props: {
             if (successPredicate()) {
                 return { borderColor: Colors.green, borderWidth: 2 };
             } else if (failurePredicate()) {
-                return { borderColor: Colors.red, borderWidth: 2 };
+                return { borderColor: Colors.red.error, borderWidth: 2 };
             } else {
                 return { borderColor: Colors.grey.dark1, borderWidth: 1 };
             }

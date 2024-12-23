@@ -58,7 +58,7 @@ export function SlotInputField(props: {
 
     function determineFontColor(failurePredicate: () => boolean): ColorValue {
         if (failurePredicate()) {
-            return Colors.red;
+            return Colors.red.error;
         } else {
             return Colors.blue.grey;
         }

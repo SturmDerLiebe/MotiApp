@@ -153,7 +153,7 @@ export default function PersonalGoalScreen() {
             personalGoalCreationState instanceof RequestError ||
             isValid === false
         ) {
-            return Colors.red;
+            return Colors.red.error;
         } else {
             return Colors.blue.grey;
         }

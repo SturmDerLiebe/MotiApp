@@ -16,7 +16,12 @@ export const Colors = {
     black: "#000000",
     white: "#FFFFFF",
     transparent: "#FFFFFF00",
-    red: "#D12E34",
+    red: {
+        error: "#D12E34",
+        light: "#DF9D9D",
+        medium: "#D63F3F",
+        dark: "#B52C2C",
+    },
     green: "#317D35",
     eggplant: {
         light: "#DAC8D3",
