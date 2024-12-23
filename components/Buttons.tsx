@@ -3,6 +3,7 @@ import {
     Pressable,
     PressableProps,
     StyleProp,
+    StyleSheet,
     Text,
     ViewStyle,
 } from "react-native";
@@ -47,10 +48,13 @@ export function SecondaryButton({
         <Pressable
             disabled={disabled}
             style={({ pressed }) => {
-                return mergeButtonStyles(
-                    BUTTON_STYLES.secondary,
-                    { pressed, disabled: disabled ?? false },
-                    style,
+                return StyleSheet.compose(
+                    mergeButtonStyles(
+                        BUTTON_STYLES.secondary,
+                        { pressed, disabled: disabled ?? false },
+                        style,
+                    ),
+                    { borderWidth: 1.5 },
                 );
             }}
             onPress={onPress}
