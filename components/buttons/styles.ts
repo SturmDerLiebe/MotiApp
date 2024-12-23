@@ -17,6 +17,20 @@ export const BUTTON_STYLES = {
         active: { backgroundColor: Colors.blue.dark },
         disabled: { backgroundColor: Colors.grey.dark1 },
     }),
+    secondary: StyleSheet.create({
+        inactive: {
+            backgroundColor: Colors.white,
+            borderColor: Colors.blue.grey,
+        },
+        active: {
+            backgroundColor: Colors.grey.light2,
+            borderColor: Colors.blue.grey,
+        },
+        disabled: {
+            backgroundColor: Colors.white,
+            borderColor: Colors.grey.dark1,
+        },
+    }),
     danger: StyleSheet.create({
         inactive: { backgroundColor: Colors.red.medium },
         active: {
