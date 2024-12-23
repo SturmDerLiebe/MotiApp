@@ -1,22 +1,43 @@
 import { Colors } from "@/constants/Colors";
-import { Fonts } from "@/constants/Fonts";
 import {
     Pressable,
     PressableProps,
-    PressableStateCallbackType,
     StyleProp,
     Text,
-    TextStyle,
     ViewStyle,
 } from "react-native";
-
-const BASIC_BUTTON_STYLE: StyleProp<ViewStyle> = { borderRadius: 100 };
+import { mergeButtonStyles } from "./buttons/helper";
+import { BUTTON_STYLES, BUTTON_TEXT_STYLE } from "./buttons/styles";
+import type { ButtonProps } from "./buttons/types";
 
 export function PrimaryButton({
     title,
     disabled,
     onPress,
     style,
+}: ButtonProps) {
+    return (
+        <Pressable
+            disabled={disabled}
+            style={({ pressed }) => {
+                return mergeButtonStyles(
+                    BUTTON_STYLES.primary,
+                    { pressed, disabled: disabled ?? false },
+                    style,
+                );
+            }}
+            onPress={onPress}
+        >
+            <Text style={BUTTON_TEXT_STYLE}>{title}</Text>
+        </Pressable>
+    );
+}
+
+export function SecondaryButton({
+    disabled,
+    title,
+    style,
+    onPress,
 }: PressableProps & {
     /** A Label the button shoud display inside of it */
     title: string;
@@ -25,52 +46,15 @@ export function PrimaryButton({
     return (
         <Pressable
             disabled={disabled}
-            style={determineButtonStyleByState}
+            style={({ pressed }) => {
+                return mergeButtonStyles(
+                    BUTTON_STYLES.secondary,
+                    { pressed, disabled: disabled ?? false },
+                    style,
+                );
+            }}
             onPress={onPress}
         >
-            <Text style={BUTTON_TEXT_STYLE}>{title}</Text>
-        </Pressable>
-    );
-
-    function determineButtonStyleByState({
-        pressed,
-    }: PressableStateCallbackType): StyleProp<ViewStyle> {
-        let bgColor: string;
-        if (disabled) {
-            bgColor = Colors.grey.dark1;
-        } else if (pressed) {
-            bgColor = Colors.blue.dark;
-        } else {
-            bgColor = Colors.blue.grey;
-        }
-        return [
-            BASIC_BUTTON_STYLE,
-            {
-                backgroundColor: bgColor,
-            },
-            style,
-        ];
-    }
-}
-
-const BUTTON_TEXT_STYLE: StyleProp<TextStyle> = {
-    color: Colors.white,
-    ...Fonts.paragraph.p2,
-    paddingVertical: 12,
-    textAlign: "center",
-};
-
-export function SecondaryButton(
-    props: PressableProps & {
-        /** A Label the button shoud display inside of it */
-        title: string;
-        style?: StyleProp<ViewStyle>;
-    },
-) {
-    const { disabled, title, style } = props;
-
-    return (
-        <Pressable {...props} style={determineButtonStyleByState}>
             <Text
                 style={[
                     BUTTON_TEXT_STYLE,
@@ -81,30 +65,25 @@ export function SecondaryButton(
             </Text>
         </Pressable>
     );
+}
 
-    function determineButtonStyleByState({
-        pressed,
-    }: PressableStateCallbackType): StyleProp<ViewStyle> {
-        let backgroundColor: string, borderColor: string;
-
-        if (disabled) {
-            backgroundColor = Colors.white;
-            borderColor = Colors.grey.dark1;
-        } else if (pressed) {
-            backgroundColor = Colors.grey.light2;
-            borderColor = Colors.blue.grey;
-        } else {
-            backgroundColor = Colors.white;
-            borderColor = Colors.blue.grey;
-        }
-        return [
-            BASIC_BUTTON_STYLE,
-            {
-                backgroundColor,
-                borderColor,
-                borderWidth: 1.5,
-            },
-            style,
-        ];
-    }
+export function DangerButton({ title, disabled, onPress, style }: ButtonProps) {
+    return (
+        <Pressable
+            disabled={disabled}
+            style={({ pressed }) => {
+                return mergeButtonStyles(
+                    BUTTON_STYLES.danger,
+                    {
+                        pressed,
+                        disabled: disabled ?? false,
+                    },
+                    style,
+                );
+            }}
+            onPress={onPress}
+        >
+            <Text style={BUTTON_TEXT_STYLE}>{title}</Text>
+        </Pressable>
+    );
 }
