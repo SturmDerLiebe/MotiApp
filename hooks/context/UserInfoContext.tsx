@@ -21,7 +21,6 @@ export interface UserInfoResponse {
     username: string;
     personalGoal: number;
     personalProgress: number;
-    //TODO: ADJUST MOCKAROO!!!
     groupInfo: GroupInfo;
 
     //Todo: settings: {}
