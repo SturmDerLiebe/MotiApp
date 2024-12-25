@@ -26,4 +26,7 @@ export const Icons = {
     Profile: require("@/assets/images/optimized_svg/ProfileIcon.svg"),
     Camera: require("@/assets/images/optimized_svg/CameraIcon.svg"),
     BurgerMenu: require("@/assets/images/optimized_svg/BurgerMenu.svg"),
+
+export const MockIcons = {
+    Circle: require("@/assets/images/mock_svg/Circle.svg"),
 };
