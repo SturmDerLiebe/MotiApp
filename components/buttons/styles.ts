@@ -34,7 +34,7 @@ export const BUTTON_STYLES = {
     danger: StyleSheet.create({
         inactive: { backgroundColor: Colors.red.medium },
         active: {
-            backgroundColor: Colors.blue.dark,
+            backgroundColor: Colors.red.dark,
             borderWidth: 1,
             borderColor: Colors.red.medium,
         },
