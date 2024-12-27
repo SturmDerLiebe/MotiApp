@@ -12,6 +12,7 @@ import {
     NewChatMessage,
 } from "@/data/DTO/ChatMessage";
 import { SvgAssets } from "@/constants/SvgAssets";
+import { MockIcons } from "@/constants/Icons";
 
 export function MessageComponent({
     item,
@@ -234,7 +235,8 @@ export function AvatarImage({
 }) {
     return (
         <Image
-            source={imageUri}
+            tintColor={imageUri}
+            source={MockIcons.Circle}
             style={[
                 { width: diameter, aspectRatio: 1, borderRadius: diameter / 2 },
                 style,
