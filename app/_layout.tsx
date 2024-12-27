@@ -12,12 +12,17 @@ import {
     SpaceMono_700Bold,
 } from "@expo-google-fonts/space-mono";
 import { Stack } from "expo-router";
-import { Text } from "react-native";
+import { StatusBar, Text } from "react-native";
 
 export default function RootLayoutWrapper() {
     return (
         <UserInfoProvider>
             <RootLayout />
+            <StatusBar
+                barStyle="dark-content"
+                backgroundColor={Colors.transparent}
+                translucent
+            />
         </UserInfoProvider>
     );
 }
