@@ -1,5 +1,5 @@
-import { GroupCreationResponse } from "@/hooks/group/useGroupCreationState";
-import { GroupInfo, UserInfoResponse } from "@/hooks/context/UserInfoContext";
+import { GroupInfo, UserInfoResponse } from "@/data/DTO/UserInfoResponse";
+import { GroupCreationResponse } from "../hooks/group/useGroupCreationState";
 
 export abstract class RequestStatus {}
 
@@ -16,20 +16,20 @@ export class UserInfoSuccess
     extends RequestSuccess
     implements UserInfoResponse
 {
-    username: string;
+    userId: string;
     personalGoal: number;
     personalProgress: number;
     progress: number;
     groupInfo: GroupInfo;
 
     constructor({
-        username,
+        userId,
         personalGoal,
         personalProgress,
         groupInfo,
     }: UserInfoResponse) {
         super();
-        this.username = username;
+        this.userId = userId;
         this.personalGoal = personalGoal;
         this.personalProgress = personalProgress;
         this.progress = personalProgress / personalGoal;

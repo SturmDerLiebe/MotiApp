@@ -14,29 +14,9 @@ import {
     useMemo,
     useState,
 } from "react";
+import { UserInfoResponse } from "@/data/DTO/UserInfoResponse";
 
 const TAG = "USE_USER_INFO_STATE >>>";
-
-export interface UserInfoResponse {
-    username: string;
-    personalGoal: number;
-    personalProgress: number;
-    groupInfo: GroupInfo;
-
-    //Todo: settings: {}
-}
-
-export interface GroupInfo {
-    groupName: string;
-    members: UserProfile[];
-    inviteCode: string;
-}
-
-export interface UserProfile {
-    userId: string;
-    username: string;
-    profileImageUri: string;
-}
 
 const UserInfoContext = createContext<RequestStatus>(new RequestLoading());
 
