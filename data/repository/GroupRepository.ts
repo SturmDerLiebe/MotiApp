@@ -74,6 +74,12 @@ class GroupRepository {
             ),
         );
     }
+
+    async leaveCurrentGroup() {
+        return fetch(
+            bulildRequest(`group`, "PATCH", "", await buildBaseHeaders()),
+        );
+    }
 }
 
 /**
