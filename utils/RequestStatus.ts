@@ -36,10 +36,10 @@ export class UserInfoSuccess
         this.groupInfo = groupInfo;
     }
 
-    getUsernameOfCurrentUser() {
-        this.groupInfo.members.find((member) => {
+    getUsernameOfCurrentUser(): string | undefined {
+        return this.groupInfo.members.find((member) => {
             return member.userId === this.userId;
-        });
+        })?.username;
     }
 }
 
