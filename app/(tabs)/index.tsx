@@ -15,7 +15,7 @@ export default function IndexScreen() {
 
             <Text
                 style={[{ color: Colors.blue.grey }, Fonts.title.h6]}
-            >{`Hi, ${userInfoState.username ?? "You"}!`}</Text>
+            >{`Hi, ${userInfoState.getUsernameOfCurrentUser() ?? "You"}!`}</Text>
             <View>
                 <Text style={[Fonts.paragraph.p2, { color: Colors.blue.grey }]}>
                     Your progress so far
