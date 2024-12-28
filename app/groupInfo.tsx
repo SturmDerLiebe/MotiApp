@@ -89,12 +89,16 @@ function HeadingRow() {
 
 function MemberList() {
     const userInfo = useUserInfoContext();
-    const MEMBER_LIST =
-        userInfo instanceof UserInfoSuccess ? userInfo.groupInfo.members : [];
+    const USER_INFO_EXISTS = userInfo instanceof UserInfoSuccess;
+    const MEMBER_LIST = USER_INFO_EXISTS ? userInfo.groupInfo.members : [];
 
     return (
         <View style={{ flex: 1, gap: 16, paddingVertical: 8 }}>
             {MEMBER_LIST.map((memberProfile) => {
+                const IS_CURRENT_USER =
+                    USER_INFO_EXISTS &&
+                    userInfo.userId === memberProfile.userId;
+
                 return (
                     <View
                         key={memberProfile.userId}
@@ -108,7 +112,7 @@ function MemberList() {
                             imageUri={memberProfile.profileImageUri}
                             diameter={32}
                         />
-                        <Text>{memberProfile.username}</Text>
+                        <Text>{`${memberProfile.username}${IS_CURRENT_USER ? " (You)" : ""}`}</Text>
                     </View>
                 );
             })}
