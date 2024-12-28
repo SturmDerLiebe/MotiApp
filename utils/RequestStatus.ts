@@ -35,6 +35,12 @@ export class UserInfoSuccess
         this.progress = personalProgress / personalGoal;
         this.groupInfo = groupInfo;
     }
+
+    getUsernameOfCurrentUser() {
+        this.groupInfo.members.find((member) => {
+            return member.userId === this.userId;
+        });
+    }
 }
 
 export class RequestLoading implements RequestStatus {}
