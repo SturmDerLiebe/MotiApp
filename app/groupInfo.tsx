@@ -1,21 +1,26 @@
+import { DangerButton, PrimaryButton } from "@/components/Buttons";
 import { AvatarImage } from "@/components/chat/MesssageComponent";
-import { BurgerMenuButton } from "@/components/navigation/BurgerMenuButton";
+import { BurgerMenuButtonWithBackground } from "@/components/navigation/BurgerMenuButton";
 import { Colors } from "@/constants/Colors";
-import {
-    GroupInfo,
-    UserProfile,
-    useUserInfoContext,
-} from "@/hooks/context/UserInfoContext";
+import { Fonts } from "@/constants/Fonts";
+import { useUserInfoContext } from "@/hooks/context/UserInfoContext";
 import { UserInfoSuccess } from "@/utils/RequestStatus";
 import { BlurView } from "expo-blur";
+import * as NavigationBar from "expo-navigation-bar";
 import { router } from "expo-router";
-import { StyleSheet, Text, View } from "react-native";
+import { useEffect } from "react";
+import { Text, View } from "react-native";
 
 /**
  * On Android this modal will *not* blur the background due to issues listed in the [Expo Docs](https://docs.expo.dev/versions/latest/sdk/blur-view/#experimentalblurmethod-1)
  */
 export default function GroupInfoModal() {
-    const userInfo = useUserInfoContext();
+    useEffect(() => {
+        NavigationBar.setBackgroundColorAsync("#b2b8c0");
+        return () => {
+            NavigationBar.setBackgroundColorAsync(Colors.grey.light1);
+        };
+    });
 
     return (
         <BlurView
@@ -26,58 +31,113 @@ export default function GroupInfoModal() {
                 alignItems: "flex-end",
             }}
         >
-            <View style={{ height: "10%" }} />
+            <View style={{ height: "5%" }} />
             <View
                 style={{
                     width: "56%",
-                    height: "69%",
+                    height: "80%",
+                    gap: 24,
                     backgroundColor: Colors.white,
-                    borderWidth: StyleSheet.hairlineWidth,
+                    borderStartStartRadius: 20,
+                    borderStartEndRadius: 20,
+                    padding: 16,
                 }}
             >
-                {userInfo instanceof UserInfoSuccess ? (
-                    <UserInfoContent
-                        groupMembers={userInfo.groupInfo.members}
-                    />
-                ) : null}
+                <UserInfoContent />
             </View>
         </BlurView>
     );
 }
-function UserInfoContent({
-    groupInfo: { members, groupName, inviteCode },
-}: {
-    groupInfo: GroupInfo;
-}) {
+function UserInfoContent() {
     return (
         <>
-            <View>
-                <Text>{groupName}</Text>
-                <BurgerMenuButton
-                    tintColor={Colors.blue.grey}
-                    onPress={() => {
-                        router.back();
-                    }}
-                />
-            </View>
-            <MemberList groupMembers={members} />
+            <HeadingRow />
+            <MemberList />
+            <ButtonColumn />
         </>
     );
 }
 
-function MemberList({ groupMembers }: { groupMembers: UserProfile[] }) {
+function HeadingRow() {
+    const userInfo = useUserInfoContext();
+    const USERNAME =
+        userInfo instanceof UserInfoSuccess
+            ? userInfo.groupInfo.groupName
+            : "Loading...";
+
     return (
-        <View style={{ height: "33%", justifyContent: "space-between" }}>
-            {groupMembers.map((memberProfile) => {
+        <View
+            style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+                alignItems: "center",
+            }}
+        >
+            <Text style={[Fonts.paragraph.p2, { width: "77%" }]}>
+                {USERNAME}
+            </Text>
+            <BurgerMenuButtonWithBackground
+                flex={1}
+                onPress={() => {
+                    router.back();
+                }}
+            />
+        </View>
+    );
+}
+
+function MemberList() {
+    const userInfo = useUserInfoContext();
+    const MEMBER_LIST =
+        userInfo instanceof UserInfoSuccess ? userInfo.groupInfo.members : [];
+
+    return (
+        <View style={{ flex: 1, gap: 16, paddingVertical: 8 }}>
+            {MEMBER_LIST.map((memberProfile) => {
                 return (
-                    <View>
+                    <View
+                        key={memberProfile.userId}
+                        style={{
+                            flexDirection: "row",
+                            gap: 6.5,
+                            alignItems: "center",
+                        }}
+                    >
                         <AvatarImage
                             imageUri={memberProfile.profileImageUri}
                             diameter={32}
                         />
+                        <Text>{memberProfile.username}</Text>
                     </View>
                 );
             })}
+        </View>
+    );
+}
+
+function ButtonColumn() {
+    const DISABLED = !(useUserInfoContext() instanceof UserInfoSuccess);
+
+    return (
+        <View style={{ height: "13%", justifyContent: "space-between" }}>
+            <PrimaryButton
+                title="Invite a friend"
+                disabled={DISABLED}
+                onPress={() => {
+                    //TODO: Share from React Native
+                }}
+                textStyle={{ paddingVertical: 8 }}
+            />
+            <DangerButton
+                title="Exit"
+                disabled={DISABLED}
+                icon="Exit"
+                onPress={() => {
+                    //TODO: Alert
+                    router.navigate("/group");
+                }}
+                textStyle={{ paddingVertical: 8 }}
+            />
         </View>
     );
 }
