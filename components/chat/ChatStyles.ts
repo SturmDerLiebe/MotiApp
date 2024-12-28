@@ -13,9 +13,6 @@ export const CHAT_STYLES = StyleSheet.create({
     },
     avatar: {
         alignSelf: "flex-end",
-        borderRadius: 100,
-        width: 30,
-        aspectRatio: 1,
     },
     bodyBase: {
         flex: 1,
