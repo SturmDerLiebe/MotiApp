@@ -3,13 +3,14 @@ import { AvatarImage } from "@/components/chat/MesssageComponent";
 import { BurgerMenuButtonWithBackground } from "@/components/navigation/BurgerMenuButton";
 import { Colors } from "@/constants/Colors";
 import { Fonts } from "@/constants/Fonts";
+import GroupRepository from "@/data/repository/GroupRepository";
 import { useUserInfoContext } from "@/hooks/context/UserInfoContext";
 import { UserInfoSuccess } from "@/utils/RequestStatus";
 import { BlurView } from "expo-blur";
 import * as NavigationBar from "expo-navigation-bar";
 import { router } from "expo-router";
 import { useEffect } from "react";
-import { Text, View } from "react-native";
+import { Alert, Text, View } from "react-native";
 
 /**
  * On Android this modal will *not* blur the background due to issues listed in the [Expo Docs](https://docs.expo.dev/versions/latest/sdk/blur-view/#experimentalblurmethod-1)
@@ -116,13 +117,14 @@ function MemberList() {
 }
 
 function ButtonColumn() {
-    const DISABLED = !(useUserInfoContext() instanceof UserInfoSuccess);
+    const USER_INFO = useUserInfoContext();
+    const USER_INFO_EXISTS = USER_INFO instanceof UserInfoSuccess;
 
     return (
         <View style={{ height: "13%", justifyContent: "space-between" }}>
             <PrimaryButton
                 title="Invite a friend"
-                disabled={DISABLED}
+                disabled={!USER_INFO_EXISTS}
                 onPress={() => {
                     //TODO: Share from React Native
                 }}
@@ -130,14 +132,36 @@ function ButtonColumn() {
             />
             <DangerButton
                 title="Exit"
-                disabled={DISABLED}
+                disabled={!USER_INFO_EXISTS}
                 icon="Exit"
                 onPress={() => {
-                    //TODO: Alert
-                    router.navigate("/group");
+                    if (USER_INFO_EXISTS) {
+                        showAlert(USER_INFO.groupInfo.groupName);
+                    }
                 }}
                 textStyle={{ paddingVertical: 8 }}
             />
         </View>
+    );
+}
+
+function showAlert(groupName: string): void {
+    Alert.alert(
+        "Do you want to leave the group chat ?",
+        `Are you sure you want to leave “${groupName}” group chat?`,
+        [
+            {
+                text: "Cancel",
+                style: "cancel",
+            },
+            {
+                text: "Leave Group",
+                style: "destructive",
+                onPress: () => {
+                    GroupRepository.leaveCurrentGroup();
+                },
+            },
+        ],
+        { cancelable: true },
     );
 }
