@@ -5,7 +5,9 @@ import {
     useCameraContext,
     useCameraDispatchContext,
 } from "@/hooks/context/CameraContext";
+import { useUserInfoContext } from "@/hooks/context/UserInfoContext";
 import { useMessagingContext } from "@/hooks/context/message/MessagingContext";
+import { UserInfoSuccess } from "@/utils/RequestStatus";
 import { CameraView } from "expo-camera";
 import { Image } from "expo-image";
 import * as NavigationBar from "expo-navigation-bar";
@@ -18,6 +20,8 @@ import { BackHandler, Button, Pressable, View } from "react-native";
 export default function CameraScreen() {
     NavigationBar.setBackgroundColorAsync(Colors.black);
 
+    const userInfo = useUserInfoContext();
+
     const { cameraIsActive, imageUri } = useCameraContext();
     const dispatchCameraState = useCameraDispatchContext();
 
@@ -26,6 +30,7 @@ export default function CameraScreen() {
     useEffect(() => {
         if (imageUri !== null && !cameraIsActive) {
             const NEW_MESSAGE = new NewChatMessage(
+                userInfo instanceof UserInfoSuccess ? userInfo.userId : null,
                 imageUri,
                 MessageType.IMAGE,
                 true,
@@ -33,7 +38,13 @@ export default function CameraScreen() {
             sendNewMessage(NEW_MESSAGE);
             dispatchCameraState({ type: "ConsumeImageUri" });
         }
-    }, [sendNewMessage, dispatchCameraState, cameraIsActive, imageUri]);
+    }, [
+        userInfo,
+        sendNewMessage,
+        dispatchCameraState,
+        cameraIsActive,
+        imageUri,
+    ]);
 
     useEffect(
         function handleBackNavigation() {

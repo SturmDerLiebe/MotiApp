@@ -13,7 +13,7 @@ export interface RawMessageData {
  */
 export interface RawExistingMessageData extends RawMessageData {
     messageId: string;
-    author: string;
+    authorId: string | null;
     content: string;
     clapCount: number;
 }
@@ -48,10 +48,12 @@ export enum MessageType {
  * Classes inheriting {@link ChatMessage} contain the data used for displaying a chat message
  */
 export abstract class ChatMessage {
+    authorId: string | null;
     time: string;
     date: string;
 
     constructor(
+        authorId: string | null,
         instant: Date,
         /**
          * Text or remote/local Image Uri
@@ -60,6 +62,7 @@ export abstract class ChatMessage {
         public type: MessageType,
         public isMotiMateMessage: boolean,
     ) {
+        this.authorId = authorId;
         this.date = DATE_FORMATTER.format(instant);
         this.time = TIME_FORMATTER.format(instant);
     }
@@ -67,26 +70,25 @@ export abstract class ChatMessage {
 
 export class ExistingChatMessage extends ChatMessage {
     public messageId: string;
-    public author: string;
     public clapCount: number;
 
     constructor({
+        authorId,
         timestamp,
         content,
         type,
         isMotiMateMessage,
         messageId,
-        author,
         clapCount,
     }: RawExistingMessageData) {
         super(
+            authorId,
             new Date(timestamp),
             content,
             MessageType[type],
             isMotiMateMessage,
         );
         this.messageId = messageId;
-        this.author = author;
         this.clapCount = clapCount;
     }
 }
@@ -95,12 +97,13 @@ export class NewChatMessage extends ChatMessage {
     private timestamp: string; //NOTE: Will be needed when sending New Message to the Server for ease of use in the BE
 
     constructor(
+        authorId: string | null,
         content: string,
         type: MessageType,
         isMotiMateMessage: boolean,
     ) {
         const INSTANT = new Date();
-        super(INSTANT, content, type, isMotiMateMessage);
+        super(authorId, INSTANT, content, type, isMotiMateMessage);
         this.timestamp = INSTANT.toISOString();
     }
 

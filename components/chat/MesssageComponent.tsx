@@ -13,19 +13,21 @@ import {
 } from "@/data/DTO/ChatMessage";
 import { SvgAssets } from "@/constants/SvgAssets";
 import { MockIcons } from "@/constants/Icons";
+import { useUserInfoContext } from "@/hooks/context/UserInfoContext";
+import { UserInfoSuccess } from "@/utils/RequestStatus";
 
 export function MessageComponent({
     item,
-    previousAuthor,
+    previousAuthorId,
 }: {
     item: ChatMessage;
-    previousAuthor: string | null;
+    previousAuthorId: string | null;
 }) {
     function shouldShowAuthor() {
         return (
             item.isMotiMateMessage ||
             (item instanceof ExistingChatMessage &&
-                previousAuthor !== item.author)
+                previousAuthorId !== item.authorId)
         );
     }
 
@@ -64,6 +66,8 @@ export function ChatItemWrapper({
         return item instanceof NewChatMessage && !item.isMotiMateMessage;
     }
 
+    const userInfo = useUserInfoContext();
+
     return (
         <View
             style={
@@ -73,9 +77,12 @@ export function ChatItemWrapper({
             }
         >
             <AvatarIcon
-                // TODO:
-                // imageUri={findImageUriByAuthorId(id)}
-                imageUri={Colors.orange.dark}
+                imageUri={
+                    item.authorId !== null &&
+                    userInfo instanceof UserInfoSuccess
+                        ? userInfo.getImageUriOf(item.authorId)
+                        : Colors.orange.light
+                }
                 showAvatar={showAuthor || item instanceof NewChatMessage}
                 isMotiMateMessage={item.isMotiMateMessage}
             />
@@ -160,17 +167,22 @@ function ImageMessageComponent({
 function TextMessageComponent(props: {
     text: string;
     time: string;
-    author?: string;
+    authorId: string | null;
     showAuthor: boolean;
 }) {
+    const userInfo = useUserInfoContext();
+
     return (
         <View style={CHAT_STYLES.bodyBase}>
             <View style={CHAT_STYLES.headerAndMainContainer}>
                 <Author
-                    shouldShowAuthor={
-                        props.showAuthor && props.author !== undefined
+                    shouldShowAuthor={props.showAuthor}
+                    author={
+                        props.authorId !== null &&
+                        userInfo instanceof UserInfoSuccess
+                            ? userInfo.getUsernameOf(props.authorId)
+                            : ""
                     }
-                    author={props.author ?? ""}
                 />
 
                 <Text style={[Fonts.paragraph.p4]}>{props.text}</Text>

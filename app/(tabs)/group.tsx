@@ -1,7 +1,9 @@
 import { ChatList } from "@/components/chat/ChatList";
 import { CHAT_STYLES } from "@/components/chat/ChatStyles";
 import { MessageType, NewChatMessage } from "@/data/DTO/ChatMessage";
+import { useUserInfoContext } from "@/hooks/context/UserInfoContext";
 import { useMessagingContext } from "@/hooks/context/message/MessagingContext";
+import { UserInfoSuccess } from "@/utils/RequestStatus";
 import { StrictMode, useState } from "react";
 import { StyleSheet, TextInput, View } from "react-native";
 
@@ -21,6 +23,8 @@ export default function GroupScreen() {
 }
 
 function ChatInput() {
+    const userInfo = useUserInfoContext();
+
     const sendNewMessage = useMessagingContext()[1];
 
     const [message, setMessage] = useState("");
@@ -32,7 +36,14 @@ function ChatInput() {
             onSubmitEditing={function handleSendingMessage() {
                 if (message.length > 0) {
                     sendNewMessage(
-                        new NewChatMessage(message, MessageType.TEXT, false),
+                        new NewChatMessage(
+                            userInfo instanceof UserInfoSuccess
+                                ? userInfo.userId
+                                : null,
+                            message,
+                            MessageType.TEXT,
+                            false,
+                        ),
                     );
                     setMessage("");
                 }

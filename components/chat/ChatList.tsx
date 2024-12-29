@@ -1,5 +1,5 @@
 import { Fonts } from "@/constants/Fonts";
-import { ExistingChatMessage } from "@/data/DTO/ChatMessage";
+import { ChatMessage } from "@/data/DTO/ChatMessage";
 import { ChatMessageListItem } from "@/hooks/context/message/MessagingContext";
 import { SocketStatus } from "@/utils/socket/status";
 import { FlashList } from "@shopify/flash-list";
@@ -55,9 +55,9 @@ function ChatItem({
         return typeof item === "string";
     }
 
-    function determinePreviousAuthor() {
-        return previousItem instanceof ExistingChatMessage
-            ? previousItem.author
+    function determinePreviousAuthorId() {
+        return previousItem instanceof ChatMessage
+            ? previousItem.authorId
             : null;
     }
 
@@ -75,7 +75,7 @@ function ChatItem({
         return (
             <MessageComponent
                 item={item}
-                previousAuthor={determinePreviousAuthor()}
+                previousAuthorId={determinePreviousAuthorId()}
             />
         );
     }

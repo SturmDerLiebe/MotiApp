@@ -1,4 +1,8 @@
-import { GroupInfo, UserInfoResponse } from "@/data/DTO/UserInfoResponse";
+import {
+    GroupInfo,
+    UserInfoResponse,
+    UserProfile,
+} from "@/data/DTO/UserInfoResponse";
 import { GroupCreationResponse } from "../hooks/group/useGroupCreationState";
 
 export abstract class RequestStatus {}
@@ -36,10 +40,26 @@ export class UserInfoSuccess
         this.groupInfo = groupInfo;
     }
 
-    getUsernameOfCurrentUser(): string | undefined {
+    getUsernameOfCurrentUser(): string {
+        return this.findUsernameOf(this.userId);
+    }
+
+    getUsernameOf(userId: string): string {
+        return this.findUsernameOf(userId);
+    }
+
+    private findUsernameOf(userId: string): string {
+        return this.findUserWith(userId)?.username ?? "";
+    }
+
+    getImageUriOf(userId: string): string {
+        return this.findUserWith(userId)?.profileImageUri ?? "";
+    }
+
+    private findUserWith(userId: string): UserProfile | undefined {
         return this.groupInfo.members.find((member) => {
-            return member.userId === this.userId;
-        })?.username;
+            return member.userId === userId;
+        });
     }
 }
 
