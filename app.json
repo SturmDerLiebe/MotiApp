@@ -5,15 +5,10 @@
         "version": "1.0.0",
         "newArchEnabled": true,
         "orientation": "portrait",
-        "icon": "./assets/images/icon.png",
+        "icon": "./assets/images/Icon.png",
         "scheme": "myapp",
         "userInterfaceStyle": "automatic",
         "backgroundColor": "#ffffff",
-        "splash": {
-            "image": "./assets/images/splash.png",
-            "resizeMode": "contain",
-            "backgroundColor": "#ffffff"
-        },
         "ios": {
             "supportsTablet": false,
             "config": {
@@ -21,11 +16,7 @@
             }
         },
         "android": {
-            "softwareKeyboardLayoutMode": "pan",
-            "adaptiveIcon": {
-                "foregroundImage": "./assets/images/adaptive-icon.png",
-                "backgroundColor": "#ffffff"
-            }
+            "softwareKeyboardLayoutMode": "pan"
         },
         "plugins": [
             "expo-router",
@@ -41,6 +32,13 @@
                 "expo-camera",
                 {
                     "cameraPermission": "Allow $(PRODUCT_NAME) to use your device's camera"
+                }
+            ],
+            [
+                "expo-splash-screen",
+                {
+                    "backgroundColor": "#ffffff",
+                    "image": "./assets/images/Icon.png"
                 }
             ]
         ],
