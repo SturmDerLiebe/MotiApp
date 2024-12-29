@@ -1,5 +1,6 @@
 import { Colors } from "@/constants/Colors";
 import { UserInfoProvider } from "@/hooks/context/UserInfoContext";
+import { Logger } from "@/utils/Logging/Logger";
 import {
     Inter_400Regular,
     Inter_500Medium,
@@ -11,8 +12,13 @@ import {
     SpaceMono_400Regular,
     SpaceMono_700Bold,
 } from "@expo-google-fonts/space-mono";
-import { Stack } from "expo-router";
-import { StatusBar, Text } from "react-native";
+import { SplashScreen, Stack } from "expo-router";
+import { useEffect, useLayoutEffect, useState } from "react";
+import { StatusBar } from "react-native";
+
+const TAG = "ROOT_LAYOUT";
+
+SplashScreen.preventAutoHideAsync();
 
 export default function RootLayoutWrapper() {
     return (
@@ -28,7 +34,15 @@ export default function RootLayoutWrapper() {
 }
 
 function RootLayout() {
-    let [isLoaded, error] = useFonts({
+    const [appIsReady, setAppIsReady] = useState(false);
+
+    useLayoutEffect(() => {
+        if (appIsReady) {
+            SplashScreen.hide();
+        }
+    }, [appIsReady]);
+
+    const [isLoaded, error] = useFonts({
         Inter_400Regular,
         Inter_500Medium,
         Inter_600SemiBold,
@@ -37,7 +51,15 @@ function RootLayout() {
         SpaceMono_700Bold,
     });
 
-    return isLoaded ? (
+    useEffect(() => {
+        if (error !== null) {
+            Logger.logError(TAG, "There was an error loading Fonts", error);
+        } else {
+            setAppIsReady(true);
+        }
+    }, [setAppIsReady, error, isLoaded]);
+
+    return appIsReady ? (
         <Stack
             screenOptions={{
                 headerShadowVisible: false,
@@ -77,8 +99,5 @@ function RootLayout() {
                 }}
             />
         </Stack>
-    ) : (
-        // TODO: Use SplashScreen here
-        <Text>{error?.name + " " + error?.message}</Text>
-    );
+    ) : null;
 }
