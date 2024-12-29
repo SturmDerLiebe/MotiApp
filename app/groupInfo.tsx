@@ -10,7 +10,7 @@ import { BlurView } from "expo-blur";
 import * as NavigationBar from "expo-navigation-bar";
 import { router } from "expo-router";
 import { useEffect } from "react";
-import { Alert, Text, View } from "react-native";
+import { Alert, Share, Text, View } from "react-native";
 
 /**
  * On Android this modal will *not* blur the background due to issues listed in the [Expo Docs](https://docs.expo.dev/versions/latest/sdk/blur-view/#experimentalblurmethod-1)
@@ -130,7 +130,17 @@ function ButtonColumn() {
                 title="Invite a friend"
                 disabled={!USER_INFO_EXISTS}
                 onPress={() => {
-                    //TODO: Share from React Native
+                    if (USER_INFO_EXISTS) {
+                        Share.share(
+                            {
+                                message: USER_INFO.groupInfo.inviteCode,
+                            },
+                            {
+                                dialogTitle:
+                                    "Share this code with your friends",
+                            },
+                        );
+                    }
                 }}
                 textStyle={{ paddingVertical: 8 }}
             />
