@@ -10,7 +10,7 @@ import { BlurView } from "expo-blur";
 import * as NavigationBar from "expo-navigation-bar";
 import { router } from "expo-router";
 import { useEffect } from "react";
-import { Alert, Share, Text, View } from "react-native";
+import { Alert, Pressable, Share, Text, View } from "react-native";
 
 /**
  * On Android this modal will *not* blur the background due to issues listed in the [Expo Docs](https://docs.expo.dev/versions/latest/sdk/blur-view/#experimentalblurmethod-1)
@@ -18,35 +18,39 @@ import { Alert, Share, Text, View } from "react-native";
 export default function GroupInfoModal() {
     useEffect(() => {
         NavigationBar.setBackgroundColorAsync("#b2b8c0");
-        return () => {
-            NavigationBar.setBackgroundColorAsync(Colors.grey.light1);
-        };
     });
 
     return (
-        <BlurView
-            intensity={4}
-            style={{
-                flex: 1,
-                backgroundColor: Colors.grey.dark3_50_Percent,
-                alignItems: "flex-end",
+        <Pressable
+            style={{ flex: 1 }}
+            onPress={() => {
+                router.back();
             }}
         >
-            <View style={{ height: "5%" }} />
-            <View
+            <BlurView
+                intensity={4}
                 style={{
-                    width: "56%",
-                    height: "80%",
-                    gap: 24,
-                    backgroundColor: Colors.white,
-                    borderStartStartRadius: 20,
-                    borderStartEndRadius: 20,
-                    padding: 16,
+                    flex: 1,
+                    backgroundColor: Colors.grey.dark3_50_Percent,
+                    alignItems: "flex-end",
                 }}
             >
-                <UserInfoContent />
-            </View>
-        </BlurView>
+                <View style={{ height: "5%" }} />
+                <Pressable
+                    style={{
+                        width: "56%",
+                        height: "80%",
+                        gap: 24,
+                        backgroundColor: Colors.white,
+                        borderStartStartRadius: 20,
+                        borderStartEndRadius: 20,
+                        padding: 16,
+                    }}
+                >
+                    <UserInfoContent />
+                </Pressable>
+            </BlurView>
+        </Pressable>
     );
 }
 function UserInfoContent() {
