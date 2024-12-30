@@ -36,7 +36,12 @@ export default function TabContextWrapper() {
 }
 
 function TabLayout() {
-    NavigationBar.setBackgroundColorAsync(TabBarStyles.backgroundColor);
+    useFocusEffect(
+        useCallback(() => {
+            NavigationBar.setBackgroundColorAsync(TabBarStyles.backgroundColor);
+        }, []),
+    );
+
     const userInfoState = useUserInfoContext();
 
     const [requestUserInfo, cancelUserInfoRequest] =
