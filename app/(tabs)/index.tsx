@@ -11,8 +11,6 @@ export default function IndexScreen() {
 
     return userInfoState instanceof UserInfoSuccess ? (
         <View style={[BODY_STYLES.dashboard]}>
-            <View style={{ height: "1%" }} />
-
             <Text
                 style={[{ color: Colors.blue.grey }, Fonts.title.h6]}
             >{`Hi, ${userInfoState.getUsernameOfCurrentUser() ?? "You"}!`}</Text>

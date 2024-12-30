@@ -70,8 +70,9 @@ function TabLayout() {
                     return <MainTabBar {...bottomTabBarProps} />;
                 }}
                 screenOptions={{
+                    headerTitle: "",
+                    headerShadowVisible: false,
                     sceneStyle: { backgroundColor: Colors.white },
-                    headerShown: false,
                     tabBarActiveTintColor: Colors.blue.grey,
                     tabBarInactiveTintColor: Colors.grey.dark2,
                 }}
