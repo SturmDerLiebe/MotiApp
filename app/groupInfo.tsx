@@ -151,7 +151,7 @@ function ButtonColumn() {
             <DangerButton
                 title="Exit"
                 disabled={!USER_INFO_EXISTS}
-                icon="Exit"
+                iconData={{ name: "Exit", size: 20 }}
                 onPress={() => {
                     if (USER_INFO_EXISTS) {
                         showAlert(USER_INFO.groupInfo.groupName);
