@@ -34,7 +34,7 @@ export default function ChooseRegistrationOrLoginScreen() {
                 >
                     <SecondaryButton
                         title="Register"
-                        onPress={() => router.push("/register")}
+                        onPress={() => router.push("/authentication/register")}
                         buttonStyle={{ width: BUTTON_WIDTH }}
                     />
                     <PrimaryButton
