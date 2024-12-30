@@ -1,16 +1,9 @@
 import { Colors } from "@/constants/Colors";
-import {
-    Pressable,
-    PressableProps,
-    StyleProp,
-    StyleSheet,
-    Text,
-    ViewStyle,
-} from "react-native";
+import { Icon } from "@/constants/Icons";
+import { Pressable, StyleSheet, Text } from "react-native";
 import { mergeButtonStyles } from "./buttons/helper";
 import { BUTTON_STYLES, BUTTON_TEXT_STYLE } from "./buttons/styles";
 import type { ButtonProps } from "./buttons/types";
-import { Icon } from "@/constants/Icons";
 
 export function PrimaryButton({
     title,
