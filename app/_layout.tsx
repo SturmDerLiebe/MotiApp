@@ -41,7 +41,7 @@ function RootLayout() {
         if (error !== null) {
             Logger.logError(TAG, "There was an error loading Fonts", error);
         } else {
-            setAppIsReady(true);
+            setAppIsReady(isLoaded);
         }
     }, [setAppIsReady, error, isLoaded]);
 
