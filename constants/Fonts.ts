@@ -1,4 +1,26 @@
+import {
+    Inter_400Regular,
+    Inter_500Medium,
+    Inter_600SemiBold,
+    Inter_700Bold,
+    useFonts,
+} from "@expo-google-fonts/inter";
+import {
+    SpaceMono_400Regular,
+    SpaceMono_700Bold,
+} from "@expo-google-fonts/space-mono";
 import { StyleSheet } from "react-native";
+
+export function useLoadFonts() {
+    return useFonts({
+        Inter_400Regular,
+        Inter_500Medium,
+        Inter_600SemiBold,
+        Inter_700Bold,
+        SpaceMono_400Regular,
+        SpaceMono_700Bold,
+    });
+}
 
 const INTER_REGULAR = "Inter_400Regular";
 const INTER_MEDIUM = "Inter_500Medium";

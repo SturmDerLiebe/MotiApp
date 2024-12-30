@@ -1,17 +1,7 @@
 import { Colors } from "@/constants/Colors";
+import { useLoadFonts } from "@/constants/Fonts";
 import { UserInfoProvider } from "@/hooks/context/UserInfoContext";
 import { Logger } from "@/utils/Logging/Logger";
-import {
-    Inter_400Regular,
-    Inter_500Medium,
-    Inter_600SemiBold,
-    Inter_700Bold,
-    useFonts,
-} from "@expo-google-fonts/inter";
-import {
-    SpaceMono_400Regular,
-    SpaceMono_700Bold,
-} from "@expo-google-fonts/space-mono";
 import * as NavigationBar from "expo-navigation-bar";
 import { SplashScreen, Stack } from "expo-router";
 import { useEffect, useLayoutEffect, useState } from "react";
@@ -45,14 +35,7 @@ function RootLayout() {
         }
     }, [appIsReady]);
 
-    const [isLoaded, error] = useFonts({
-        Inter_400Regular,
-        Inter_500Medium,
-        Inter_600SemiBold,
-        Inter_700Bold,
-        SpaceMono_400Regular,
-        SpaceMono_700Bold,
-    });
+    const [isLoaded, error] = useLoadFonts();
 
     useEffect(() => {
         if (error !== null) {
