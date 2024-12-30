@@ -45,6 +45,7 @@ export const Fonts = {
     paragraph: StyleSheet.create({
         p1: { fontSize: 16, fontFamily: INTER_BOLD },
         p2: { fontSize: 16, fontFamily: INTER_SEMIBOLD },
+        p3: { fontSize: 16, fontFamily: INTER_MEDIUM },
         p4: { fontSize: 16, fontFamily: INTER_REGULAR },
         p5: { fontSize: 14, fontFamily: INTER_REGULAR },
         p6: { fontSize: 14, fontFamily: INTER_MEDIUM },
