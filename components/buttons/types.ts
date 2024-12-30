@@ -36,7 +36,7 @@ export type IconAndTitleButtonProps = Pick<PressableProps, "onPress"> & {
     disabled?: boolean;
     buttonStyle?: StyleProp<ViewStyle>;
     textStyle?: StyleProp<TextStyle>;
-    iconData: IconData;
+    iconData: Omit<IconData, "ariaLabel">;
 };
 
 export type BaseButtonProps = Pick<PressableProps, "onPress"> & {
