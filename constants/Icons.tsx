@@ -30,6 +30,7 @@ export const Icons = {
     BurgerMenu: require("@/assets/images/optimized_svg/BurgerMenu.svg"),
     BurgerMenuWithBackground: require("@/assets/images/optimized_svg/BurgerMenuWithBackground.svg"),
     Exit: require("@/assets/images/optimized_svg/Exit.svg"),
+    LeftArrow: require("@/assets/images/optimized_svg/LeftArrow.svg"),
 };
 
 export const MockIcons = {
