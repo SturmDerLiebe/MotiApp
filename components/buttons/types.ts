@@ -1,5 +1,11 @@
-import { Icons } from "@/constants/Icons";
-import { PressableProps, StyleProp, TextStyle, ViewStyle } from "react-native";
+import type { IconName } from "@/constants/Icons";
+import type {
+    PressableProps,
+    StyleProp,
+    TextStyle,
+    ViewStyle,
+} from "react-native";
+import type { BUTTON_STYLES } from "./styles";
 
 export type ButtonProps = Pick<PressableProps, "onPress"> & {
     /** A Label the button should display inside of it */
@@ -7,5 +13,43 @@ export type ButtonProps = Pick<PressableProps, "onPress"> & {
     disabled?: boolean;
     buttonStyle?: StyleProp<ViewStyle>;
     textStyle?: StyleProp<TextStyle>;
-    icon?: keyof typeof Icons;
+    icon?: IconName;
+};
+
+export type PublicButtonProps = Omit<BaseButtonProps, "type">;
+
+export type TitleOnlyButtonProps = Pick<PressableProps, "onPress"> & {
+    title: string;
+    disabled?: boolean;
+    buttonStyle?: StyleProp<ViewStyle>;
+    textStyle?: StyleProp<TextStyle>;
+};
+
+export type IconOnlyButtonProps = Pick<PressableProps, "onPress"> & {
+    disabled?: boolean;
+    buttonStyle?: StyleProp<ViewStyle>;
+    iconData: IconData;
+};
+
+export type IconAndTitleButtonProps = Pick<PressableProps, "onPress"> & {
+    title: string;
+    disabled?: boolean;
+    buttonStyle?: StyleProp<ViewStyle>;
+    textStyle?: StyleProp<TextStyle>;
+    iconData: IconData;
+};
+
+export type BaseButtonProps = Pick<PressableProps, "onPress"> & {
+    type: keyof typeof BUTTON_STYLES;
+    title?: string;
+    disabled?: boolean;
+    buttonStyle?: StyleProp<ViewStyle>;
+    textStyle?: StyleProp<TextStyle>;
+    iconData?: IconData;
+};
+
+type IconData = {
+    name: IconName;
+    size: number;
+    ariaLabel: string;
 };

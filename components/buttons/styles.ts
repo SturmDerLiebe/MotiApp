@@ -5,7 +5,7 @@ import { StyleProp, StyleSheet, TextStyle, ViewStyle } from "react-native";
 export const BASIC_BUTTON_TEXT_STYLE: StyleProp<TextStyle> = {
     color: Colors.white,
     ...Fonts.paragraph.p2,
-    paddingVertical: 12,
+    paddingVertical: 10.5,
     textAlign: "center",
 };
 
@@ -16,13 +16,23 @@ export const BUTTON_TEXT_STYLE = {
     }),
 };
 
-export const BASIC_BUTTON_STYLE: StyleProp<ViewStyle> = { borderRadius: 100 };
+export const BASIC_BUTTON_STYLE: StyleProp<ViewStyle> = {
+    borderRadius: 100,
+    borderWidth: 1.5,
+    borderColor: Colors.transparent,
+};
 
 export const BUTTON_STYLES = {
     primary: StyleSheet.create({
-        inactive: { backgroundColor: Colors.blue.grey },
-        active: { backgroundColor: Colors.blue.dark },
-        disabled: { backgroundColor: Colors.grey.dark1 },
+        inactive: {
+            backgroundColor: Colors.blue.grey,
+        },
+        active: {
+            backgroundColor: Colors.blue.dark,
+        },
+        disabled: {
+            backgroundColor: Colors.grey.dark1,
+        },
     }),
     secondary: StyleSheet.create({
         inactive: {
@@ -39,12 +49,15 @@ export const BUTTON_STYLES = {
         },
     }),
     danger: StyleSheet.create({
-        inactive: { backgroundColor: Colors.red.medium },
+        inactive: {
+            backgroundColor: Colors.red.medium,
+        },
         active: {
             backgroundColor: Colors.red.dark,
-            borderWidth: 1,
             borderColor: Colors.red.medium,
         },
-        disabled: { backgroundColor: Colors.red.light },
+        disabled: {
+            backgroundColor: Colors.red.light,
+        },
     }),
 };
