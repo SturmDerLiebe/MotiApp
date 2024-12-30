@@ -12,6 +12,7 @@ import {
     SpaceMono_400Regular,
     SpaceMono_700Bold,
 } from "@expo-google-fonts/space-mono";
+import * as NavigationBar from "expo-navigation-bar";
 import { SplashScreen, Stack } from "expo-router";
 import { useEffect, useLayoutEffect, useState } from "react";
 import { StatusBar } from "react-native";
@@ -21,6 +22,8 @@ const TAG = "ROOT_LAYOUT";
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayoutWrapper() {
+    NavigationBar.setBackgroundColorAsync(Colors.white);
+
     return (
         <UserInfoProvider>
             <RootLayout />
