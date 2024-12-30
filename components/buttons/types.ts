@@ -51,5 +51,5 @@ export type BaseButtonProps = Pick<PressableProps, "onPress"> & {
 type IconData = {
     name: IconName;
     size: number;
-    ariaLabel: string;
+    ariaLabel?: string;
 };
