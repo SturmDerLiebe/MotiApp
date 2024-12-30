@@ -2,11 +2,18 @@ import { Colors } from "@/constants/Colors";
 import { Fonts } from "@/constants/Fonts";
 import { StyleProp, StyleSheet, TextStyle, ViewStyle } from "react-native";
 
-export const BUTTON_TEXT_STYLE: StyleProp<TextStyle> = {
+export const BASIC_BUTTON_TEXT_STYLE: StyleProp<TextStyle> = {
     color: Colors.white,
     ...Fonts.paragraph.p2,
     paddingVertical: 12,
     textAlign: "center",
+};
+
+export const BUTTON_TEXT_STYLE = {
+    secondary: StyleSheet.create({
+        enabled: { color: Colors.blue.grey },
+        disabled: { color: Colors.grey.dark1 },
+    }),
 };
 
 export const BASIC_BUTTON_STYLE: StyleProp<ViewStyle> = { borderRadius: 100 };
