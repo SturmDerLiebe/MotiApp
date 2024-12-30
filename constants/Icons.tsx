@@ -1,9 +1,11 @@
 import { Image } from "expo-image";
 
+export type IconName = keyof typeof Icons;
+
 export function Icon(props: {
     tintColor: string;
     size: number;
-    icon: keyof typeof Icons;
+    icon: IconName;
 }) {
     const { tintColor, icon } = props;
     return (
