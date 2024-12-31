@@ -56,11 +56,12 @@ function RootLayout() {
                 contentStyle: { backgroundColor: Colors.white },
             }}
         >
-            <Stack.Screen name="index" />
+            <Stack.Screen name="index" options={{ headerShown: false }} />
 
-            <Stack.Screen name="register" />
-
-            <Stack.Screen name="verify" />
+            <Stack.Screen
+                name="authentication"
+                options={{ headerShown: false }}
+            />
 
             <Stack.Screen name="initial-personal-goal" />
 
