@@ -1,4 +1,4 @@
-import { Assets } from "@/constants/Icons";
+import { Bitmaps } from "@/constants/Bitmaps";
 import SessionRepository from "@/data/repository/SessionRepository";
 import { Image } from "expo-image";
 import { Redirect } from "expo-router";
@@ -32,7 +32,7 @@ function StartScreen() {
             style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
         >
             <Image
-                source={Assets.SplashIcon}
+                source={Bitmaps.SplashIcon}
                 style={{ aspectRatio: 1, width: "50%" }}
             />
         </View>
