@@ -48,6 +48,7 @@ function RootLayout() {
     return appIsReady ? (
         <Stack
             screenOptions={{
+                headerShown: false,
                 headerShadowVisible: false,
                 headerTintColor: Colors.blue.dark,
                 headerTitle: "",
@@ -58,6 +59,7 @@ function RootLayout() {
         >
             <Stack.Screen name="index" options={{ headerShown: false }} />
 
+            <Stack.Screen name="onboarding" />
             <Stack.Screen
                 name="authentication"
                 options={{ headerShown: false }}
