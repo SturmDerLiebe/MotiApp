@@ -36,3 +36,7 @@ export const Icons = {
 export const MockIcons = {
     Circle: require("@/assets/images/mock_svg/Circle.svg"),
 };
+
+export const Assets = {
+    SplashIcon: require("@/assets/images/Icon.png"),
+};
