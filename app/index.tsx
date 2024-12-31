@@ -20,7 +20,7 @@ export default function InitialReroute() {
         case null:
             return <StartScreen />;
         case false:
-            return <Redirect href="/authentication" />;
+            return <Redirect href="/onboarding" />;
         case true:
             return <Redirect href="/(tabs)" />;
     }
