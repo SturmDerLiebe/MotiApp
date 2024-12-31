@@ -5,7 +5,7 @@
         "version": "1.0.0",
         "newArchEnabled": true,
         "orientation": "portrait",
-        "icon": "./assets/images/Icon.png",
+        "icon": "./assets/images/Bitmap/Icon.png",
         "scheme": "myapp",
         "userInterfaceStyle": "automatic",
         "backgroundColor": "#ffffff",
@@ -38,7 +38,7 @@
                 "expo-splash-screen",
                 {
                     "backgroundColor": "#ffffff",
-                    "image": "./assets/images/Icon.png"
+                    "image": "./assets/images/Bitmap/Icon.png"
                 }
             ]
         ],
