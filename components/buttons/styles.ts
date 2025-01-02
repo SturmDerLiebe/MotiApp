@@ -5,7 +5,6 @@ import { StyleProp, StyleSheet, TextStyle, ViewStyle } from "react-native";
 export const BASIC_BUTTON_TEXT_STYLE: StyleProp<TextStyle> = {
     color: Colors.white,
     ...Fonts.paragraph.p2,
-    paddingVertical: 10.5,
     textAlign: "center",
 };
 
@@ -18,6 +17,7 @@ export const BUTTON_TEXT_STYLE = {
 
 export const BASIC_BUTTON_STYLE: StyleProp<ViewStyle> = {
     borderRadius: 100,
+    paddingVertical: 10.5,
     borderWidth: 1.5,
     borderColor: Colors.transparent,
 };
