@@ -1,7 +1,7 @@
 import { PrimaryButton } from "@/components/Buttons";
 import { Heading5 } from "@/components/Headings";
 import { Fonts } from "@/constants/Fonts";
-import { Colors } from "@/constants/Colors";
+import { MotiColors } from "@/constants/Colors";
 import { View, Text, StyleSheet, TextInput, Pressable } from "react-native";
 import { router, useLocalSearchParams } from "expo-router";
 import { Image } from "expo-image";
@@ -97,21 +97,21 @@ export default function InviteScreen() {
 
 const TEXT_STYLES = StyleSheet.create({
     topText: {
-        color: Colors.grey.dark3,
+        color: MotiColors.grey.dark3,
         ...Fonts.paragraph.p5,
         textAlign: "center",
     },
     middleText: {
-        color: Colors.grey.dark3,
+        color: MotiColors.grey.dark3,
         ...Fonts.paragraph.p9,
     },
-    secondaryButtonText: { color: Colors.blue.grey, ...Fonts.paragraph.p1 },
-    copyText: { color: Colors.white, ...Fonts.title.h2 },
+    secondaryButtonText: { color: MotiColors.blue.grey, ...Fonts.paragraph.p1 },
+    copyText: { color: MotiColors.white, ...Fonts.title.h2 },
 });
 
 export const BASE_INPUT_STYLES = StyleSheet.create({
     copyField: {
-        backgroundColor: Colors.blue.grey,
+        backgroundColor: MotiColors.blue.grey,
         borderRadius: 100,
         paddingStart: 24,
         paddingEnd: 6,
@@ -120,7 +120,7 @@ export const BASE_INPUT_STYLES = StyleSheet.create({
 
 export const BASE_BUTTON_STYLES = StyleSheet.create({
     secondary: {
-        backgroundColor: Colors.white,
+        backgroundColor: MotiColors.white,
         borderRadius: 100,
     },
 });

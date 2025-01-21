@@ -1,7 +1,7 @@
 import { PrimaryButton } from "@/components/Buttons";
 import { Heading5 } from "@/components/Headings";
 import { Fonts } from "@/constants/Fonts";
-import { Colors } from "@/constants/Colors";
+import { MotiColors } from "@/constants/Colors";
 import useAndroidBackButtonInputHandling from "@/hooks/useAndroidBackButtonInputHandling";
 import { View, Text, StyleSheet, TextInput } from "react-native";
 import { NetworkError, RequestError } from "@/utils/RequestStatus";
@@ -15,16 +15,16 @@ import useNavigateOnSuccessEffect from "@/hooks/navigation/useNavigationOnSucces
 
 const styles = StyleSheet.create({
     topText: {
-        color: Colors.grey.dark3,
+        color: MotiColors.grey.dark3,
         ...Fonts.paragraph.p5,
         textAlign: "center",
     },
     middleText: {
-        color: Colors.grey.dark3,
+        color: MotiColors.grey.dark3,
         ...Fonts.paragraph.p9,
     },
     bottomText: {
-        color: Colors.grey.dark3,
+        color: MotiColors.grey.dark3,
         ...Fonts.paragraph.p5,
     },
 });
@@ -146,24 +146,24 @@ export default function PersonalGoalScreen() {
 
     function determineBorderColor() {
         if (isEmpty(goalInput)) {
-            return Colors.grey.dark1;
+            return MotiColors.grey.dark1;
         } else if (isBeingEdited) {
-            return Colors.blue.grey;
+            return MotiColors.blue.grey;
         } else if (
             personalGoalCreationState instanceof RequestError ||
             isValid === false
         ) {
-            return Colors.red.error;
+            return MotiColors.red.error;
         } else {
-            return Colors.blue.grey;
+            return MotiColors.blue.grey;
         }
     }
 
     function determineColor() {
         if (isEmpty(goalInput)) {
-            return Colors.grey.dark1;
+            return MotiColors.grey.dark1;
         } else {
-            return Colors.blue.grey;
+            return MotiColors.blue.grey;
         }
     }
 }

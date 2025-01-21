@@ -1,7 +1,7 @@
 import { DangerButton, PrimaryButton } from "@/components/Buttons";
 import { AvatarImage } from "@/components/chat/MesssageComponent";
 import { BurgerMenuButtonWithBackground } from "@/components/navigation/BurgerMenuButton";
-import { Colors } from "@/constants/Colors";
+import { MotiColors } from "@/constants/Colors";
 import { Fonts } from "@/constants/Fonts";
 import GroupRepository from "@/data/repository/GroupRepository";
 import { useUserInfoContext } from "@/hooks/context/UserInfoContext";
@@ -31,7 +31,7 @@ export default function GroupInfoModal() {
                 intensity={4}
                 style={{
                     flex: 1,
-                    backgroundColor: Colors.grey.dark3_50_Percent,
+                    backgroundColor: MotiColors.grey.dark3_50_Percent,
                     alignItems: "flex-end",
                 }}
             >
@@ -41,7 +41,7 @@ export default function GroupInfoModal() {
                         width: "56%",
                         height: "80%",
                         gap: 24,
-                        backgroundColor: Colors.white,
+                        backgroundColor: MotiColors.white,
                         borderStartStartRadius: 20,
                         borderStartEndRadius: 20,
                         padding: 16,

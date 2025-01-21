@@ -1,4 +1,4 @@
-import { Colors } from "@/constants/Colors";
+import { MotiColors } from "@/constants/Colors";
 import { Fonts } from "@/constants/Fonts";
 import { useState } from "react";
 import { Pressable, Text, View } from "react-native";
@@ -40,7 +40,7 @@ function ClapReactionIcon(props: { anyReactionsYet: boolean }) {
                 width: 30,
                 aspectRatio: 1,
 
-                backgroundColor: Colors.white,
+                backgroundColor: MotiColors.white,
                 borderRadius: 100,
 
                 elevation: 3,

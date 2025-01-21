@@ -1,4 +1,4 @@
-export const Colors = {
+export const MotiColors = {
     grey: {
         light1: "#F3F4F5",
         light2: "#F0F1F3",

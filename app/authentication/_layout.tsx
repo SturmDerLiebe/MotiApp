@@ -1,4 +1,4 @@
-import { Colors } from "@/constants/Colors";
+import { MotiColors } from "@/constants/Colors";
 import { Stack } from "expo-router";
 
 export default function AuthenticationLayout() {
@@ -6,10 +6,10 @@ export default function AuthenticationLayout() {
         <Stack
             screenOptions={{
                 headerShadowVisible: false,
-                headerTintColor: Colors.blue.dark,
+                headerTintColor: MotiColors.blue.dark,
                 headerTitle: "",
-                headerStyle: { backgroundColor: Colors.white },
-                contentStyle: { backgroundColor: Colors.white },
+                headerStyle: { backgroundColor: MotiColors.white },
+                contentStyle: { backgroundColor: MotiColors.white },
             }}
         >
             <Stack.Screen name="index" />

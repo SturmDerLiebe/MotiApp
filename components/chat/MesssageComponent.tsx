@@ -4,7 +4,7 @@ import { StyleProp, Text, View } from "react-native";
 import { ClapReactionButton } from "../buttons/ClapReactionButton";
 import { Image, ImageStyle } from "expo-image";
 import { Fonts } from "@/constants/Fonts";
-import { Colors } from "@/constants/Colors";
+import { MotiColors } from "@/constants/Colors";
 import {
     ChatMessage,
     ExistingChatMessage,
@@ -81,7 +81,7 @@ export function ChatItemWrapper({
                     item.authorId !== null &&
                     userInfo instanceof UserInfoSuccess
                         ? userInfo.getImageUriOf(item.authorId)
-                        : Colors.orange.light
+                        : MotiColors.orange.light
                 }
                 showAvatar={showAuthor || item instanceof NewChatMessage}
                 isMotiMateMessage={item.isMotiMateMessage}
@@ -227,7 +227,7 @@ function AvatarIcon({
     //NOTE: As long as the FE is using a mock server, the imageUri is just a Hexcolor code to render a circle with the specified color.
     return showAvatar ? (
         <AvatarImage
-            imageUri={isMotiMateMessage ? Colors.eggplant.dark : imageUri}
+            imageUri={isMotiMateMessage ? MotiColors.eggplant.dark : imageUri}
             diameter={30}
             style={CHAT_STYLES.avatar}
         />

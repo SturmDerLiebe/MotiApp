@@ -1,5 +1,5 @@
 import { SingleCircularProgress } from "@/components/progress/circular/SingleCircularProgress";
-import { Colors } from "@/constants/Colors";
+import { MotiColors } from "@/constants/Colors";
 import { Fonts } from "@/constants/Fonts";
 import { BODY_STYLES } from "@/constants/styles/Body";
 import { useUserInfoContext } from "@/hooks/context/UserInfoContext";
@@ -12,14 +12,22 @@ export default function IndexScreen() {
     return userInfoState instanceof UserInfoSuccess ? (
         <View style={[BODY_STYLES.dashboard]}>
             <Text
-                style={[{ color: Colors.blue.grey }, Fonts.title.h6]}
+                style={[{ color: MotiColors.blue.grey }, Fonts.title.h6]}
             >{`Hi, ${userInfoState.getUsernameOfCurrentUser() ?? "You"}!`}</Text>
             <View>
-                <Text style={[Fonts.paragraph.p2, { color: Colors.blue.grey }]}>
+                <Text
+                    style={[
+                        Fonts.paragraph.p2,
+                        { color: MotiColors.blue.grey },
+                    ]}
+                >
                     Your progress so far
                 </Text>
                 <Text
-                    style={[Fonts.paragraph.p10, { color: Colors.grey.dark3 }]}
+                    style={[
+                        Fonts.paragraph.p10,
+                        { color: MotiColors.grey.dark3 },
+                    ]}
                 >
                     Keep going! You are doing really amazing!
                 </Text>
@@ -46,12 +54,18 @@ export default function IndexScreen() {
                     }}
                 >
                     <Text
-                        style={[{ color: Colors.orange.dark }, Fonts.title.h5]}
+                        style={[
+                            { color: MotiColors.orange.dark },
+                            Fonts.title.h5,
+                        ]}
                     >
                         Your Goal
                     </Text>
                     <Text
-                        style={[{ color: Colors.orange.dark }, Fonts.title.h5]}
+                        style={[
+                            { color: MotiColors.orange.dark },
+                            Fonts.title.h5,
+                        ]}
                     >{`${userInfoState.personalProgress ?? 0}/${userInfoState.personalGoal ?? 0}`}</Text>
                 </View>
             </View>

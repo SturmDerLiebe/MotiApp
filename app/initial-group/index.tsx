@@ -2,7 +2,7 @@ import { StyleSheet, Text, View } from "react-native";
 import { router } from "expo-router";
 import { PrimaryButton, SecondaryButton } from "@/components/Buttons";
 import { Heading5 } from "@/components/Headings";
-import { Colors } from "@/constants/Colors";
+import { MotiColors } from "@/constants/Colors";
 import { Fonts } from "@/constants/Fonts";
 
 export default function ChooseCreateOrJoinGroupScreen() {
@@ -52,7 +52,7 @@ export default function ChooseCreateOrJoinGroupScreen() {
 
 const TEXT_STYLES = StyleSheet.create({
     topText: {
-        color: Colors.grey.dark3,
+        color: MotiColors.grey.dark3,
         ...Fonts.paragraph.p5,
         textAlign: "center",
     },

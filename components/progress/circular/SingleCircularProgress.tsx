@@ -1,4 +1,4 @@
-import { Colors } from "@/constants/Colors";
+import { MotiColors } from "@/constants/Colors";
 import { DimensionValue } from "react-native";
 import Svg, { Circle, G } from "react-native-svg";
 
@@ -31,13 +31,13 @@ export function SingleCircularProgress(props: {
                     cx={MIDDLE}
                     cy={MIDDLE}
                     r={RADIUS}
-                    stroke={Colors.orange.light}
+                    stroke={MotiColors.orange.light}
                 />
                 <Circle
                     cx={MIDDLE}
                     cy={MIDDLE}
                     r={RADIUS}
-                    stroke={Colors.orange.dark}
+                    stroke={MotiColors.orange.dark}
                     strokeDasharray={CIRCUMFRENCE}
                     strokeDashoffset={(1 - progress) * CIRCUMFRENCE}
                     transform={`rotate(-90, ${MIDDLE}, ${MIDDLE})`}

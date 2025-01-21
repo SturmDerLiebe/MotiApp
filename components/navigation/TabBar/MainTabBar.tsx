@@ -1,5 +1,5 @@
 import { TabName } from "@/app/(tabs)/_layout";
-import { Colors } from "@/constants/Colors";
+import { MotiColors } from "@/constants/Colors";
 import { Fonts } from "@/constants/Fonts";
 import { Icon, Icons } from "@/constants/Icons";
 import {
@@ -66,7 +66,7 @@ export function MainTabBar({
                 const BUTTON_COLOR =
                     (IS_TAB_FOCUSED
                         ? tabBarActiveTintColor
-                        : tabBarInactiveTintColor) ?? Colors.blue.grey;
+                        : tabBarInactiveTintColor) ?? MotiColors.blue.grey;
 
                 return IS_CAMERA ? null : (
                     <TabBarPressable
@@ -143,7 +143,7 @@ function TabBarWrapper({
                     elevation: 0,
                     flexDirection: "row",
                     backgroundColor: isGroupFocused
-                        ? Colors.transparent
+                        ? MotiColors.transparent
                         : TabBarStyles.backgroundColor,
                     paddingTop: 5,
                 },
@@ -154,7 +154,7 @@ function TabBarWrapper({
                     position: "absolute",
                     width: "100%",
                     aspectRatio: 4.43,
-                    tintColor: Colors.grey.light1,
+                    tintColor: MotiColors.grey.light1,
                 }}
                 source={require("@/assets/images/optimized_svg/CurvedBottomNavBackground.svg")}
             />

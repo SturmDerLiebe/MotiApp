@@ -1,7 +1,7 @@
 import { PrimaryButton } from "@/components/Buttons";
 import { Heading5 } from "@/components/Headings";
 import { Fonts } from "@/constants/Fonts";
-import { Colors } from "@/constants/Colors";
+import { MotiColors } from "@/constants/Colors";
 import useAndroidBackButtonInputHandling from "@/hooks/useAndroidBackButtonInputHandling";
 import { View, Text, TextInput, StyleSheet, Pressable } from "react-native";
 import useVerification, {
@@ -15,16 +15,16 @@ import { SafeDigits } from "@/utils/UtilityClasses";
 
 const styles = StyleSheet.create({
     topText: {
-        color: Colors.grey.dark3,
+        color: MotiColors.grey.dark3,
         ...Fonts.paragraph.p5,
         textAlign: "center",
     },
     middleText: {
-        color: Colors.grey.dark3,
+        color: MotiColors.grey.dark3,
         ...Fonts.paragraph.p6,
     },
     bottomText: {
-        color: Colors.blue.grey,
+        color: MotiColors.blue.grey,
         ...Fonts.paragraph.p5,
         textAlign: "center",
     },
@@ -105,7 +105,7 @@ export default function VerificationScreen() {
                         style={[
                             {
                                 width: "105%",
-                                color: Colors.blue.grey,
+                                color: MotiColors.blue.grey,
                                 ...Fonts.digits.big,
                                 letterSpacing: 53,
                             },
@@ -152,7 +152,7 @@ export default function VerificationScreen() {
                                     },
                                     isResendAllowed()
                                         ? {}
-                                        : { color: Colors.grey.dark1 },
+                                        : { color: MotiColors.grey.dark1 },
                                 ]}
                             >
                                 Resend Code

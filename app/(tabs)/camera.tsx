@@ -1,4 +1,4 @@
-import { Colors } from "@/constants/Colors";
+import { MotiColors } from "@/constants/Colors";
 import { MessageType, NewChatMessage } from "@/data/DTO/ChatMessage";
 import {
     CameraAction,
@@ -18,7 +18,7 @@ import { BackHandler, Button, Pressable, View } from "react-native";
 // const TAG = "CAMERA_SCREEN";
 
 export default function CameraScreen() {
-    NavigationBar.setBackgroundColorAsync(Colors.black);
+    NavigationBar.setBackgroundColorAsync(MotiColors.black);
 
     const userInfo = useUserInfoContext();
 
@@ -70,7 +70,7 @@ export default function CameraScreen() {
                 },
                 imageUri === null
                     ? null
-                    : { backgroundColor: Colors.graphicSpecific.orange },
+                    : { backgroundColor: MotiColors.graphicSpecific.orange },
             ]}
         >
             <View
@@ -164,7 +164,7 @@ function ConditionalPicturePreview() {
                 position: "absolute",
                 width: "100%",
                 height: "100%",
-                backgroundColor: Colors.graphicSpecific.orange,
+                backgroundColor: MotiColors.graphicSpecific.orange,
             }}
         >
             <Image

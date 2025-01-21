@@ -1,7 +1,7 @@
 import { BurgerMenuButton } from "@/components/navigation/BurgerMenuButton";
 import { MainTabBar } from "@/components/navigation/TabBar/MainTabBar";
 import { TabBarStyles } from "@/components/navigation/TabBar/Styles";
-import { Colors } from "@/constants/Colors";
+import { MotiColors } from "@/constants/Colors";
 import { Fonts } from "@/constants/Fonts";
 import { CameraProvider } from "@/hooks/context/CameraContext";
 import {
@@ -21,7 +21,7 @@ import { Text } from "react-native";
 /** This type is to be used for components relying on the `name` of all our `Tabs.Screen`-elements of the main tab navigation */
 export type TabName = "index" | "group" | "profile" | "camera";
 
-const HEADER_TINT_COLOR = Colors.white;
+const HEADER_TINT_COLOR = MotiColors.white;
 const HEADER_BORDER_RADIUS = 20;
 
 /**
@@ -72,9 +72,9 @@ function TabLayout() {
                 screenOptions={{
                     headerTitle: "",
                     headerShadowVisible: false,
-                    sceneStyle: { backgroundColor: Colors.white },
-                    tabBarActiveTintColor: Colors.blue.grey,
-                    tabBarInactiveTintColor: Colors.grey.dark2,
+                    sceneStyle: { backgroundColor: MotiColors.white },
+                    tabBarActiveTintColor: MotiColors.blue.grey,
+                    tabBarInactiveTintColor: MotiColors.grey.dark2,
                 }}
             >
                 <Tabs.Screen
@@ -89,7 +89,7 @@ function TabLayout() {
                     options={{
                         headerShown: true,
                         headerStyle: {
-                            backgroundColor: Colors.eggplant.dark,
+                            backgroundColor: MotiColors.eggplant.dark,
                         },
                         headerBackgroundContainerStyle: {
                             borderEndStartRadius: HEADER_BORDER_RADIUS,
@@ -128,7 +128,7 @@ function TabLayout() {
                     name="camera"
                     options={{
                         sceneStyle: {
-                            backgroundColor: Colors.black,
+                            backgroundColor: MotiColors.black,
                         },
                     }}
                 />

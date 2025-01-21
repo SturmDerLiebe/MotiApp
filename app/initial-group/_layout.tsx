@@ -1,4 +1,4 @@
-import { Colors } from "@/constants/Colors";
+import { MotiColors } from "@/constants/Colors";
 import { Stack } from "expo-router";
 
 export default function GroupSelectionLayout() {
@@ -6,11 +6,11 @@ export default function GroupSelectionLayout() {
         <Stack
             screenOptions={{
                 headerShadowVisible: false,
-                headerTintColor: Colors.blue.dark,
+                headerTintColor: MotiColors.blue.dark,
                 headerTitle: "",
                 //TODO: Use HeaderRight to show custom Button
-                headerStyle: { backgroundColor: Colors.white },
-                contentStyle: { backgroundColor: Colors.white },
+                headerStyle: { backgroundColor: MotiColors.white },
+                contentStyle: { backgroundColor: MotiColors.white },
                 presentation: "modal",
             }}
         >

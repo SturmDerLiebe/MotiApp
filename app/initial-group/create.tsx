@@ -1,7 +1,7 @@
 import { PrimaryButton } from "@/components/Buttons";
 import { Heading5 } from "@/components/Headings";
 import { Fonts } from "@/constants/Fonts";
-import { Colors } from "@/constants/Colors";
+import { MotiColors } from "@/constants/Colors";
 import useAndroidBackButtonInputHandling from "@/hooks/useAndroidBackButtonInputHandling";
 import { View, Text, StyleSheet, TextInput } from "react-native";
 import { PropsWithChildren, useState } from "react";
@@ -19,12 +19,12 @@ const GROUP_NAME_PATTERN = /^[\p{L}\p{S}]+(?:\s[\p{L}\p{S}]+){0,4}$/u;
 
 const styles = StyleSheet.create({
     topText: {
-        color: Colors.grey.dark3,
+        color: MotiColors.grey.dark3,
         ...Fonts.paragraph.p5,
         textAlign: "center",
     },
     middleText: {
-        color: Colors.grey.dark3,
+        color: MotiColors.grey.dark3,
         ...Fonts.paragraph.p9,
     },
 });
@@ -76,7 +76,7 @@ export default function GroupCreationScreen() {
                 <TextInput
                     maxLength={30}
                     placeholder="Enter a Group Name"
-                    placeholderTextColor={Colors.grey.dark2}
+                    placeholderTextColor={MotiColors.grey.dark2}
                     onChange={function handleInput({ nativeEvent: { text } }) {
                         setGroupName(text);
                     }}
@@ -118,11 +118,11 @@ export default function GroupCreationScreen() {
 
     function determineBorderColor() {
         if (isEmpty(groupName)) {
-            return Colors.grey.dark2;
+            return MotiColors.grey.dark2;
         } else if (!isValid) {
-            return Colors.red.error;
+            return MotiColors.red.error;
         } else {
-            return Colors.blue.grey;
+            return MotiColors.blue.grey;
         }
     }
 
@@ -155,7 +155,7 @@ export default function GroupCreationScreen() {
     //TODO: Refactor out
     function ErrorText(props: PropsWithChildren) {
         return (
-            <Text style={[styles.topText, { color: Colors.red.error }]}>
+            <Text style={[styles.topText, { color: MotiColors.red.error }]}>
                 {props.children}
             </Text>
         );
@@ -164,7 +164,7 @@ export default function GroupCreationScreen() {
 
 export const BASE_INPUT_STYLES = StyleSheet.create({
     basic: {
-        color: Colors.blue.grey,
+        color: MotiColors.blue.grey,
         borderWidth: 1,
         borderRadius: 8,
         paddingHorizontal: 14,

@@ -1,4 +1,4 @@
-import { Colors } from "@/constants/Colors";
+import { MotiColors } from "@/constants/Colors";
 import { Icon, Icons } from "@/constants/Icons";
 import { Image } from "expo-image";
 import type React from "react";
@@ -14,7 +14,7 @@ export function BurgerMenuButton({
     return (
         <Pressable aria-label="Group Information and Actions" onPress={onPress}>
             <Icon
-                tintColor={tintColor ?? Colors.eggplant.dark}
+                tintColor={tintColor ?? MotiColors.eggplant.dark}
                 size={28}
                 icon="BurgerMenu"
             />

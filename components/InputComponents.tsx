@@ -1,4 +1,4 @@
-import { Colors } from "@/constants/Colors";
+import { MotiColors } from "@/constants/Colors";
 import { Fonts } from "@/constants/Fonts";
 import { NullBoolean } from "@/hooks/useRegistrationValidityState";
 import { Image } from "expo-image";
@@ -184,7 +184,7 @@ export const InputComponent = forwardRef(
             <View>
                 <Text
                     style={[
-                        { color: Colors.grey.dark3, paddingBottom: 4 },
+                        { color: MotiColors.grey.dark3, paddingBottom: 4 },
                         Fonts.paragraph.p9,
                     ]}
                 >
@@ -201,10 +201,10 @@ export const InputComponent = forwardRef(
                     <TextInput
                         {...props}
                         secureTextEntry={isSecureText && !isPasswordShown}
-                        placeholderTextColor={Colors.grey.dark2}
+                        placeholderTextColor={MotiColors.grey.dark2}
                         style={[
                             {
-                                color: Colors.blue.grey,
+                                color: MotiColors.blue.grey,
                                 paddingHorizontal: 14,
                                 paddingVertical: LINE_PADDING_VERTICAL,
                                 flex: 6,
@@ -257,7 +257,7 @@ export const InputComponent = forwardRef(
 
                 <Text
                     style={{
-                        color: isValid ? Colors.grey.dark3 : "red",
+                        color: isValid ? MotiColors.grey.dark3 : "red",
                         ...Fonts.paragraph.p8,
                     }}
                 >
@@ -270,10 +270,10 @@ export const InputComponent = forwardRef(
 
 function determineBorderColor(isValid: boolean, isEmpty: boolean): string {
     if (!isValid) {
-        return Colors.red.error;
+        return MotiColors.red.error;
     } else if (isEmpty) {
-        return Colors.grey.dark1;
+        return MotiColors.grey.dark1;
     } else {
-        return Colors.grey.dark2;
+        return MotiColors.grey.dark2;
     }
 }

@@ -1,4 +1,4 @@
-import { Colors } from "@/constants/Colors";
+import { MotiColors } from "@/constants/Colors";
 import { renderTimes } from "@/utils/componentHelpers";
 import React from "react";
 import { View, ViewStyle } from "react-native";
@@ -55,11 +55,11 @@ export function SlotInputBackground(props: {
             failurePredicate: () => boolean,
         ): ViewStyle {
             if (successPredicate()) {
-                return { borderColor: Colors.green, borderWidth: 2 };
+                return { borderColor: MotiColors.green, borderWidth: 2 };
             } else if (failurePredicate()) {
-                return { borderColor: Colors.red.error, borderWidth: 2 };
+                return { borderColor: MotiColors.red.error, borderWidth: 2 };
             } else {
-                return { borderColor: Colors.grey.dark1, borderWidth: 1 };
+                return { borderColor: MotiColors.grey.dark1, borderWidth: 1 };
             }
         }
     }

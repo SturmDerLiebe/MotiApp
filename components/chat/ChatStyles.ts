@@ -1,4 +1,4 @@
-import { Colors } from "@/constants/Colors";
+import { MotiColors } from "@/constants/Colors";
 import { StyleSheet } from "react-native";
 
 const MESSAGE_BORDER_RADIUS = 10;
@@ -16,7 +16,7 @@ export const CHAT_STYLES = StyleSheet.create({
     },
     bodyBase: {
         flex: 1,
-        backgroundColor: Colors.grey.light2,
+        backgroundColor: MotiColors.grey.light2,
         borderRadius: MESSAGE_BORDER_RADIUS,
         paddingTop: 4,
         paddingStart: 12,
@@ -43,8 +43,8 @@ export const CHAT_STYLES = StyleSheet.create({
         alignSelf: "center",
         textAlign: "center",
 
-        backgroundColor: Colors.grey.dark3,
-        color: Colors.white,
+        backgroundColor: MotiColors.grey.dark3,
+        color: MotiColors.white,
 
         borderRadius: 100,
         paddingVertical: 2,
@@ -59,14 +59,14 @@ export const TIME_STYLES = StyleSheet.create({
         end: 8,
         bottom: 4,
     },
-    timeText: { color: Colors.grey.dark3, end: 8, bottom: 4 },
+    timeText: { color: MotiColors.grey.dark3, end: 8, bottom: 4 },
     timeImage: {
-        color: Colors.white,
+        color: MotiColors.white,
         paddingHorizontal: 8,
         end: 4,
         bottom: 4,
         paddingVertical: 2,
         borderRadius: 100,
-        backgroundColor: Colors.grey.dark3_80_Percent,
+        backgroundColor: MotiColors.grey.dark3_80_Percent,
     },
 });

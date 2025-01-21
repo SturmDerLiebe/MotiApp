@@ -1,4 +1,4 @@
-import { Colors } from "@/constants/Colors";
+import { MotiColors } from "@/constants/Colors";
 import { Fonts } from "@/constants/Fonts";
 import { useState } from "react";
 import {
@@ -58,9 +58,9 @@ export function SlotInputField(props: {
 
     function determineFontColor(failurePredicate: () => boolean): ColorValue {
         if (failurePredicate()) {
-            return Colors.red.error;
+            return MotiColors.red.error;
         } else {
-            return Colors.blue.grey;
+            return MotiColors.blue.grey;
         }
     }
 }

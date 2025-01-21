@@ -1,7 +1,7 @@
 import { PrimaryButton } from "@/components/Buttons";
 import { Heading5 } from "@/components/Headings";
 import { Fonts } from "@/constants/Fonts";
-import { Colors } from "@/constants/Colors";
+import { MotiColors } from "@/constants/Colors";
 import useAndroidBackButtonInputHandling from "@/hooks/useAndroidBackButtonInputHandling";
 import { View, Text, StyleSheet } from "react-native";
 import { SlotInputBackground } from "@/components/input/slot/SlotInputBackground";
@@ -13,7 +13,7 @@ import { RequestSuccess, isFailedRequest } from "@/utils/RequestStatus";
 
 const styles = StyleSheet.create({
     middleText: {
-        color: Colors.grey.dark3,
+        color: MotiColors.grey.dark3,
         ...Fonts.paragraph.p6,
     },
 });

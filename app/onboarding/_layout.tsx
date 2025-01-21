@@ -1,4 +1,4 @@
-import { Colors } from "@/constants/Colors";
+import { MotiColors } from "@/constants/Colors";
 import { Stack } from "expo-router";
 
 export default function OnboardingLayout() {
@@ -6,7 +6,7 @@ export default function OnboardingLayout() {
         <Stack
             screenOptions={{
                 headerShown: false,
-                contentStyle: { backgroundColor: Colors.white },
+                contentStyle: { backgroundColor: MotiColors.white },
             }}
         >
             <Stack.Screen name="index" />

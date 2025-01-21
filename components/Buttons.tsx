@@ -1,4 +1,4 @@
-import { Colors } from "@/constants/Colors";
+import { MotiColors } from "@/constants/Colors";
 import { Icon } from "@/constants/Icons";
 import { Pressable, StyleSheet, Text } from "react-native";
 import { mergeButtonStyles } from "./buttons/helper";
@@ -117,7 +117,7 @@ function BaseButton({
             {ICON_DATA_EXISTS ? (
                 <Icon
                     icon={iconData.name}
-                    tintColor={Colors.white}
+                    tintColor={MotiColors.white}
                     size={iconData.size}
                 />
             ) : null}

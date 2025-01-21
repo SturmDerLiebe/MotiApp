@@ -1,6 +1,6 @@
-import { Colors } from "@/constants/Colors";
+import { MotiColors } from "@/constants/Colors";
 
 export const TabBarStyles = {
-    backgroundColor: Colors.grey.light1,
+    backgroundColor: MotiColors.grey.light1,
     iconSize: 32,
 };

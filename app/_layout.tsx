@@ -1,4 +1,4 @@
-import { Colors } from "@/constants/Colors";
+import { MotiColors } from "@/constants/Colors";
 import { useLoadFonts } from "@/constants/Fonts";
 import { UserInfoProvider } from "@/hooks/context/UserInfoContext";
 import { Logger } from "@/utils/Logging/Logger";
@@ -12,14 +12,14 @@ const TAG = "ROOT_LAYOUT";
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayoutWrapper() {
-    NavigationBar.setBackgroundColorAsync(Colors.white);
+    NavigationBar.setBackgroundColorAsync(MotiColors.white);
 
     return (
         <UserInfoProvider>
             <RootLayout />
             <StatusBar
                 barStyle="dark-content"
-                backgroundColor={Colors.transparent}
+                backgroundColor={MotiColors.transparent}
                 translucent
             />
         </UserInfoProvider>
@@ -50,11 +50,11 @@ function RootLayout() {
             screenOptions={{
                 headerShown: false,
                 headerShadowVisible: false,
-                headerTintColor: Colors.blue.dark,
+                headerTintColor: MotiColors.blue.dark,
                 headerTitle: "",
                 //TODO: Use HeaderRight to show custom Button
-                headerStyle: { backgroundColor: Colors.white },
-                contentStyle: { backgroundColor: Colors.white },
+                headerStyle: { backgroundColor: MotiColors.white },
+                contentStyle: { backgroundColor: MotiColors.white },
             }}
         >
             <Stack.Screen name="index" options={{ headerShown: false }} />
@@ -84,7 +84,7 @@ function RootLayout() {
                 options={{
                     headerShown: false,
                     presentation: "transparentModal",
-                    contentStyle: { backgroundColor: Colors.transparent },
+                    contentStyle: { backgroundColor: MotiColors.transparent },
                 }}
             />
         </Stack>

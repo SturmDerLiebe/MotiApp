@@ -1,4 +1,4 @@
-import { Colors } from "@/constants/Colors";
+import { MotiColors } from "@/constants/Colors";
 import { Fonts } from "@/constants/Fonts";
 import { PropsWithChildren } from "react";
 import { Text, TextProps } from "react-native";
@@ -8,7 +8,7 @@ export function Heading5({ style, children }: PropsWithChildren<TextProps>) {
         <Text
             style={[
                 {
-                    color: Colors.blue.dark,
+                    color: MotiColors.blue.dark,
                     textAlign: "center",
                 },
                 Fonts.title.h5,
