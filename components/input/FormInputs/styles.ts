@@ -1,0 +1,1 @@
+export const LINE_PADDING_VERTICAL = 10;
