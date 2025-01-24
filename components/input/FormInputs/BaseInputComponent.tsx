@@ -41,9 +41,8 @@ export const BaseInputComponent = forwardRef<
                         setSecureTextEntry((currentState) => !currentState);
                     }}
                 />
-
-                <BaseInputHint {...props} />
             </BaseInputContainer>
+            <BaseInputHint {...props} />
         </View>
     );
 });
