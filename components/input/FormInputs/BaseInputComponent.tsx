@@ -1,21 +1,21 @@
-import type { SetRefType } from "@/components/types/ComponentProps";
-import { useState } from "react";
+import { forwardRef, useState } from "react";
 import type { TextInputProps } from "react-native";
-import { TextInput, View } from "react-native";
+import { View } from "react-native";
 import { BaseInput } from "./BaseInput";
 import { BaseInputContainer } from "./BaseInputContainer";
 import { BaseInputHint } from "./BaseInputHint";
 import { BaseInputLabel } from "./BaseInputLabel";
 import { BaseInputVisibilityButton } from "./BaseInputVisibilityButton";
+import { TextInput } from "react-native-gesture-handler";
 
-export function BaseInputComponent(
-    props: TextInputProps & {
+export const BaseInputComponent = forwardRef<
+    TextInput,
+    TextInputProps & {
         label: string;
         hint: string;
         isValid: boolean;
-        setRef: SetRefType<TextInput>;
-    },
-) {
+    }
+>(function BaseInputComponent(props, ref) {
     let [isEmpty, setEmpty] = useState(true);
     let [isSecureTextEntry, setSecureTextEntry] = useState(
         () => props.secureTextEntry,
@@ -32,6 +32,7 @@ export function BaseInputComponent(
                         props.onEndEditing?.(event);
                         setEmpty(event.nativeEvent.text.length === 0);
                     }}
+                    ref={ref}
                 />
 
                 <BaseInputVisibilityButton
@@ -45,4 +46,4 @@ export function BaseInputComponent(
             </BaseInputContainer>
         </View>
     );
-}
+});
