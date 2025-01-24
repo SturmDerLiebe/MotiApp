@@ -1,41 +1,35 @@
 import { PrimaryButton } from "@/components/Buttons";
 import { Heading5 } from "@/components/Headings";
-import {
-    EmailInputComponent,
-    PasswordInputComponent,
-    RepeatPasswordInputComponent,
-    UsernameInputComponent,
-} from "@/components/InputComponents";
-import { RegistrationDetails } from "@/data/repository/UserRepository";
-import useAndroidBackButtonInputHandling from "@/hooks/useAndroidBackButtonInputHandling";
-import useRegistrationState, {
-    RegistrationFailure,
-} from "@/hooks/useRegistrationState";
-import useRegistrationValidityState from "@/hooks/useRegistrationValidityState";
-import { useRef, useState } from "react";
-import { Text, View } from "react-native";
-import { TextInput } from "react-native-gesture-handler";
-import { Fonts } from "@/constants/Fonts";
+import { RegistrationFormInputs } from "@/components/input/FormInputs/RegistrationFormInputs";
 import { MotiColors } from "@/constants/Colors";
-import { NetworkError, RequestLoading } from "@/utils/RequestStatus";
+import { Fonts } from "@/constants/Fonts";
+import { RegistrationDetails } from "@/data/repository/UserRepository";
 import useNavigateOnSuccessEffect from "@/hooks/navigation/useNavigationOnSuccessEffect";
+import {
+    areAnyFieldsBeingEdited,
+    areAnyFieldsInvalid,
+} from "@/hooks/reducer/Registration/Helper";
+import {
+    InitialRegistrationFormState,
+    registrationFormReducer,
+} from "@/hooks/reducer/Registration/RegistrationReducer";
+import useAndroidBackButtonInputHandling from "@/hooks/useAndroidBackButtonInputHandling";
+import useRegistrationState from "@/hooks/useRegistrationState";
+import { RequestLoading } from "@/utils/RequestStatus";
+import { useReducer } from "react";
+import { Text, View } from "react-native";
 
 export default function RegistrationScreen() {
     useAndroidBackButtonInputHandling();
 
-    let [isBeingEdited, setIsBeingEdited] = useState(true);
-    let [registrationState, startRegistration] = useRegistrationState();
-    let [inputValidity, updateInputValidity] = useRegistrationValidityState();
+    const [registrationState, startRegistration] = useRegistrationState();
 
-    let [username, setUsername] = useState("");
-    let [email, setEmail] = useState("");
-    let [password, setPassword] = useState("");
+    useNavigateOnSuccessEffect(registrationState, "/authentication/verify");
 
-    const EMAIL_REF = useRef<TextInput>(null);
-    const PASSWORD_REF = useRef<TextInput>(null);
-    const REPEAT_PASSWORD_REF = useRef<TextInput>(null);
-
-    useNavigateOnSuccessEffect(registrationState, "/verify");
+    const [formState, dispatchFormState] = useReducer(
+        registrationFormReducer,
+        InitialRegistrationFormState,
+    );
 
     return (
         <View
@@ -52,71 +46,10 @@ export default function RegistrationScreen() {
         >
             <Heading5>Register</Heading5>
 
-            {
-                //#region Form Fields
-            }
-            <View
-                style={{
-                    height: "55%",
-                    justifyContent: "space-between",
-                    paddingTop: 27,
-                }}
-            >
-                <UsernameInputComponent
-                    isValid={inputValidity.usernameValidity}
-                    onChangeText={(text) => {
-                        setUsername(text);
-                        setIsBeingEdited(true);
-                    }}
-                    onSubmitEditing={() => EMAIL_REF.current?.focus()}
-                    onValidation={(isValid) => {
-                        updateInputValidity({ usernameValidity: isValid });
-                        setIsBeingEdited(false);
-                    }}
-                />
-
-                <EmailInputComponent
-                    isValid={inputValidity.emailValidity}
-                    onChangeText={(text) => {
-                        setEmail(text);
-                        setIsBeingEdited(true);
-                    }}
-                    onSubmitEditing={() => PASSWORD_REF.current?.focus()}
-                    onValidation={(isValid) => {
-                        updateInputValidity({ emailValidity: isValid });
-                        setIsBeingEdited(false);
-                    }}
-                    ref={EMAIL_REF}
-                />
-
-                <PasswordInputComponent
-                    isValid={inputValidity.passwordValidity}
-                    onChangeText={(text) => {
-                        setPassword(text);
-                        setIsBeingEdited(true);
-                    }}
-                    onSubmitEditing={() => REPEAT_PASSWORD_REF.current?.focus()}
-                    onValidation={(isValid) => {
-                        updateInputValidity({ passwordValidity: isValid });
-                        setIsBeingEdited(false);
-                    }}
-                    ref={PASSWORD_REF}
-                />
-
-                <RepeatPasswordInputComponent
-                    isValid={inputValidity.repeatPasswordValidity}
-                    validateInput={(repeatedPassword) =>
-                        updateInputValidity({
-                            repeatPasswordValidity:
-                                repeatedPassword === password,
-                        })
-                    }
-                    ref={REPEAT_PASSWORD_REF}
-                />
-            </View>
-            {
-                //#endregion Form Fields
-            }
+            <RegistrationFormInputs
+                formState={formState}
+                dispatchFormState={dispatchFormState}
+            />
 
             <View style={{ paddingTop: 162 }}>
                 <PrimaryButton
@@ -126,9 +59,9 @@ export default function RegistrationScreen() {
                             : "Create Account"
                     }
                     disabled={
-                        inputValidity.areAnyInputsInvalid() ||
-                        registrationState instanceof RequestLoading ||
-                        isBeingEdited
+                        areAnyFieldsInvalid(formState) ||
+                        // registrationState instanceof RequestLoading ||
+                        areAnyFieldsBeingEdited(formState)
                     }
                     onPress={onSubmit}
                 />
@@ -147,14 +80,20 @@ export default function RegistrationScreen() {
                 </Text>
             </View>
 
-            {registrationState instanceof RegistrationFailure ||
-            registrationState instanceof NetworkError ? (
-                <Text>{registrationState.message}</Text>
-            ) : null}
+            {/* {registrationState instanceof RegistrationFailure || */}
+            {/* registrationState instanceof NetworkError ? ( */}
+            {/*     <Text>{registrationState.message}</Text> */}
+            {/* ) : null} */}
         </View>
     );
 
     function onSubmit() {
-        startRegistration(new RegistrationDetails(username, email, password));
+        startRegistration(
+            new RegistrationDetails(
+                formState.username.text,
+                formState.email.text,
+                formState.newPassword.text,
+            ),
+        );
     }
 }
