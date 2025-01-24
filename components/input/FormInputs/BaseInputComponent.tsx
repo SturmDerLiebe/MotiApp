@@ -36,6 +36,7 @@ export const BaseInputComponent = forwardRef<
                 />
 
                 <BaseInputVisibilityButton
+                    showButton={Boolean(props.secureTextEntry)}
                     isInputVisible={!isSecureTextEntry}
                     onPress={() => {
                         setSecureTextEntry((currentState) => !currentState);

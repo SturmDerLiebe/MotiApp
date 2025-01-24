@@ -3,13 +3,15 @@ import { LINE_PADDING_VERTICAL } from "./styles";
 import { Image } from "expo-image";
 
 export function BaseInputVisibilityButton({
+    showButton,
     isInputVisible,
     onPress,
 }: {
+    showButton: boolean;
     isInputVisible: boolean;
     onPress: () => void;
 }) {
-    return isInputVisible ? (
+    return showButton ? (
         <Pressable
             accessibilityLabel={
                 isInputVisible ? "Hide secret input" : "Show secret input"
