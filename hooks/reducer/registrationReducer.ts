@@ -11,7 +11,7 @@ interface RegistrationFormState {
     repeatedPassword: TextFieldState;
 }
 
-type RegistrationFormAction =
+export type RegistrationFormAction =
     | { type: "UsernameEdit"; payload: string }
     | { type: "UsernameValidate"; payload: boolean }
     | { type: "EmailEdit"; payload: string }
@@ -21,7 +21,14 @@ type RegistrationFormAction =
     | { type: "RepeatedPasswordEdit"; payload: string }
     | { type: "RepeatedPasswordValidate"; payload: boolean };
 
-export function registrationReducer(
+export const InitialRegistrationFormState: RegistrationFormState = {
+    username: { text: "", isValid: null, isBeingEdited: false },
+    email: { text: "", isValid: null, isBeingEdited: false },
+    newPassword: { text: "", isValid: null, isBeingEdited: false },
+    repeatedPassword: { text: "", isValid: null, isBeingEdited: false },
+};
+
+export function registrationFormReducer(
     state: RegistrationFormState,
     action: RegistrationFormAction,
 ): RegistrationFormState {
