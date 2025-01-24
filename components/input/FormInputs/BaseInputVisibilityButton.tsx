@@ -1,4 +1,4 @@
-import { Pressable, type GestureResponderEvent } from "react-native";
+import { Pressable } from "react-native";
 import { LINE_PADDING_VERTICAL } from "./styles";
 import { Image } from "expo-image";
 
@@ -7,7 +7,7 @@ export function BaseInputVisibilityButton({
     onPress,
 }: {
     isInputVisible: boolean;
-    onPress: ((event: GestureResponderEvent) => void) | null | undefined;
+    onPress: () => void;
 }) {
     return isInputVisible ? (
         <Pressable
