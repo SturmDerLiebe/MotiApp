@@ -5,7 +5,7 @@ import { UsernameInputComponent } from "@/components/input/FormInputs/UsernameIn
 import type {
     RegistrationFormAction,
     RegistrationFormState,
-} from "@/hooks/reducer/registrationReducer";
+} from "@/hooks/reducer/Registration/Types";
 import { useRef } from "react";
 import { View } from "react-native";
 import { TextInput } from "react-native-gesture-handler";

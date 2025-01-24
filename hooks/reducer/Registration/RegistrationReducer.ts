@@ -1,28 +1,4 @@
-interface TextFieldState {
-    text: string;
-    isValid: boolean | null;
-    isBeingEdited: boolean;
-}
-
-/**
- * Needs to be `type` so it can be used with {@link Object.values}
- */
-export type RegistrationFormState = {
-    username: TextFieldState;
-    email: TextFieldState;
-    newPassword: TextFieldState;
-    repeatedPassword: TextFieldState;
-};
-
-export type RegistrationFormAction =
-    | { type: "UsernameEdit"; payload: string }
-    | { type: "UsernameValidate"; payload: boolean }
-    | { type: "EmailEdit"; payload: string }
-    | { type: "EmailValidate"; payload: boolean }
-    | { type: "NewPasswordEdit"; payload: string }
-    | { type: "NewPasswordValidate"; payload: boolean }
-    | { type: "RepeatedPasswordEdit"; payload: string }
-    | { type: "RepeatedPasswordValidate"; payload: boolean };
+import type { RegistrationFormAction, RegistrationFormState } from "./Types";
 
 export const InitialRegistrationFormState: RegistrationFormState = {
     username: { text: "", isValid: null, isBeingEdited: false },
@@ -30,33 +6,6 @@ export const InitialRegistrationFormState: RegistrationFormState = {
     newPassword: { text: "", isValid: null, isBeingEdited: false },
     repeatedPassword: { text: "", isValid: null, isBeingEdited: false },
 };
-
-export function areAnyFieldsInvalid(
-    registrationFormState: RegistrationFormState,
-) {
-    return areAnyFieldsPredicate(
-        registrationFormState,
-        (value) => !value.isValid,
-    );
-}
-
-export function areAnyFieldsBeingEdited(
-    registrationFormState: RegistrationFormState,
-) {
-    return areAnyFieldsPredicate(
-        registrationFormState,
-        (value) => value.isBeingEdited,
-    );
-}
-
-export function areAnyFieldsPredicate<T extends Record<string, unknown>>(
-    obj: T,
-    predicate: (value: T[keyof T]) => boolean,
-) {
-    return Object.values<T[keyof T]>(obj as { [key: string]: T[keyof T] }).some(
-        predicate,
-    );
-}
 
 export function registrationFormReducer(
     state: RegistrationFormState,
