@@ -24,6 +24,7 @@ export const NewPasswordInputComponent = forwardRef<
             autoComplete="new-password"
             returnKeyType="next"
             placeholder="••••••••"
+            submitBehavior="submit"
             onChangeText={(newInput) =>
                 dispatchRegistrationFormAction({
                     type: "NewPasswordEdit",

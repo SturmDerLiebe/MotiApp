@@ -23,6 +23,7 @@ export const EmailInputComponent = forwardRef<
             autoComplete="email"
             returnKeyType="next"
             placeholder="Enter your Email"
+            submitBehavior="submit"
             onChangeText={(newInput) =>
                 dispatchRegistrationFormAction({
                     type: "EmailEdit",

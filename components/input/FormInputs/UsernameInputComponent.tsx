@@ -23,6 +23,7 @@ export const UsernameInputComponent = forwardRef<
             autoComplete="username"
             returnKeyType="next"
             placeholder="How should we call you?"
+            submitBehavior="submit"
             onChangeText={(newInput) =>
                 dispatchRegistrationFormAction({
                     type: "UsernameEdit",
