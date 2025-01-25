@@ -26,13 +26,13 @@ export const RepeatedPasswordInputComponent = forwardRef<
             placeholder="••••••••"
             onChangeText={(newInput) =>
                 dispatchRegistrationFormAction({
-                    type: "NewPasswordEdit",
+                    type: "RepeatedPasswordEdit",
                     payload: newInput,
                 })
             }
             onEndEditing={function ({ nativeEvent: { text } }) {
                 dispatchRegistrationFormAction({
-                    type: "NewPasswordValidate",
+                    type: "RepeatedPasswordValidate",
                     payload: matchingPassword === text,
                 });
             }}
