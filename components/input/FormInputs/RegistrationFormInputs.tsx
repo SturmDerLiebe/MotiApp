@@ -57,7 +57,7 @@ export function RegistrationFormInputs({
                 matchingPassword={formState.newPassword.text}
                 isValid={formState.repeatedPassword.isValid}
                 dispatchRegistrationFormAction={dispatchFormState}
-                ref={FORM_FIELD_REFS.newPassword}
+                ref={FORM_FIELD_REFS.repeatedPassword}
             />
         </View>
     );
