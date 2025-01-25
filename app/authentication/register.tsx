@@ -4,7 +4,7 @@ import { RegistrationFormInputs } from "@/components/input/FormInputs/Registrati
 import { MotiColors } from "@/constants/Colors";
 import { Fonts } from "@/constants/Fonts";
 import { RegistrationDetails } from "@/data/repository/UserRepository";
-import useNavigateOnSuccessEffect from "@/hooks/navigation/useNavigationOnSuccessEffect";
+import { useNavigateOnSuccessEffectNew } from "@/hooks/navigation/useNavigationOnSuccessEffect";
 import {
     areAnyFieldsBeingEdited,
     areAnyFieldsInvalid,
@@ -24,11 +24,14 @@ export default function RegistrationScreen() {
 
     const [registrationState, startRegistration] = useRegistrationState();
 
-    useNavigateOnSuccessEffect(registrationState, "/authentication/verify");
-
     const [formState, dispatchFormState] = useReducer(
         registrationFormReducer,
         InitialRegistrationFormState,
+    );
+
+    useNavigateOnSuccessEffectNew(
+        Boolean(registrationActionState?.ok),
+        "/authentication/verify",
     );
 
     return (
