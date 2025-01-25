@@ -3,31 +3,41 @@ import { Heading5 } from "@/components/Headings";
 import { RegistrationFormInputs } from "@/components/input/FormInputs/RegistrationFormInputs";
 import { MotiColors } from "@/constants/Colors";
 import { Fonts } from "@/constants/Fonts";
-import { RegistrationDetails } from "@/data/repository/UserRepository";
 import { useNavigateOnSuccessEffectNew } from "@/hooks/navigation/useNavigationOnSuccessEffect";
 import {
     areAnyFieldsBeingEdited,
     areAnyFieldsInvalid,
+    transformRegistrationFormStateToDTO,
 } from "@/hooks/reducer/Registration/Helper";
 import {
     InitialRegistrationFormState,
     registrationFormReducer,
 } from "@/hooks/reducer/Registration/RegistrationReducer";
+import type { RegistrationFormState } from "@/hooks/reducer/Registration/Types";
+import { useActionStatePolyfill } from "@/hooks/useActionState";
 import useAndroidBackButtonInputHandling from "@/hooks/useAndroidBackButtonInputHandling";
-import useRegistrationState from "@/hooks/useRegistrationState";
-import { RequestLoading } from "@/utils/RequestStatus";
+import { UserRepositoryInstance } from "@/new_data";
 import { useReducer } from "react";
 import { Text, View } from "react-native";
 
 export default function RegistrationScreen() {
     useAndroidBackButtonInputHandling();
 
-    const [registrationState, startRegistration] = useRegistrationState();
-
     const [formState, dispatchFormState] = useReducer(
         registrationFormReducer,
         InitialRegistrationFormState,
     );
+
+    const [registrationActionState, registrationAction, isPending] =
+        useActionStatePolyfill(
+            (_previousState: unknown, payload: RegistrationFormState) => {
+                // TODO: #2
+                return UserRepositoryInstance.registerUser(
+                    transformRegistrationFormStateToDTO(payload),
+                );
+            },
+            null,
+        );
 
     useNavigateOnSuccessEffectNew(
         Boolean(registrationActionState?.ok),
@@ -55,17 +65,13 @@ export default function RegistrationScreen() {
 
             <View style={{ paddingTop: 162 }}>
                 <PrimaryButton
-                    title={
-                        registrationState instanceof RequestLoading
-                            ? "Loading..."
-                            : "Create Account"
-                    }
+                    title={isPending ? "Loading..." : "Create Account"}
                     disabled={
                         areAnyFieldsInvalid(formState) ||
-                        // registrationState instanceof RequestLoading ||
-                        areAnyFieldsBeingEdited(formState)
+                        areAnyFieldsBeingEdited(formState) ||
+                        isPending
                     }
-                    onPress={onSubmit}
+                    onPress={() => registrationAction(formState)}
                 />
 
                 <Text
@@ -88,14 +94,4 @@ export default function RegistrationScreen() {
             {/* ) : null} */}
         </View>
     );
-
-    function onSubmit() {
-        startRegistration(
-            new RegistrationDetails(
-                formState.username.text,
-                formState.email.text,
-                formState.newPassword.text,
-            ),
-        );
-    }
 }
