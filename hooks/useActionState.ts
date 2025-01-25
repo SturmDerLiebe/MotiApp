@@ -3,7 +3,7 @@ import { useState } from "react";
 export function useActionStatePolyfill<
     ActionResultType,
     InitialStateType,
-    PayloadType = unknown,
+    PayloadType,
 >(
     action: (
         previousState: InitialStateType | ActionResultType,
@@ -12,7 +12,7 @@ export function useActionStatePolyfill<
     initialState: InitialStateType,
 ): [
     InitialStateType | ActionResultType,
-    usableAction: (payload: PayloadType) => void,
+    usableAction: (payload: PayloadType) => Promise<void>,
     isPending: boolean,
 ] {
     const [isPending, setPending] = useState(false);
@@ -23,9 +23,11 @@ export function useActionStatePolyfill<
         simpleResponse,
         async (payload: PayloadType) => {
             setPending(true);
-            action(simpleResponse, payload).then((result) => {
-                setSimpleResponse(result);
-            });
+
+            const RESULT = await action(simpleResponse, payload);
+            setSimpleResponse(RESULT);
+
+            setPending(false);
         },
         isPending,
     ];
