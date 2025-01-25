@@ -15,3 +15,17 @@ export default function useNavigateOnSuccessEffect(
         }
     }, [requestState, route]);
 }
+
+/**
+ * Navigates to {@link route} **if and only if** {@link responseWasOk} is true.
+ */
+export function useNavigateOnSuccessEffectNew(
+    responseWasOk: boolean,
+    route: Href,
+) {
+    useEffect(() => {
+        if (responseWasOk) {
+            router.push(route);
+        }
+    }, [responseWasOk, route]);
+}
