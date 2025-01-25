@@ -37,8 +37,7 @@ export default function RegistrationScreen() {
                 {
                     flex: 1,
                     alignItems: "stretch",
-                    // TODO: Use percents
-                    paddingHorizontal: 28,
+                    paddingHorizontal: 28, // TODO: #1
                     paddingTop: 27,
                     paddingBottom: 22,
                 },
