@@ -1,14 +1,18 @@
 import { useState } from "react";
 
-export function useActionStatePolyfill<ActionResultType, InitialStateType>(
+export function useActionStatePolyfill<
+    ActionResultType,
+    InitialStateType,
+    PayloadType = unknown,
+>(
     action: (
         previousState: InitialStateType | ActionResultType,
-        payload: FormData,
+        payload: PayloadType,
     ) => Promise<ActionResultType>,
     initialState: InitialStateType,
 ): [
     InitialStateType | ActionResultType,
-    usableAction: (payload: FormData) => void,
+    usableAction: (payload: PayloadType) => void,
     isPending: boolean,
 ] {
     const [isPending, setPending] = useState(false);
@@ -17,7 +21,7 @@ export function useActionStatePolyfill<ActionResultType, InitialStateType>(
     >(() => initialState);
     return [
         simpleResponse,
-        async (payload: FormData) => {
+        async (payload: PayloadType) => {
             setPending(true);
             action(simpleResponse, payload).then((result) => {
                 setSimpleResponse(result);
