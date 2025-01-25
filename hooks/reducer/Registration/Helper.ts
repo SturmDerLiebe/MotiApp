@@ -1,5 +1,6 @@
 import { areAnyFieldsPredicate } from "@/utils/Object";
 import type { RegistrationFormState } from "./Types";
+import { RegistrationDTO } from "motidata";
 
 export function areAnyFieldsInvalid(
     registrationFormState: RegistrationFormState,
@@ -19,4 +20,12 @@ export function areAnyFieldsBeingEdited(
     );
 }
 
+export function transformRegistrationFormStateToDTO(
+    registrationFormState: RegistrationFormState,
+): RegistrationDTO {
+    return {
+        username: registrationFormState.username.text,
+        email: registrationFormState.email.text,
+        password: registrationFormState.newPassword.text,
+    };
 }
