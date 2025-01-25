@@ -17,7 +17,7 @@ export function registrationFormReducer(
                 ...state,
                 username: {
                     ...state.username,
-                    text: action.payload,
+                    text: action.payload.trim(),
                     isBeingEdited: true,
                 },
             };
@@ -35,7 +35,7 @@ export function registrationFormReducer(
                 ...state,
                 email: {
                     ...state.email,
-                    text: action.payload,
+                    text: action.payload.trim(),
                     isBeingEdited: true,
                 },
             };
@@ -53,7 +53,7 @@ export function registrationFormReducer(
                 ...state,
                 newPassword: {
                     ...state.newPassword,
-                    text: action.payload,
+                    text: action.payload.trim(),
                     isBeingEdited: true,
                 },
             };
@@ -71,7 +71,7 @@ export function registrationFormReducer(
                 ...state,
                 repeatedPassword: {
                     ...state.repeatedPassword,
-                    text: action.payload,
+                    text: action.payload.trim(),
                     isBeingEdited: true,
                 },
             };
