@@ -1,3 +1,4 @@
+import { areAnyFieldsPredicate } from "@/utils/Object";
 import type { RegistrationFormState } from "./Types";
 
 export function areAnyFieldsInvalid(
