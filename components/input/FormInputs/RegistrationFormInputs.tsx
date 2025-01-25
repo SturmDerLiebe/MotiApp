@@ -34,13 +34,13 @@ export function RegistrationFormInputs({
             <UsernameInputComponent
                 isValid={formState.username.isValid}
                 dispatchRegistrationFormAction={dispatchFormState}
-                focusNext={() => FORM_FIELD_REFS.email.current?.focus}
+                focusNext={() => FORM_FIELD_REFS.email.current?.focus()}
             />
 
             <EmailInputComponent
                 isValid={formState.email.isValid}
                 dispatchRegistrationFormAction={dispatchFormState}
-                focusNext={() => FORM_FIELD_REFS.newPassword.current?.focus}
+                focusNext={() => FORM_FIELD_REFS.newPassword.current?.focus()}
                 ref={FORM_FIELD_REFS.email}
             />
 
@@ -48,7 +48,7 @@ export function RegistrationFormInputs({
                 isValid={formState.newPassword.isValid}
                 dispatchRegistrationFormAction={dispatchFormState}
                 focusNext={() =>
-                    FORM_FIELD_REFS.repeatedPassword.current?.focus
+                    FORM_FIELD_REFS.repeatedPassword.current?.focus()
                 }
                 ref={FORM_FIELD_REFS.newPassword}
             />
