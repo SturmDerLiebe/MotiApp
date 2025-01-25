@@ -1,7 +1,7 @@
 import { TextInput } from "react-native-gesture-handler";
 import { BaseInputComponent } from "./BaseInputComponent";
 import { forwardRef } from "react";
-import type { RegistrationFormAction } from "@/hooks/reducer/registrationReducer";
+import type { RegistrationFormAction } from "@/hooks/reducer/Registration/Types";
 
 export const RepeatedPasswordInputComponent = forwardRef<
     TextInput,
