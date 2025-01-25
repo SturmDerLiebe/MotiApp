@@ -14,8 +14,8 @@ import {
 } from "@/hooks/context/message/MessagingContext";
 import { UserInfoSuccess } from "@/utils/RequestStatus";
 import * as NavigationBar from "expo-navigation-bar";
-import { Tabs } from "expo-router";
-import { useEffect } from "react";
+import { Tabs, useFocusEffect } from "expo-router";
+import { useCallback, useEffect } from "react";
 import { Text } from "react-native";
 
 /** This type is to be used for components relying on the `name` of all our `Tabs.Screen`-elements of the main tab navigation */
