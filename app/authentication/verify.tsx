@@ -92,7 +92,8 @@ export default function VerificationScreen() {
                     <TextInput
                         selectionColor="#80808000"
                         keyboardType="numeric"
-                        //TODO: placeholder="0000"
+                        placeholder="0000"
+                        placeholderTextColor={MotiColors.grey.dark1}
                         maxLength={4}
                         onChange={function handleFilledOutCode({
                             nativeEvent: { text },
@@ -102,12 +103,13 @@ export default function VerificationScreen() {
                         style={[
                             {
                                 width: "105%",
+                                paddingStart: "8.5%",
                                 color: MotiColors.blue.grey,
                                 ...Fonts.digits.big,
                                 letterSpacing: 53,
                             },
                         ]}
-                    />
+                    />{" "}
                 </View>
             </View>
 
