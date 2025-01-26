@@ -14,7 +14,7 @@ import {
 } from "@/hooks/context/message/MessagingContext";
 import { UserInfoSuccess } from "@/utils/RequestStatus";
 import * as NavigationBar from "expo-navigation-bar";
-import { Tabs, useFocusEffect } from "expo-router";
+import { Tabs, router, useFocusEffect } from "expo-router";
 import { useCallback, useEffect } from "react";
 import { Text } from "react-native";
 
@@ -110,7 +110,12 @@ function TabLayout() {
                         headerTitleAlign: "left",
 
                         headerRight: ({ tintColor = HEADER_TINT_COLOR }) => (
-                            <BurgerMenuButton tintColor={tintColor} />
+                            <BurgerMenuButton
+                                tintColor={tintColor}
+                                onPress={() => {
+                                    router.push("/groupInfo");
+                                }}
+                            />
                         ),
 
                         tabBarLabel: "My Group",
