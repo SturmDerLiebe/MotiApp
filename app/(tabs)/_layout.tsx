@@ -103,7 +103,7 @@ function TabLayout() {
                                 style={[{ color: tintColor }, Fonts.title.h6]}
                             >
                                 {userInfoState instanceof UserInfoSuccess
-                                    ? userInfoState.groupName
+                                    ? userInfoState.groupInfo.groupName
                                     : "Loading"}
                             </Text>
                         ),
