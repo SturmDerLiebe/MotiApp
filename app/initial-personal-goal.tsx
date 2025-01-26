@@ -74,7 +74,8 @@ export default function PersonalGoalScreen() {
             >
                 <TextInput
                     selectionColor="#80808000"
-                    //TODO: placeholder="0"
+                    placeholder="0"
+                    placeholderTextColor={MotiColors.grey.dark1}
                     keyboardType="numeric"
                     maxLength={1}
                     onChange={function handleInput({ nativeEvent: { text } }) {
