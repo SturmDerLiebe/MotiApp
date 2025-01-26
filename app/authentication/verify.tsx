@@ -109,7 +109,7 @@ export default function VerificationScreen() {
                                 letterSpacing: 53,
                             },
                         ]}
-                    />{" "}
+                    />
                 </View>
             </View>
 
