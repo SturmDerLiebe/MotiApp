@@ -17,6 +17,7 @@ import type { RegistrationFormState } from "@/hooks/reducer/Registration/Types";
 import { useActionStatePolyfill } from "@/hooks/useActionState";
 import useAndroidBackButtonInputHandling from "@/hooks/useAndroidBackButtonInputHandling";
 import { UserRepositoryInstance } from "@/new_data";
+import { SimpleResponse } from "motidata";
 import { useReducer } from "react";
 import { Text, View } from "react-native";
 
@@ -30,11 +31,18 @@ export default function RegistrationScreen() {
 
     const [registrationActionState, registrationAction, isPending] =
         useActionStatePolyfill(
-            (_previousState: unknown, payload: RegistrationFormState) => {
+            async (
+                _previousState: SimpleResponse | null,
+                payload: RegistrationFormState,
+            ): Promise<SimpleResponse> => {
                 // TODO: #2
-                return UserRepositoryInstance.registerUser(
-                    transformRegistrationFormStateToDTO(payload),
-                );
+                try {
+                    return UserRepositoryInstance.registerUser(
+                        transformRegistrationFormStateToDTO(payload),
+                    );
+                } catch {
+                    return { ok: false, statusCode: 600 };
+                }
             },
             null,
         );
