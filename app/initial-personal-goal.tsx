@@ -92,10 +92,11 @@ export default function PersonalGoalScreen() {
                             borderColor: determineBorderColor(),
                             borderWidth: 2,
                             borderRadius: 100,
-                            textAlign: "center",
-                            ...Fonts.digits.extra,
+                            paddingBottom: 0,
                         },
+                        Fonts.digits.extra,
                     ]}
+                    textAlign="center"
                 />
                 <Text style={[styles.middleText, { textAlign: "center" }]}>
                     Enter the Quantity
