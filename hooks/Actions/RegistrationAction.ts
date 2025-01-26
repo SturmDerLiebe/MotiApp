@@ -7,7 +7,6 @@ export async function registrationAction(
     _previousState: SimpleResponse | null,
     payload: RegistrationFormState,
 ): Promise<SimpleResponse> {
-    // TODO: #2
     try {
         return UserRepositoryInstance.registerUser(
             transformRegistrationFormStateToDTO(payload),

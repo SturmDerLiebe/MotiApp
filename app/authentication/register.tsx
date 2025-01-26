@@ -27,7 +27,7 @@ export default function RegistrationScreen() {
     );
 
     const [registration, registrationFormAction, isPending] =
-        useActionStatePolyfill(registrationAction, null);
+        useActionStatePolyfill(registrationAction, null); // TODO: #2
 
     useNavigateOnSuccessEffectNew(
         Boolean(registration?.ok),
@@ -77,11 +77,6 @@ export default function RegistrationScreen() {
                     Policy.
                 </Text>
             </View>
-
-            {/* {registrationState instanceof RegistrationFailure || */}
-            {/* registrationState instanceof NetworkError ? ( */}
-            {/*     <Text>{registrationState.message}</Text> */}
-            {/* ) : null} */}
         </View>
     );
 }
