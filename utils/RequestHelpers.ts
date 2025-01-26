@@ -9,6 +9,7 @@ type apiPaths =
     | "activation"
     | "personal-goal"
     | "group"
+    | "group/join"
     | `group/message`
     | "user-info";
 

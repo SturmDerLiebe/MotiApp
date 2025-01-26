@@ -23,8 +23,8 @@ class GroupRepository {
     async join(joinCode: string) {
         return fetch(
             bulildRequest(
-                "group",
-                "PATCH",
+                "group/join",
+                "POST",
                 `code=${joinCode}`,
                 await buildBaseHeaders(),
                 joinCode,
