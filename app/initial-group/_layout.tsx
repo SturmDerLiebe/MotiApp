@@ -14,8 +14,12 @@ export default function GroupSelectionLayout() {
                 presentation: "modal",
             }}
         >
-            {/* <Stack.Screen name="index" /> */}
+            <Stack.Screen name="index" />
+
+            <Stack.Screen name="join" />
+
             <Stack.Screen name="create" />
+
             <Stack.Screen name="invite" />
         </Stack>
     );
