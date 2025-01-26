@@ -48,7 +48,6 @@ function RootLayout() {
     return appIsReady ? (
         <Stack
             screenOptions={{
-                headerShown: false,
                 headerShadowVisible: false,
                 headerTintColor: MotiColors.blue.dark,
                 headerTitle: "",
