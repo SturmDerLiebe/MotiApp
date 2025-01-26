@@ -33,7 +33,6 @@ export default function InviteScreen() {
     const [JOIN_STATE, START_JOINING] = useGroupJoinState();
 
     const SLOT_AMOUNT = 5;
-    // useNavigateOnSuccessEffect(, "");
 
     return (
         <View style={[BODY_STYLES.nonScrollable]}>
@@ -42,7 +41,9 @@ export default function InviteScreen() {
             <View style={INPUT_STYLES.slotInputBox}>
                 <Text style={styles.middleText}>Enter a 5 Digit Code</Text>
 
-                <View style={{ justifyContent: "center" }}>
+                <View
+                    style={{ justifyContent: "center", alignItems: "center" }}
+                >
                     <SlotInputBackground
                         slotAmount={SLOT_AMOUNT}
                         columnGap={7}
@@ -53,7 +54,7 @@ export default function InviteScreen() {
                         keyboardType="numeric"
                         slotAmount={SLOT_AMOUNT}
                         width="102.5%"
-                        height="80%"
+                        paddingStart="6%"
                         letterSpacing={35}
                         fontStyle="medium"
                         onChange={function (text: string) {

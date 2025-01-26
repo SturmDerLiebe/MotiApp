@@ -13,7 +13,7 @@ export function SlotInputField(props: {
     keyboardType: KeyboardTypeOptions;
     slotAmount: number;
     width: DimensionValue;
-    height: DimensionValue;
+    paddingStart: DimensionValue;
     letterSpacing: number;
     fontStyle: keyof typeof Fonts.digits;
     failurePredicate: () => boolean;
@@ -25,7 +25,7 @@ export function SlotInputField(props: {
     const {
         slotAmount,
         width,
-        height,
+        paddingStart,
         letterSpacing,
         fontStyle,
         alignSelf,
@@ -45,7 +45,7 @@ export function SlotInputField(props: {
                     color: determineFontColor(failurePredicate),
                     letterSpacing,
                     alignSelf,
-                    height,
+                    paddingStart,
                 },
                 Fonts.digits[fontStyle],
             ]}
