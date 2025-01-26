@@ -60,10 +60,7 @@ export default function VerificationScreen() {
                 <Heading5>Verify Account</Heading5>
                 <Text style={styles.topText}>
                     Code has been send to{" "}
-                    <Text style={{ ...Fonts.paragraph.p7 }}>
-                        usertest@user.com
-                    </Text>
-                    .
+                    <Text style={Fonts.paragraph.p7}>usertest@user.com</Text>.
                 </Text>
                 <Text style={styles.topText}>
                     Enter the code to verify your account.
@@ -131,27 +128,22 @@ export default function VerificationScreen() {
                             justifyContent: "center",
                         }}
                     >
-                        <Text
-                            style={[
-                                styles.bottomText,
-                                { ...Fonts.paragraph.p7 },
-                            ]}
-                        >
+                        <Text style={[styles.bottomText, Fonts.paragraph.p7]}>
                             Didn’t Receive Code?{" "}
                         </Text>
                         <Pressable
                             onPress={triggerCountDown}
                             disabled={!isResendAllowed()}
-                            style={[styles.bottomText]}
                         >
                             <Text
                                 style={[
+                                    styles.bottomText,
+                                    Fonts.paragraph.p6,
                                     {
                                         textDecorationLine: "underline",
-                                        ...Fonts.paragraph.p6,
                                     },
                                     isResendAllowed()
-                                        ? {}
+                                        ? null
                                         : { color: MotiColors.grey.dark1 },
                                 ]}
                             >
