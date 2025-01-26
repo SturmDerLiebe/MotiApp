@@ -3,21 +3,18 @@ import { Heading5 } from "@/components/Headings";
 import { RegistrationFormInputs } from "@/components/input/FormInputs/RegistrationFormInputs";
 import { MotiColors } from "@/constants/Colors";
 import { Fonts } from "@/constants/Fonts";
+import { registrationAction } from "@/hooks/Actions/RegistrationAction";
 import { useNavigateOnSuccessEffectNew } from "@/hooks/navigation/useNavigationOnSuccessEffect";
 import {
     areAnyFieldsBeingEdited,
     areAnyFieldsInvalid,
-    transformRegistrationFormStateToDTO,
 } from "@/hooks/reducer/Registration/Helper";
 import {
     InitialRegistrationFormState,
     registrationFormReducer,
 } from "@/hooks/reducer/Registration/RegistrationReducer";
-import type { RegistrationFormState } from "@/hooks/reducer/Registration/Types";
 import { useActionStatePolyfill } from "@/hooks/useActionState";
 import useAndroidBackButtonInputHandling from "@/hooks/useAndroidBackButtonInputHandling";
-import { UserRepositoryInstance } from "@/new_data";
-import { SimpleResponse } from "motidata";
 import { useReducer } from "react";
 import { Text, View } from "react-native";
 
@@ -29,26 +26,11 @@ export default function RegistrationScreen() {
         InitialRegistrationFormState,
     );
 
-    const [registrationActionState, registrationAction, isPending] =
-        useActionStatePolyfill(
-            async (
-                _previousState: SimpleResponse | null,
-                payload: RegistrationFormState,
-            ): Promise<SimpleResponse> => {
-                // TODO: #2
-                try {
-                    return UserRepositoryInstance.registerUser(
-                        transformRegistrationFormStateToDTO(payload),
-                    );
-                } catch {
-                    return { ok: false, statusCode: 600 };
-                }
-            },
-            null,
-        );
+    const [registration, registrationFormAction, isPending] =
+        useActionStatePolyfill(registrationAction, null);
 
     useNavigateOnSuccessEffectNew(
-        Boolean(registrationActionState?.ok),
+        Boolean(registration?.ok),
         "/authentication/verify",
     );
 
@@ -79,7 +61,7 @@ export default function RegistrationScreen() {
                         areAnyFieldsBeingEdited(formState) ||
                         isPending
                     }
-                    onPress={() => registrationAction(formState)}
+                    onPress={() => registrationFormAction(formState)}
                 />
 
                 <Text
