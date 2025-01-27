@@ -1,5 +1,6 @@
 import { ChatList } from "@/components/chat/ChatList";
 import { CHAT_STYLES } from "@/components/chat/ChatStyles";
+import { HorizontalSpacer } from "@/components/layout/Spacer";
 import { MessageType, NewChatMessage } from "@/data/DTO/ChatMessage";
 import { useUserInfoContext } from "@/hooks/context/UserInfoContext";
 import { useMessagingContext } from "@/hooks/context/message/MessagingContext";
@@ -14,6 +15,7 @@ export default function GroupScreen() {
         <StrictMode>
             <View style={CHAT_STYLES.screenContainer}>
                 <ChatList chatState={messagingState} />
+                <HorizontalSpacer height="2%" />
                 <ChatInput />
             </View>
         </StrictMode>
