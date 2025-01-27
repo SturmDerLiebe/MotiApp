@@ -15,8 +15,6 @@ import { router } from "expo-router";
 import { useEffect, useRef, useState } from "react";
 import { BackHandler, Button, Pressable, View } from "react-native";
 
-// const TAG = "CAMERA_SCREEN";
-
 export default function CameraScreen() {
     NavigationBar.setBackgroundColorAsync(MotiColors.black);
 

@@ -8,8 +8,6 @@ import { Text, View } from "react-native";
 import { CHAT_STYLES } from "./ChatStyles";
 import { MessageComponent } from "./MesssageComponent";
 
-// const TAG = "CHAT_LIST";
-
 export function ChatList({
     chatState: { mostRecentPayload },
 }: {

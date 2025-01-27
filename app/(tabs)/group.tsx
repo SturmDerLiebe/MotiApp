@@ -7,8 +7,6 @@ import { UserInfoSuccess } from "@/utils/RequestStatus";
 import { StrictMode, useState } from "react";
 import { StyleSheet, TextInput, View } from "react-native";
 
-// const TAG = "GROUP_SCREEN";
-
 export default function GroupScreen() {
     const [messagingState] = useMessagingContext();
 
