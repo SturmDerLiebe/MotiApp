@@ -129,7 +129,7 @@ function ButtonColumn() {
     const USER_INFO_EXISTS = USER_INFO instanceof UserInfoSuccess;
 
     return (
-        <View style={{ height: "13%", justifyContent: "space-between" }}>
+        <View style={{ height: "14%", justifyContent: "space-between" }}>
             <PrimaryButton
                 title="Invite a friend"
                 disabled={!USER_INFO_EXISTS}
@@ -146,7 +146,7 @@ function ButtonColumn() {
                         );
                     }
                 }}
-                textStyle={{ paddingVertical: 8 }}
+                small
             />
             <DangerButton
                 title="Exit"
@@ -157,7 +157,7 @@ function ButtonColumn() {
                         showAlert(USER_INFO.groupInfo.groupName);
                     }
                 }}
-                textStyle={{ paddingVertical: 8 }}
+                small
             />
         </View>
     );

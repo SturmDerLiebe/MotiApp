@@ -84,6 +84,7 @@ function BaseButton({
     buttonStyle,
     textStyle,
     iconData,
+    small = false,
     onPress,
 }: BaseButtonProps): React.JSX.Element {
     const TITLE_EXISTS = title !== undefined;
@@ -100,6 +101,7 @@ function BaseButton({
                         {
                             pressed,
                             disabled: disabled,
+                            small,
                         },
                         buttonStyle,
                     ),

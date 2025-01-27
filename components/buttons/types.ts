@@ -14,6 +14,7 @@ export type ButtonProps = Pick<PressableProps, "onPress"> & {
     buttonStyle?: StyleProp<ViewStyle>;
     textStyle?: StyleProp<TextStyle>;
     icon?: IconName;
+    small?: boolean;
 };
 
 export type PublicButtonProps = Omit<BaseButtonProps, "type">;
@@ -23,12 +24,14 @@ export type TitleOnlyButtonProps = Pick<PressableProps, "onPress"> & {
     disabled?: boolean;
     buttonStyle?: StyleProp<ViewStyle>;
     textStyle?: StyleProp<TextStyle>;
+    small?: boolean;
 };
 
 export type IconOnlyButtonProps = Pick<PressableProps, "onPress"> & {
     disabled?: boolean;
     buttonStyle?: StyleProp<ViewStyle>;
     iconData: IconData;
+    small?: boolean;
 };
 
 export type IconAndTitleButtonProps = Pick<PressableProps, "onPress"> & {
@@ -37,6 +40,7 @@ export type IconAndTitleButtonProps = Pick<PressableProps, "onPress"> & {
     buttonStyle?: StyleProp<ViewStyle>;
     textStyle?: StyleProp<TextStyle>;
     iconData: Omit<IconData, "ariaLabel">;
+    small?: boolean;
 };
 
 export type BaseButtonProps = Pick<PressableProps, "onPress"> & {
@@ -46,6 +50,7 @@ export type BaseButtonProps = Pick<PressableProps, "onPress"> & {
     buttonStyle?: StyleProp<ViewStyle>;
     textStyle?: StyleProp<TextStyle>;
     iconData?: IconData;
+    small?: boolean;
 };
 
 type IconData = {

@@ -23,12 +23,17 @@ function determineButtonStyleNoBorder(
  */
 export function mergeButtonStyles(
     individualStyles: (typeof BUTTON_STYLES)[keyof typeof BUTTON_STYLES],
-    { pressed, disabled }: { pressed: boolean; disabled: boolean },
+    {
+        pressed,
+        disabled,
+        small,
+    }: { pressed: boolean; disabled: boolean; small: boolean },
     extraStyles: StyleProp<ViewStyle>,
 ): StyleProp<ViewStyle> {
     return StyleSheet.flatten([
         BASIC_BUTTON_STYLE,
         determineButtonStyleNoBorder(individualStyles, pressed, disabled),
+        small ? { paddingVertical: 8 } : null,
         extraStyles,
     ]);
 }
