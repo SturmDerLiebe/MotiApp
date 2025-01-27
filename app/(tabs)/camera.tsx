@@ -65,6 +65,7 @@ export default function CameraScreen() {
                     flex: 1,
                     justifyContent: "center",
                     alignItems: "stretch",
+                    paddingBlockStart: "10%",
                 },
                 imageUri === null
                     ? null
