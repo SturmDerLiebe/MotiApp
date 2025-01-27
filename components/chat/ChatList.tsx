@@ -15,6 +15,8 @@ export function ChatList({
 }) {
     const FLASH_LIST_REF = useRef<FlashList<ChatMessageListItem>>(null);
 
+    const CAN_AUTO_SCROLL = useRef(true); // TODO: #3
+
     return (
         <FlashList
             ref={FLASH_LIST_REF}
@@ -25,14 +27,29 @@ export function ChatList({
                     previousItem={mostRecentPayload[index - 1]}
                 />
             )}
+            showsVerticalScrollIndicator={false}
+            estimatedItemSize={32} // NOTE: Be careful when changing this, since a wrong number will screw the initial render completely.
+            initialScrollIndex={mostRecentPayload.length - 1}
+            estimatedFirstItemOffset={0}
             ItemSeparatorComponent={function () {
                 return <View style={CHAT_STYLES.divider} />;
             }}
-            estimatedItemSize={100}
             estimatedListSize={{ height: 592, width: 350 }}
-            initialScrollIndex={mostRecentPayload.length - 1}
             getItemType={(item) => {
-                return typeof item === "string" ? 100 : item.type;
+                return typeof item === "string"
+                    ? 100
+                    : (item as ChatMessage).type;
+            }}
+            onContentSizeChange={() => {
+                if (CAN_AUTO_SCROLL.current) {
+                    FLASH_LIST_REF.current?.scrollToEnd({ animated: true });
+                }
+            }}
+            onScrollBeginDrag={() => {
+                CAN_AUTO_SCROLL.current = false;
+            }}
+            onScrollEndDrag={() => {
+                CAN_AUTO_SCROLL.current = true;
             }}
         />
     );
