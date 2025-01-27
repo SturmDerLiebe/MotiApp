@@ -1,49 +1,62 @@
 {
-    "expo": {
-        "name": "MotiMate",
-        "slug": "MotiMate",
-        "version": "1.0.0",
-        "newArchEnabled": true,
-        "orientation": "portrait",
-        "icon": "./assets/images/Bitmap/Icon.png",
-        "scheme": "myapp",
-        "userInterfaceStyle": "automatic",
-        "backgroundColor": "#ffffff",
-        "ios": {
-            "supportsTablet": false,
-            "config": {
-                "usesNonExemptEncryption": false
-            }
-        },
-        "android": {
-            "softwareKeyboardLayoutMode": "pan"
-        },
-        "plugins": [
-            "expo-router",
-            "expo-font",
-            [
-                "expo-secure-store",
-                {
-                    "configureAndroidBackup": true,
-                    "faceIDPermission": "We encrypt all your sensitive data. In order to do this, please allow $(PRODUCT_NAME) to access your Face ID biometric data."
-                }
-            ],
-            [
-                "expo-camera",
-                {
-                    "cameraPermission": "Allow $(PRODUCT_NAME) to use your device's camera"
-                }
-            ],
-            [
-                "expo-splash-screen",
-                {
-                    "backgroundColor": "#ffffff",
-                    "image": "./assets/images/Bitmap/Icon.png"
-                }
-            ]
-        ],
-        "experiments": {
-            "typedRoutes": true
+  "expo": {
+    "name": "MotiMate",
+    "slug": "motiapp",
+    "version": "1.0.0",
+    "newArchEnabled": true,
+    "orientation": "portrait",
+    "icon": "./assets/images/Bitmap/Icon.png",
+    "scheme": "myapp",
+    "userInterfaceStyle": "automatic",
+    "backgroundColor": "#ffffff",
+    "ios": {
+      "supportsTablet": false,
+      "config": {
+        "usesNonExemptEncryption": false
+      }
+    },
+    "android": {
+      "softwareKeyboardLayoutMode": "pan",
+      "permissions": [
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO"
+      ]
+    },
+    "plugins": [
+      "expo-router",
+      "expo-font",
+      [
+        "expo-secure-store",
+        {
+          "configureAndroidBackup": true,
+          "faceIDPermission": "We encrypt all your sensitive data. In order to do this, please allow $(PRODUCT_NAME) to access your Face ID biometric data."
         }
-    }
+      ],
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Allow $(PRODUCT_NAME) to use your device's camera"
+        }
+      ],
+      [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#ffffff",
+          "image": "./assets/images/Bitmap/Icon.png"
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "96f73245-989d-4454-856f-8dc58ed76f49"
+      }
+    },
+    "owner": "sturmderliebe"
+  }
 }
