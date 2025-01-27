@@ -132,6 +132,7 @@ function TabLayout() {
                 <Tabs.Screen
                     name="camera"
                     options={{
+                        headerShown: false,
                         sceneStyle: {
                             backgroundColor: MotiColors.black,
                         },
