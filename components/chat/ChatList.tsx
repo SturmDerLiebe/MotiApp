@@ -31,9 +31,6 @@ export function ChatList({
             estimatedItemSize={100}
             estimatedListSize={{ height: 592, width: 350 }}
             initialScrollIndex={mostRecentPayload.length - 1}
-            onContentSizeChange={(_, height) =>
-                FLASH_LIST_REF.current?.scrollToOffset({ offset: height })
-            }
             getItemType={(item) => {
                 return typeof item === "string" ? 100 : item.type;
             }}
