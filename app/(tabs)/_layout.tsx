@@ -16,6 +16,7 @@ import { UserInfoSuccess } from "@/utils/RequestStatus";
 import * as NavigationBar from "expo-navigation-bar";
 import { Tabs, router, useFocusEffect } from "expo-router";
 import { useCallback, useEffect } from "react";
+import { View } from "react-native";
 import { Text } from "react-native";
 
 /** This type is to be used for components relying on the `name` of all our `Tabs.Screen`-elements of the main tab navigation */
@@ -110,12 +111,14 @@ function TabLayout() {
                         headerTitleAlign: "left",
 
                         headerRight: ({ tintColor = HEADER_TINT_COLOR }) => (
-                            <BurgerMenuButton
-                                tintColor={tintColor}
-                                onPress={() => {
-                                    router.push("/groupInfo");
-                                }}
-                            />
+                            <View style={{ paddingRight: 20 }}>
+                                <BurgerMenuButton
+                                    tintColor={tintColor}
+                                    onPress={() => {
+                                        router.push("/groupInfo");
+                                    }}
+                                />
+                            </View>
                         ),
 
                         tabBarLabel: "My Group",
